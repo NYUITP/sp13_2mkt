@@ -6,7 +6,6 @@ package com.secondmarket.core;
  * data.
  * Store all temporary data in HashMaps or Something like that, then at the final stage, store them into one
  * JSONObject.
- * @author Shenglun Shi
  */
 
 import java.io.* ;
@@ -15,13 +14,22 @@ import java.util.* ;
 import org.json.*;
 //import org.apache.commons.io.IOUtils;
 
+import com.google.code.morphia.Datastore;
+import com.google.code.morphia.Morphia;
+import com.mongodb.Mongo;
+
 public class Run {
 	public static void main(String args[]) throws IOException, JSONException{
+		
+		Mongo mongo = new Mongo("localhost", 27017);
+		Morphia morphia = new Morphia();
+		Datastore ds = morphia.createDatastore(mongo, "SecondMarket");
+		System.out.println("success!");
+		
 		AngelCrunch second = new AngelCrunch();
 		/*
 		 * Use HashMap to rule out identical companies.
 		 */
-		
 		HashMap companyList = new HashMap();
 //		HashMap companySlugList = new HashMap();
 		HashMap id_list = new HashMap();
@@ -30,7 +38,7 @@ public class Run {
 		/*
 		 * Read in the InvestorList.txt file
 		 */
-		FileReader file = new FileReader("InvestorList11.txt");
+		FileReader file = new FileReader("InvestorList1.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
 		
@@ -85,16 +93,20 @@ public class Run {
 				/**
 				 * Iterate through id_list related to each investor
 				 */
+				
+				int company_count = 0;
 				for (Object key:this_id_list.keySet()){
 					JSONObject jobj = new JSONObject();
 					jobj.put("company_id", key.toString());
 					jobj.put("company_name", this_id_list.get(key).toString());
 					startup_invested.put(jobj);
+					company_count++;
 				}
 				
 				/**
 				 * Put put put! 
 				 */
+				each_investor.put("company_count", company_count);
 				each_investor.put("startup_invested",startup_invested);
 				each_investor.put("investor_id", investor_id);
 				each_investor.put("investor_name",investor_name);
@@ -107,8 +119,6 @@ public class Run {
 				 * each_investor JSONObject. Zoe you can start here to push 
 				 * these investors into the MongoDB
 				 */
-			
-				
 				
 				/*
 				 * This is for future reference. A giant JSONObject that contains
@@ -116,6 +126,9 @@ public class Run {
 				 */
 				invest.put(each_investor);
 				Investor.put("Investor_information", invest);
+				
+				People user = new People(each_investor);
+				ds.save(user);
 			}
 //			System.out.println(Investor);
 		}
@@ -154,14 +167,7 @@ public class Run {
 //			System.out.println(getFromAngel);
 			JSONObject jobj = second.parseToJSON(getFromAngel);
 			String slug = second.getCrunchSlug(jobj);
-			/**
-			 * Additional fields
-			 */
-			int follower_count = second.getFollowerCount(jobj);
-			int quality = second.getQuality(jobj);
-			String angellist_url = second.getAngelListUrl(jobj);
 //			System.out.println(name);
-			
 			if (!slug.isEmpty()) {
 				String crunchCompany = null; 
 				crunchCompany = second.getcrunchHTML(slug);
@@ -170,9 +176,7 @@ public class Run {
 //				System.out.println(total_funding);
 //				System.out.println(name);
 				if (!total_funding.equals("$0")){
-					each_company.put("follower_count",follower_count);
-					each_company.put("quality",quality);
-					each_company.put("angellist_url",angellist_url);
+					
 					each_company.put("company_id", key);
 					each_company.put("company_name", name);
 
@@ -198,17 +202,10 @@ public class Run {
 					 * from HERE!!!!! This is really important! I have discarded
 					 * all companies with $0 total funding amount and null fields!
 					 */
-					/**
-					 * Start from here Zoe!
-					 */
 					
-					
-					
-					
-					/**
-					 * End here
-					 */
-					
+					Company comp = new Company(each_company);
+					ds.save(comp);
+			
 				}
 				
 
