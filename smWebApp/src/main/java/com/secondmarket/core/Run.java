@@ -22,7 +22,6 @@ public class Run {
 		 * Use HashMap to rule out identical companies.
 		 */
 		
-		
 		HashMap companyList = new HashMap();
 //		HashMap companySlugList = new HashMap();
 		HashMap id_list = new HashMap();
