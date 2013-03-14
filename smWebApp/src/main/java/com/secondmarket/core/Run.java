@@ -138,7 +138,7 @@ public class Run {
 		 */
 		HashMap funding = new HashMap();
 		HashMap round = new HashMap();
-		
+		HashMap slug_id = new HashMap();
 		for (Object key1:id_list.keySet().toArray()){
 			/**
 			 * New JSONObject each_company. This is the JSONObject
@@ -166,7 +166,7 @@ public class Run {
 				crunchCompany = second.getcrunchHTML(slug);
 				String total_funding = null;
 				total_funding = second.getCrunchTotalFund(crunchCompany);
-				System.out.println(total_funding);
+//				System.out.println(total_funding);
 //				System.out.println(name);
 				if (!total_funding.equals("$0")){
 					each_company.put("follower_count",follower_count);
@@ -190,7 +190,7 @@ public class Run {
 					second.crunchCompanyInfo(crunchCompany, key, funding, round);
 
 					// if(!each_company.get("total_funding").equals("$0"))
-//					System.out.println(each_company);
+					System.out.println(each_company);
 					/**
 					 * Here each_company is the JSONObject returned for each of
 					 * the company. Zoe, you must push the JSONObject to MongoDB
