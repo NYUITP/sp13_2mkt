@@ -98,19 +98,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20090211</version>
+			<artifactId>java-json</artifactId>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.morphia</groupId>
 			<artifactId>morphia</artifactId>
 			<version>0.99</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.google.code.morphia</groupId>
-			<artifactId>morphia-gwt</artifactId>
-			<version>0.00-SNAPSHOT</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.google.code.morphia</groupId> <artifactId>morphia-gwt</artifactId> 
+			<version>0.00-SNAPSHOT</version> </dependency> -->
 		<dependency>
 			<groupId>com.google.code.morphia</groupId>
 			<artifactId>morphia-logging-slf4j</artifactId>
