@@ -18,8 +18,8 @@ import com.secondmarket.service.InvestorService;
 @RequestMapping("/")
 public class BaseController 
 {
+	// base controller
 	protected static Logger logger = Logger.getLogger("controller");
-	
 	@Resource(name="investorService")
 	private InvestorService investorService;
 	
