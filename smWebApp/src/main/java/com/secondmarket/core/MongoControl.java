@@ -112,7 +112,7 @@ public class MongoControl {
 		People p = (People) q.get();
 		return p.company_count;
 	}
-	
+	  
 	double scorePeople(People p, int mfp, int mci){
 				double pfc = (double)p.follower_count;
 				double pcc = (double)p.company_count;
