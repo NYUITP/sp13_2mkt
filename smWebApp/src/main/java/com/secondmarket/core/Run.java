@@ -33,6 +33,7 @@ public class Run {
 		FileReader file = new FileReader("InvestorList11.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
+		
 		/*
 		 * Go through the investorList file, put company ids and names into
 		 * the HashMap.
