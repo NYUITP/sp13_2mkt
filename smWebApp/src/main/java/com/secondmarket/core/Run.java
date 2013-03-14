@@ -26,7 +26,7 @@ public class Run {
 //		HashMap companySlugList = new HashMap();
 		HashMap id_list = new HashMap();
 //		JSONObject Investor = new JSONObject();
-		
+
 		/*
 		 * Read in the InvestorList.txt file
 		 */
