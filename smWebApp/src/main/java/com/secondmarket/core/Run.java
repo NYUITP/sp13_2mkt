@@ -167,6 +167,12 @@ public class Run {
 //			System.out.println(getFromAngel);
 			JSONObject jobj = second.parseToJSON(getFromAngel);
 			String slug = second.getCrunchSlug(jobj);
+			/**
+			* Additional fields
+			*/
+			int follower_count = second.getFollowerCount(jobj);
+			int quality = second.getQuality(jobj);
+			String angellist_url = second.getAngelListUrl(jobj);
 //			System.out.println(name);
 			if (!slug.isEmpty()) {
 				String crunchCompany = null; 
@@ -176,7 +182,9 @@ public class Run {
 //				System.out.println(total_funding);
 //				System.out.println(name);
 				if (!total_funding.equals("$0")){
-					
+					each_company.put("follower_count",follower_count);
+					each_company.put("quality",quality);
+					each_company.put("angellist_url",angellist_url);
 					each_company.put("company_id", key);
 					each_company.put("company_name", name);
 
