@@ -34,7 +34,7 @@ public class InvestorService {
 		logger.debug("Retrieving all investors");
 		
 		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("test","mycollection");
+		DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
 		// Retrieve cursor for iterating records
     	DBCursor cur = coll.find();
     	// Create new list
@@ -68,7 +68,7 @@ public class InvestorService {
 		logger.debug("Retrieving an existing Investor");
 		
 		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("test","mycollection");
+		DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
 		// Create a new object
 		DBObject doc = new BasicDBObject();
 		// Put id to search
@@ -98,10 +98,9 @@ public class InvestorService {
 		
 		try {
 			// Retrieve collection
-			DBCollection coll = MongoDBFactory.getCollection("test","mycollection");
+			DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
 			// Create a new object
 			BasicDBObject doc = new BasicDBObject();
-			// Generate random id using UUID type 4
 			
 	        doc.put(InvestorEnum.ID.getLabel(), investor.getId()); 
 	        doc.put(InvestorEnum.NAME.getLabel(), investor.getName());
@@ -126,14 +125,12 @@ public class InvestorService {
 		logger.debug("Init MongoDB users");
 		
 		// Drop existing collection
-		MongoDBFactory.getCollection("test","mycollection").drop();
+		MongoDBFactory.getCollection("test","investorCollection").drop();
 		// Retrieve collection. If not existing, create a new one
-		DBCollection coll = MongoDBFactory.getCollection("test","mycollection");
+		DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
 		
 		// Create new object
 		BasicDBObject doc = new BasicDBObject();
-		// Generate random id using UUID type 4
-		// See http://en.wikipedia.org/wiki/Universally_unique_identifier
         doc.put(InvestorEnum.ID.getLabel(), "1");
         doc.put(InvestorEnum.NAME.getLabel(), "John Smith");
         doc.put(InvestorEnum.BIO.getLabel(), "Capital venture");
@@ -142,7 +139,6 @@ public class InvestorService {
 		
         // Create new object
         doc = new BasicDBObject();
-		// Generate random id using UUID type 4
         doc.put(InvestorEnum.ID.getLabel(), "2");
         doc.put(InvestorEnum.NAME.getLabel(), "Jane Adams");
         doc.put(InvestorEnum.BIO.getLabel(), "Startups");
@@ -151,7 +147,6 @@ public class InvestorService {
         
         // Create new object
         doc = new BasicDBObject();
-		// Generate random id using UUID type 4
         doc.put(InvestorEnum.ID.getLabel(), "3");
         doc.put(InvestorEnum.NAME.getLabel(), "Jeff Mayer");
         doc.put(InvestorEnum.BIO.getLabel(), "AngleList");
