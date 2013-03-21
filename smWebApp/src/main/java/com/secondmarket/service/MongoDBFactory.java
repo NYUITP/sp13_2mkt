@@ -1,4 +1,4 @@
-package com.secondmarket.dao;
+package com.secondmarket.service;
 
 import java.net.UnknownHostException;
 import org.apache.log4j.Logger;
