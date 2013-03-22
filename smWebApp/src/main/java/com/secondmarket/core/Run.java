@@ -20,207 +20,39 @@ import com.mongodb.Mongo;
 
 public class Run {
 	public static void main(String args[]) throws IOException, JSONException{
+		/**
+		 * Initialize Datastore ds
+		 */
+		InitialDB init = new InitialDB();
+		Datastore ds = init.initialize();
 		
-		Mongo mongo = new Mongo("localhost", 27017);
-		Morphia morphia = new Morphia();
-		Datastore ds = morphia.createDatastore(mongo, "SecondMarket");
-		System.out.println("success!");
-		
-		AngelCrunch second = new AngelCrunch();
+//		System.out.println("Start process!");
+//		Mongo mongo = new Mongo("localhost", 27017);
+//		System.out.println("Check 0");
+//		Morphia morphia = new Morphia();
+//		System.out.println("Check 1");
+//		Datastore ds = morphia.createDatastore(mongo, "SecondMarket");
+//		System.out.println("success!");
 		/*
 		 * Use HashMap to rule out identical companies.
 		 */
 		HashMap companyList = new HashMap();
 //		HashMap companySlugList = new HashMap();
 		HashMap id_list = new HashMap();
-//		JSONObject Investor = new JSONObject();
-		    
-		/*
-		 * Read in the InvestorList.txt file
-		 */
-		FileReader file = new FileReader("InvestorList1.txt");
-		BufferedReader buff = new BufferedReader(file);
-		boolean eof = false;
-		
-		/*
-		 * Go through the investorList file, put company ids and names into
-		 * the HashMap.
-		 */
+//		JSONObject Investor = new JSONObject();		
 		JSONObject Investor = new JSONObject();
 		JSONArray invest = new JSONArray();
-		while(!eof){
-		/*
-		 * Read each line of record, use slug to search for investor
-		 */
-			String slug = buff.readLine();
-			if (slug == null)
-				eof = true;
-			else {
-				String investor_info = second.searchAngelInvestor(slug);
-//				System.out.println(investor_info);
-				/*
-				 * get the investor id
-				 */
-				String investor_id = second.getfield(investor_info,"id");
-				String investor_name = second.getfield(investor_info,"name");
-				String investor_bio = second.getfield(investor_info,"bio");
-				String investor_follower_count = second.getfield(investor_info,"follower_count");
-//				String investor_ = second.getfield(investor_info,"bio");
-				
-//				System.out.println("Investor id: "+investor_id + " Investor name: "+investor_name);
-				/*
-				 * get start-up role
-				 */
-				
-				String start_up_role = second.getStartUpRole(investor_id);
-//				System.out.println("start_up_role:\n");
-//				System.out.println(start_up_role);
-				/*
-				 * Now call hashCompanyList(String start_up_role,HashMap
-				 * companyList)
-				 */
-//				System.out.println(start_up_role);
-				second.hashCompanyList(start_up_role, id_list);
-				//Just for this specific investor
-				HashMap this_id_list = new HashMap();
-				second.hashCompanyList(start_up_role, this_id_list);
-				/**
-				 * Push company_id and company_name into JSONArray, first initiate JSONArray
-				 */
-				JSONObject each_investor = new JSONObject();
-				JSONArray startup_invested = new JSONArray();
-				
-				/**
-				 * Iterate through id_list related to each investor
-				 */
-				
-				int company_count = 0;
-				for (Object key:this_id_list.keySet()){
-					JSONObject jobj = new JSONObject();
-					jobj.put("company_id", key.toString());
-					jobj.put("company_name", this_id_list.get(key).toString());
-					startup_invested.put(jobj);
-					company_count++;
-				}
-				
-				/**
-				 * Put put put! 
-				 */
-				each_investor.put("company_count", company_count);
-				each_investor.put("startup_invested",startup_invested);
-				each_investor.put("investor_id", investor_id);
-				each_investor.put("investor_name",investor_name);
-				each_investor.put("investor_bio", investor_bio);
-				each_investor.put("follower_count", investor_follower_count);
-				System.out.println(each_investor);
-				
-				/**
-				 * Noted that for this stage of the project, we need only the
-				 * each_investor JSONObject. Zoe you can start here to push 
-				 * these investors into the MongoDB
-				 */
-				
-				/*
-				 * This is for future reference. A giant JSONObject that contains
-				 * all the investors.
-				 */
-				invest.put(each_investor);
-				Investor.put("Investor_information", invest);
-				
-				People user = new People(each_investor);
-				ds.save(user);
-			}
-//			System.out.println(Investor);
-		}
-	
-//		System.out.println(companyList);
-//		System.out.println(companyList.size());
 		
-		/*
-		 * Now start to pull company data
-		 */
-		
-		/*
-		 * Get the ids out of the HashMap, use ids to locate company profile
-		 * Comment out when testing.
-		 */
-		/*
-		 * Check return of crunchBase, found "total_money_raised":"$48.5M"
-		 * and "funding_rounds":[], within each round we have the "round_code","source_description","raised_amount",
-		 * "funded_year","funded_month", and so many other fields that we could use.
-		 * Let's play!
-		 */
 		HashMap funding = new HashMap();
 		HashMap round = new HashMap();
 		HashMap slug_id = new HashMap();
-		for (Object key1:id_list.keySet().toArray()){
-			/**
-			 * New JSONObject each_company. This is the JSONObject
-			 * that will be put into the MongoDB as Companies
-			 */
-			JSONObject each_company = new JSONObject();
-			
-			String key = key1.toString();
-			String name = (id_list.get(key1)).toString();
-//			System.out.println(key + " and company name: " + name);
-			String getFromAngel = second.getangelHTML(key);
-//			System.out.println(getFromAngel);
-			JSONObject jobj = second.parseToJSON(getFromAngel);
-			String slug = second.getCrunchSlug(jobj);
-			/**
-			* Additional fields
-			*/
-			int follower_count = second.getFollowerCount(jobj);
-			int quality = second.getQuality(jobj);
-			String angellist_url = second.getAngelListUrl(jobj);
-//			System.out.println(name);
-			if (!slug.isEmpty()) {
-				String crunchCompany = null; 
-				crunchCompany = second.getcrunchHTML(slug);
-				String total_funding = null;
-				total_funding = second.getCrunchTotalFund(crunchCompany);
-//				System.out.println(total_funding);
-//				System.out.println(name);
-				if (!total_funding.equals("$0")){
-					each_company.put("follower_count",follower_count);
-					each_company.put("quality",quality);
-					each_company.put("angellist_url",angellist_url);
-					each_company.put("company_id", key);
-					each_company.put("company_name", name);
+		
+		InitialInvestorObj investObj = new InitialInvestorObj();
+		investObj.initialize(ds, companyList, id_list, Investor, invest);
+		InitialCompanyObj companyObj = new InitialCompanyObj();
+		companyObj.initialize(funding, round, slug_id, id_list, ds);
+		
 
-					// System.out.println(name);
-					// System.out.println("crunchCompany:\n");
-					// System.out.println(crunchCompany);
-					// Later: Process the total_funding amount using regular
-					// expression and parse it to double.
-					each_company.put("total_funding", total_funding);
-					// HashMap round_funding =
-					// second.getCrunchRoundFunding(crunchCompany);
-//					System.out.println(total_funding);
-					// System.out.println(round_funding);
-					each_company.put("funding_rounds",
-							second.getCrunchRoundFunding(crunchCompany));
-					second.crunchCompanyInfo(crunchCompany, key, funding, round);
-
-					// if(!each_company.get("total_funding").equals("$0"))
-					System.out.println(each_company);
-					/**
-					 * Here each_company is the JSONObject returned for each of
-					 * the company. Zoe, you must push the JSONObject to MongoDB
-					 * from HERE!!!!! This is really important! I have discarded
-					 * all companies with $0 total funding amount and null fields!
-					 */
-					
-					Company comp = new Company(each_company);
-					ds.save(comp);
-			
-				}
-				
-
-			} else
-				continue;
-
-		}
 
 		System.out.println(funding);
 		System.out.println(round);
