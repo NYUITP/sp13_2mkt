@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.secondmarket.batch.CompanyService;
+import com.secondmarket.batch.InvestorService;
 import com.secondmarket.domain.Company;
 import com.secondmarket.domain.Investor;
-import com.secondmarket.service.CompanyService;
-import com.secondmarket.service.InvestorService;
 
 @Controller
 @RequestMapping("/")

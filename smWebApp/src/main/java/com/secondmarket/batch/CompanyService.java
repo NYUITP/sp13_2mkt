@@ -1,4 +1,4 @@
-package com.secondmarket.service;
+package com.secondmarket.batch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.secondmarket.dao.MongoDBFactory;
 import com.secondmarket.domain.Company;
 import com.secondmarket.domain.CompanyEnum;
+import com.secondmarket.service.MongoDBFactory;
 
 
 @Service("companyService")
