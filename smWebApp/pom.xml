@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<spring.version>3.0.1.RELEASE</spring.version>
+		<spring.version>3.0.6.RELEASE</spring.version>
 		<junit.version>4.11</junit.version>
 		<jdk.version>1.6</jdk.version>
 	</properties>
@@ -33,29 +33,29 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>3.0.6.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>3.0.6.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>3.0.6.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>3.0.6.RELEASE</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<version>3.0.6.RELEASE</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -128,6 +128,11 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator-annotation-processor</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -138,6 +143,11 @@
 		<repository>
 			<id>morphia</id>
 			<url>http://morphia.googlecode.com/svn/mavenrepo/</url>
+		</repository>
+		<repository>
+			<id>JBoss Repository</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+			<name>JBoss Repository</name>
 		</repository>
 	</repositories>
 </project>

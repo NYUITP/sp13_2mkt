@@ -1,0 +1,51 @@
+.mts {
+	margin-top: 5px;
+}
+
+hr.space {
+	background: none repeat scroll 0 0 #fff;
+	color: #fff;
+	visibility: hidden;
+	border: 0;
+}
+
+.btn-home {
+	width: 200px;
+}
+
+
+.side-block {
+	background: none repeat scroll 0 0 #f5f5f5;
+	border: 1px solid #ddd;
+	padding: 10px;
+}
+
+.clear-ul {
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0;
+}
+
+
+/*Search Result*/
+.search-content {
+	margin-left: 10px;
+
+}
+
+.search-content h4 {
+	margin-top: 0;
+}
+
+.large-number {
+	font-size: 20px;
+}
+
+input {
+	width: 200px;
+}
+
+.slider-value {
+	font-size: 16px;
+	font-weight: bold;
+}

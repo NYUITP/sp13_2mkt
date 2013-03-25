@@ -70,7 +70,7 @@ public class BaseController
     	// Retrieve all Investor by delegating the call to InvestorService
     	List<Investor> investors = investorService.getAll();
     	
-    	// Attach Investor to the Model
+    	// Attach Investor to the Model	
     	System.out.println(investors.size());
     	model.addAttribute("investors", investors);
     	

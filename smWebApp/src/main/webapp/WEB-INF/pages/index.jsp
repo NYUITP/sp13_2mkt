@@ -1,18 +1,21 @@
-<html>
-<body>
-	<h2>Second Market!</h2>
+<%@include file="../../resources/include/head.jsp" %>
 
-	<h4>Message : ${message}</h4>
-	<form action="companies" method="get">
-		<input type="submit" value="All Companies">
-	</form>
+<div class="container">
+	<hr class="space"/>
+    
+    <%@include file="../../resources/include/header.jsp" %>
 
-	<form action="investors" method="get">
-		<input type="submit" value="All Investors">
-	</form>
-	
-	<form action="investorsSearch" method="get">
-		<input type="submit" value="Search Investors">
-	</form>
+	<hr class="space"/>
+
+	<div class="text-center">
+		<h1>Second Market</h1>
+
+		<hr class="space"/>	
+		
+		<a href="companies.php" class="btn btn-large btn-primary btn-home">Find Companies</a>
+		<hr class="space"/>
+		<a href="investors.php" class="btn btn-large btn-primary btn-home">Find Investors</a>
+	</div>
+</div>
 </body>
 </html>
