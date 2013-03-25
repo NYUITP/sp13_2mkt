@@ -9,6 +9,6 @@ public class CompanyServiceTest {
 	@Test
 	public void testSample() 
 	{
-	  assertEquals(5, 5);
+	  assertEquals(4, 4);
 	}
 }
