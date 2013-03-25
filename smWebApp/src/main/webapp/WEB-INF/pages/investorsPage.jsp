@@ -1,37 +1,125 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>Investors</h1>
+	
+<%@include file="../../resources/include/head.jsp"%>
 
-	<table style="border: 1px solid; width: 500px; text-align: center">
-		<thead style="background: #fcf">
-			<tr>
-				<th>Name</th>
-				<th>Bio</th>
-				<th>Number_Of_Followers</th>
-				<th colspan="3"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<%
-				System.out.println("List: " + request.getParameter("investors"));
-			%>
+<script type="text/javascript">
+	function showValue(newValue) {
+		if (newValue == 1) {
+			document.getElementById("follower-value").innerHTML = "Not Important";
+		} else if (newValue == 2) {
+			document.getElementById("follower-value").innerHTML = "A Little Important";
+		} else if (newValue == 3) {
+			document.getElementById("follower-value").innerHTML = "Moderately Important";
+		} else if (newValue == 4) {
+			document.getElementById("follower-value").innerHTML = "Important";
+		} else if (newValue == 5) {
+			document.getElementById("follower-value").innerHTML = "Very Important";
+		}
 
+	}
+</script>
+
+
+<div class="container">
+	<hr class="space" />
+
+	<%@include file="../../resources/include/header.jsp"%>
+
+	<hr class="space" />
+	<div class="row">
+
+		<div class="span3">
+			<div class="side-block hidden-phone">
+				<div>
+					<strong>Importance of Followers</strong>
+				</div>
+				<hr class="space" />
+
+				<input type="range" min="1" max="5" step="1" value="3"
+					onchange="showValue(this.value)" />
+
+				<!-- <span class="pull-left">Not</span> -->
+				<span id="follower-value" class="slider-value">Somewhat
+					Important</span>
+
+				<hr class="space" />
+				<a href="#" class="btn">Update</a>
+
+			</div>
+
+			<hr class="space" />
+
+			<div class="side-block">
+				<div>
+					<strong>Importance of Companies Invested In</strong>
+				</div>
+				<hr class="space" />
+				<ul class="clear-ul">
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+				</ul>
+
+				<hr class="space" />
+				<a href="#" class="btn">Update</a>
+
+			</div>
+
+
+		</div>
+
+
+		<div class="span9">
+
+			<h1>Investors</h1>
+			<hr>
 			<c:forEach items="${investors}" var="investor">
-				<tr>
-					<td><c:out value="${investor.name}" /></td>
-					<td><c:out value="${investor.bio}" /></td>
-					<td><c:out value="${investor.follower_count}" /></td>
-				</tr>
+				<div class="search-result">
+					<div class="pull-left search-pic">
+						<img src="resources/img/user-icon.png" width="50" height="50" />
+					</div>
+
+					<div class="pull-left search-content">
+						<div>
+							<h4 class="pull-left">
+								<a href="investorProfile"><c:out value="${investor.name}" />
+							</h4>
+							</a>
+						</div>
+						<div>
+							<a class="pull-left" href="#">Website</a>
+						</div>
+					</div>
+
+					<div class="search-stats pull-right">
+						<div>
+							<span class="large-number"><c:out
+									value="${investor.follower_count}" /></span> Followers
+						</div>
+						<div>
+							<span class="large-number">#</span> Companies Invested in
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<c:out value="${investor.bio}" />
+					<hr class="space" />
+				</div>
 			</c:forEach>
-		</tbody>
-	</table>
+		</div>
+	</div>
+</div>
 </body>
 </html>
