@@ -23,6 +23,7 @@ public class Run {
 		/**
 		 * Initialize Datastore ds
 		 */
+		System.out.println("Start initialization of MongoDB");
 		InitialDB init = new InitialDB();
 		Datastore ds = init.initialize();
 		
