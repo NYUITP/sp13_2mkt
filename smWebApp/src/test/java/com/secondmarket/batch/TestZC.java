@@ -1,4 +1,4 @@
-package com.secondmarket.Test;
+package com.secondmarket.batch;
 //import com.secondmarket.core.JUnit;
 
 import static org.junit.Assert.*;
@@ -43,7 +43,7 @@ public class TestZC {
 //	}
 
 	@Test
-	public void testAssignScore() throws UnknownHostException{
+	public void testAssignScore() throws UnknownHostException, ClassNotFoundException{
 		System.out.println("start testAssignScore!");
 		Mongo mongo = new Mongo("localhost", 27017);
 		Morphia morphia = new Morphia();

@@ -41,7 +41,7 @@ public class RankInvestor {
 		}
 	}
 	
-	public void assignScore (Datastore ds){
+	public void assignScore (Datastore ds) throws ClassNotFoundException {
 		RankInvestor ri = new RankInvestor();
 		int mfc = ri.maxFcPeople(ds);
 		int mci = ri.maxCompInv(ds);
