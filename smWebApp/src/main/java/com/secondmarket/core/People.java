@@ -18,9 +18,10 @@ public class People {
 	@Id int id;
 	String name;
 	String bio;
-	int follower_count;
-	int company_count;
+	public int follower_count;
+	public int company_count;
 	//int investor_follower_count;
+	public double score = 0;
 	
 	List<Integer> company_id =new ArrayList<Integer>();
 	//@Reference
@@ -53,8 +54,8 @@ public class People {
 	
 
 	
-	String info(){
-		String s ="user_info:\n id: "+id+"\n name: "+name;
+	public String info(){
+		String s ="user_info:\n id: "+id+"\n name: "+name+"\n score: "+score;
 		return s;
 	}
 
