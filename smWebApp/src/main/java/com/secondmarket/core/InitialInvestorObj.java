@@ -19,7 +19,7 @@ public class InitialInvestorObj {
 		/*
 		 * Read in the InvestorList.txt file
 		 */
-		FileReader file = new FileReader("InvestorList1.txt");
+		FileReader file = new FileReader("InvestorList11.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
 		
