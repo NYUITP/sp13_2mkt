@@ -1,7 +1,7 @@
 package com.secondmarket.domain;
 
 public enum InvestorEnum {
-	ID("id"),
+	ID("_id"),
     NAME("name"),
     BIO("bio"),
 	FOLLOWER_COUNT("follower_count"),

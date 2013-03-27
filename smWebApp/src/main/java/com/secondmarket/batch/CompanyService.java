@@ -20,12 +20,9 @@ import com.secondmarket.service.MongoDBFactory;
 @Transactional
 public class CompanyService {
 
-	protected static Logger logger = Logger.getLogger("service");
+	protected static Logger logger = Logger.getLogger("batch");
 	
-	public CompanyService() {
-		// Initialize our database
-		init();
-	}
+	public CompanyService() {}
 	
 	/**
 	 * Retrieves all investors
@@ -34,7 +31,7 @@ public class CompanyService {
 		logger.debug("Retrieving all companies");
 		
 		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("test","companyCollection");
+		DBCollection coll = MongoDBFactory.getCollection("secondmarket","Company");
 		// Retrieve cursor for iterating records
     	DBCursor cur = coll.find();
     	// Create new list
@@ -66,7 +63,7 @@ public class CompanyService {
 		logger.debug("Retrieving an existing Company");
 		
 		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("test","companyCollection");
+		DBCollection coll = MongoDBFactory.getCollection("secondmarket","Company");
 		// Create a new object
 		DBObject doc = new BasicDBObject();
 		// Put id to search
@@ -85,34 +82,5 @@ public class CompanyService {
     	
         // Return company
 		return company;
-	}
-	
-	private void init() {
-		// Populate our MongoDB database
-
-		logger.debug("Init MongoDB users");
-		
-		// Drop existing collection
-		MongoDBFactory.getCollection("test","companyCollection").drop();
-		// Retrieve collection. If not existing, create a new one
-		DBCollection coll = MongoDBFactory.getCollection("test","companyCollection");
-		
-		// Create new object
-		BasicDBObject doc = new BasicDBObject();
-        doc.put(CompanyEnum.ID.getLabel(), "1");
-        doc.put(CompanyEnum.NAME.getLabel(), "AngelList");
-        doc.put(CompanyEnum.FOLLOWER_COUNT.getLabel(), "2849");
-        doc.put(CompanyEnum.TOTAL_FUNDING.getLabel(), "197");
-        doc.put(CompanyEnum.PRODUCT_DESC.getLabel(), "AngelList is a platform for startups to meet investors and talent.");
-        coll.insert(doc);
-		
-        // Create new object
-        doc = new BasicDBObject();
-        doc.put(CompanyEnum.ID.getLabel(), "2");
-        doc.put(CompanyEnum.NAME.getLabel(), "Articulate Labs");
-        doc.put(CompanyEnum.FOLLOWER_COUNT.getLabel(), "23");
-        doc.put(CompanyEnum.TOTAL_FUNDING.getLabel(), "19");
-        doc.put(CompanyEnum.PRODUCT_DESC.getLabel(), "We've developed an intelligent and adaptive joint rehabilitation device");
-        coll.insert(doc);
 	}
 }

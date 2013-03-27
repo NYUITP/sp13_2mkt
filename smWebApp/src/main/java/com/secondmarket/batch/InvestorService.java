@@ -19,12 +19,9 @@ import com.secondmarket.service.MongoDBFactory;
 @Transactional
 public class InvestorService {
 
-	protected static Logger logger = Logger.getLogger("service");
+	protected static Logger logger = Logger.getLogger("batch");
 	
-	public InvestorService() {
-		// Initialize our database
-		init();
-	}
+	public InvestorService() {}
 	
 	/**
 	 * Retrieves all investors
@@ -34,7 +31,7 @@ public class InvestorService {
 		logger.debug("Retrieving all investors");
 		
 		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
+		DBCollection coll = MongoDBFactory.getCollection("secondmarket","People");
 		// Retrieve cursor for iterating records
     	DBCursor cur = coll.find();
     	// Create new list
@@ -49,7 +46,7 @@ public class InvestorService {
         	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
         	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
         	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
-        	//investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
+        	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
         	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));
 
         	// Add to new list
@@ -68,7 +65,7 @@ public class InvestorService {
 		logger.debug("Retrieving an existing Investor");
 		
 		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
+		DBCollection coll = MongoDBFactory.getCollection("secondmarket","People");
 		// Create a new object
 		DBObject doc = new BasicDBObject();
 		// Put id to search
@@ -83,7 +80,7 @@ public class InvestorService {
     	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
     	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
     	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
-    	//investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
+    	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
     	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));
     	
         // Return investor
@@ -98,7 +95,7 @@ public class InvestorService {
 		
 		try {
 			// Retrieve collection
-			DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
+			DBCollection coll = MongoDBFactory.getCollection("secondmarket","People");
 			// Create a new object
 			BasicDBObject doc = new BasicDBObject();
 			
@@ -117,41 +114,5 @@ public class InvestorService {
 			logger.error("An error has occurred while trying to add new investor", e);
 			return false;
 		}
-	}
-	
-	private void init() {
-		// Populate our MongoDB database
-
-		logger.debug("Init MongoDB users");
-		
-		// Drop existing collection
-		MongoDBFactory.getCollection("test","investorCollection").drop();
-		// Retrieve collection. If not existing, create a new one
-		DBCollection coll = MongoDBFactory.getCollection("test","investorCollection");
-		
-		// Create new object
-		BasicDBObject doc = new BasicDBObject();
-        doc.put(InvestorEnum.ID.getLabel(), "1");
-        doc.put(InvestorEnum.NAME.getLabel(), "John Smith");
-        doc.put(InvestorEnum.BIO.getLabel(), "Capital venture");
-        doc.put(InvestorEnum.FOLLOWER_COUNT.getLabel(), 1000);
-        coll.insert(doc);
-		
-        // Create new object
-        doc = new BasicDBObject();
-        doc.put(InvestorEnum.ID.getLabel(), "2");
-        doc.put(InvestorEnum.NAME.getLabel(), "Jane Adams");
-        doc.put(InvestorEnum.BIO.getLabel(), "Startups");
-        doc.put(InvestorEnum.FOLLOWER_COUNT.getLabel(), 2000);
-        coll.insert(doc);
-        
-        // Create new object
-        doc = new BasicDBObject();
-        doc.put(InvestorEnum.ID.getLabel(), "3");
-        doc.put(InvestorEnum.NAME.getLabel(), "Jeff Mayer");
-        doc.put(InvestorEnum.BIO.getLabel(), "AngleList");
-        doc.put(InvestorEnum.FOLLOWER_COUNT.getLabel(), 3000);
-        coll.insert(doc);
-		
 	}
 }

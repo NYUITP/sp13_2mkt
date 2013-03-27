@@ -7,7 +7,7 @@ public class Investor implements Serializable {
 	
 private static final long serialVersionUID = -5527566248012296042L;
 	
-	private Integer id;
+	private Integer _id;
 	private String name;
 	private String bio;
 	private Integer follower_count;
@@ -15,10 +15,10 @@ private static final long serialVersionUID = -5527566248012296042L;
 	private List<Integer> company_id;
 	
 	public Integer getId() {
-		return id;
+		return _id;
 	}
 	public void setId(Integer id) {
-		this.id = id;
+		this._id = id;
 	}
 	public String getName() {
 		return name;

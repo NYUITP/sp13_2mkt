@@ -9,7 +9,7 @@ import com.mongodb.MongoException;
 
 public class MongoDBFactory {
 	
-protected static Logger logger = Logger.getLogger("dao");
+protected static Logger logger = Logger.getLogger("service");
 	
 	private static Mongo m;
 	
