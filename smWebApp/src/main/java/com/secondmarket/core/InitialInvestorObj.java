@@ -1,96 +1,80 @@
 package com.secondmarket.core;
 
-import java.io.* ;
-import java.net.* ;
-import java.util.* ;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
 
-import org.json.*;
-//import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import com.google.code.morphia.Datastore;
-import com.google.code.morphia.Morphia;
-import com.mongodb.Mongo;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
+import com.secondmarket.domain.CompanyEnum;
+import com.secondmarket.domain.InvestorEnum;
 
-public class InitialInvestorObj {
-	public void initialize(Datastore ds,HashMap companyList,HashMap id_list,JSONObject Investor,
-			JSONArray invest) throws IOException, JSONException{
-		AngelCrunch second = new AngelCrunch();
-		
-		/*
-		 * Read in the InvestorList.txt file
-		 */
+public class InitialInvestorObj 
+{
+	protected static Logger logger = Logger.getLogger("core"); 
+	
+	public static boolean initialize(DBCollection coll, 
+			HashMap<String, String> id_list, JSONObject Investor,
+			JSONArray invest) throws IOException, JSONException
+	{
+		// Read in the InvestorList.txt file
 		FileReader file = new FileReader("InvestorList.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
 		
-		/*
-		 * Go through the investorList file, put company ids and names into
-		 * the HashMap.
-		 */
-		while(!eof){
-			/*
-			 * Read each line of record, use slug to search for investor
-			 */
+		//Go through the investorList file, put company ids and names into the HashMap.
+		while(!eof)
+		{
+			 	//Read each line of record, use slug to search for investor
 				String slug = buff.readLine();
 				if (slug == null)
+				{
 					eof = true;
-				else {
-					String investor_info = second.searchAngelInvestor(slug);
-//					System.out.println(investor_info);
-					/*
-					 * get the investor id
-					 */
-					String investor_id = second.getfield(investor_info,"id");
-					String investor_name = second.getfield(investor_info,"name");
-					String investor_bio = second.getfield(investor_info,"bio");
-					String investor_follower_count = second.getfield(investor_info,"follower_count");
-//					String investor_ = second.getfield(investor_info,"bio");
+				}
+				else 
+				{
+					String investor_info = AngelCrunch.searchAngelInvestor(slug);
+					String investor_id = AngelCrunch.getfield(investor_info,InvestorEnum.ID.getLabel().toString());
+					String investor_name = AngelCrunch.getfield(investor_info,InvestorEnum.NAME.getLabel().toString());
+					String investor_bio = AngelCrunch.getfield(investor_info,InvestorEnum.BIO.getLabel().toString());
+					String investor_follower_count = AngelCrunch.getfield(investor_info,InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
+			
+					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role		
 					
-//					System.out.println("Investor id: "+investor_id + " Investor name: "+investor_name);
-					/*
-					 * get start-up role
-					 */
+					//Now call hashCompanyList(String start_up_role,HashMap companyList)
+					AngelCrunch.hashCompanyList(start_up_role, id_list);
 					
-					String start_up_role = second.getStartUpRole(investor_id);
-//					System.out.println("start_up_role:\n");
-//					System.out.println(start_up_role);
-					/*
-					 * Now call hashCompanyList(String start_up_role,HashMap
-					 * companyList)
-					 */
-//					System.out.println(start_up_role);
-					second.hashCompanyList(start_up_role, id_list);
 					//Just for this specific investor
-					HashMap this_id_list = new HashMap();
-					second.hashCompanyList(start_up_role, this_id_list);
-					/**
-					 * Push company_id and company_name into JSONArray, first initiate JSONArray
-					 */
-					JSONObject each_investor = new JSONObject();
+					HashMap<String, String> this_id_list = new HashMap<String, String>();
+					AngelCrunch.hashCompanyList(start_up_role, this_id_list);
+					
+					//Push company_id and company_name into JSONArray, first initiate JSONArray
+					JSONObject each_investor = new JSONObject(); 
 					JSONArray startup_invested = new JSONArray();
-					
-					/**
-					 * Iterate through id_list related to each investor
-					 */
-					
+
+					//Iterate through id_list related to each investor
 					int company_count = 0;
 					for (Object key:this_id_list.keySet()){
 						JSONObject jobj = new JSONObject();
-						jobj.put("company_id", key.toString());
-						jobj.put("company_name", this_id_list.get(key).toString());
+						jobj.put(CompanyEnum.ID.getLabel().toString(), key.toString());
+						jobj.put(CompanyEnum.NAME.getLabel().toString(), this_id_list.get(key).toString());
 						startup_invested.put(jobj);
 						company_count++;
 					}
-					
-					/**
-					 * Put put put! 
-					 */
-					each_investor.put("company_count", company_count);
-					each_investor.put("startup_invested",startup_invested);
-					each_investor.put("investor_id", investor_id);
-					each_investor.put("investor_name",investor_name);
-					each_investor.put("investor_bio", investor_bio);
-					each_investor.put("follower_count", investor_follower_count);
+					//Put put put! 
+					each_investor.put(InvestorEnum.COMPANY_COUNT.getLabel().toString(), company_count);
+					each_investor.put(InvestorEnum.STARTUP_INVESTED.getLabel().toString(),startup_invested);
+					each_investor.put(InvestorEnum.ID.getLabel().toString(), investor_id);
+					each_investor.put(InvestorEnum.NAME.getLabel().toString(),investor_name);
+					each_investor.put(InvestorEnum.BIO.getLabel().toString(), investor_bio);
+					each_investor.put(InvestorEnum.FOLLOWER_COUNT.getLabel().toString(), investor_follower_count);
 					System.out.println(each_investor);
 					
 					/**
@@ -98,17 +82,14 @@ public class InitialInvestorObj {
 					 * each_investor JSONObject. Zoe you can start here to push 
 					 * these investors into the MongoDB
 					 */
-					
-					/*
-					 * This is for future reference. A giant JSONObject that contains
-					 * all the investors.
-					 */
+					//This is for future reference. A giant JSONObject that contains all the investors.
 					invest.put(each_investor);
-					Investor.put("Investor_information", invest);
-					
-					People user = new People(each_investor);
-					ds.save(user);
+					Investor.put(InvestorEnum.INVESTOR_INFO.getLabel().toString(), invest);
+					DBObject dbObject = (DBObject)JSON.parse(each_investor.toString());
+					coll.insert(dbObject);
 				}
 		}
+		buff.close();
+		return true;
 	}
 }

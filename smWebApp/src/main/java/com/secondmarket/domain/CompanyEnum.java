@@ -1,7 +1,7 @@
 package com.secondmarket.domain;
 
 public enum CompanyEnum {
-	ID("_id"),
+	ID("id"),
     NAME("name"),
 	FOLLOWER_COUNT("follower_count"),
 	TOTAL_FUNDING("total_funding"),
@@ -9,7 +9,10 @@ public enum CompanyEnum {
 	QUALITY("quality"),
 	PRODUCT_DESC("product_desc"),
 	MARKETS("markets"),
-	LOCATIONS("locations");
+	LOCATIONS("locations"),
+	CRUNCHBASE_URL("crunchbase_url"),
+	FUNDING_ROUNDS("funding_rounds"),
+	TOTAL_MONEY_RAISED("total_money_raised");
 	
     private String label;
  

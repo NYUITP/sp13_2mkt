@@ -1,18 +1,21 @@
 package com.secondmarket.service;
 
 import java.net.UnknownHostException;
+
 import org.apache.log4j.Logger;
+
+import com.google.code.morphia.Datastore;
+import com.google.code.morphia.Morphia;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
-public class MongoDBFactory {
-	
+public class MongoDBFactory 
+{	
 protected static Logger logger = Logger.getLogger("service");
 	
 	private static Mongo m;
-	
 	// Make sure no one can instantiate our factory
 	private MongoDBFactory() {}
 	
@@ -41,6 +44,14 @@ protected static Logger logger = Logger.getLogger("service");
 	public static DBCollection getCollection(String dbname, String collection) {
 		logger.debug("Retrieving collection: " + collection);
 		return getDB(dbname).getCollection(collection);
+	}
+	
+	// Retrieve a db and morphia
+	public static Datastore getDataStore(){
+		Morphia morphia = new Morphia();
+		Datastore ds = morphia.createDatastore(MongoDBFactory.getMongo(), CommonStrings.DATABASENAME.getLabel().toString());
+		logger.debug("success!");
+		return ds;
 	}
 
 }

@@ -2,50 +2,66 @@ package com.secondmarket.core;
 
 import java.net.UnknownHostException;
 
-import com.google.code.morphia.Datastore;
-import com.google.code.morphia.Morphia;
-import com.google.code.morphia.query.Query;
-import com.mongodb.Mongo;
+import org.apache.log4j.Logger;
 
-public class Normalization {
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.secondmarket.domain.InvestorEnum;
+import com.secondmarket.service.CommonStrings;
+import com.secondmarket.service.MongoDBFactory;
+
+public class Normalization 
+{	
+	protected static Logger logger = Logger.getLogger("core"); 
 	
 	public static void main(String args[]) throws UnknownHostException{
-		System.out.println("Start Normalization!");
-		Mongo mongo = new Mongo("localhost", 27017);
-		Morphia morphia = new Morphia();
-		Datastore ds = morphia.createDatastore(mongo, "SecondMarket");
-		System.out.println("success!");
+		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
 		
-		Normalization norm = new Normalization();
-		int mfp = norm.maxFcPeople(ds);
-		int mci = norm.maxCompInv(ds);
+		double highest_follower_count = maxFcPeople(people);
+		double highest_company_count = maxCompInv(people);
 		
-		Query<People> q = ds.createQuery(People.class);
-		for(People p : q){
-			norm.normalize(p, mfp, mci, ds);
+		DBCursor cur = people.find();
+		while(cur.hasNext())
+		{
+	        DBObject dbObject = cur.next();// Map DBOject to investor
+	        normalize(dbObject, highest_follower_count, highest_company_count);
 		}
-		
-		System.out.println("Normalization finish!");
+		logger.debug("Normalization finish!");
 	}
 
-	int maxFcPeople(Datastore ds){
-		Query q = ds.createQuery(People.class).filter("follower_count >", 22500).order("-follower_count");
-		People p = (People) q.get();
-		return p.follower_count;
+	protected static double maxFcPeople(DBCollection people)
+	{
+		DBCursor cur = people.find().sort( new BasicDBObject( "follower_count" , -1 ));
+		DBObject dbObject = cur.next();
+		double highest_follower_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString());
+		return highest_follower_count;
 	}
 
-	int maxCompInv(Datastore ds){
-		Query q = ds.createQuery(People.class).filter("company_count >", 45).order("-company_count");
-		People p = (People) q.get();
-		return p.company_count;
+	protected static double maxCompInv(DBCollection people)
+	{
+		DBCursor cur = people.find().sort( new BasicDBObject( "company_count" , -1 ));
+		DBObject dbObject = cur.next();
+		double highest_company_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString());
+		return highest_company_count;
 	}
 	
-	public void normalize(People p, int mfp, int mci, Datastore ds){
-		double pfc = (double)p.follower_count;
-		double pcc = (double)p.company_count;
-		p.fl_norm = pfc/mfp;
-		p.cc_norm = pcc/ mci;
-		ds.save(p);
+	protected static void normalize(DBObject dbObject, double highest_follower_count, double highest_company_count){
+		double follower_count = 0.0;
+		double company_count = 0.0;
+		if(!dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString().equalsIgnoreCase(""))
+		{
+			follower_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString());
+		}
+		if(!dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString().equalsIgnoreCase(""))
+		{
+			company_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString());
+		}
+		
+		double follower_count_norm = follower_count/highest_follower_count;
+		double company_count_norm = company_count/highest_company_count;
+		System.out.println(follower_count_norm);
+		System.out.println(company_count_norm);
 	}
-
 }

@@ -8,53 +8,39 @@ package com.secondmarket.core;
  * JSONObject.
  */
 
-import java.io.* ;
-import java.net.* ;
-import java.util.* ;
-import org.json.*;
-//import org.apache.commons.io.IOUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.google.code.morphia.Datastore;
-import com.google.code.morphia.Morphia;
-import com.mongodb.Mongo;
+import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class Run {
-	public static void main(String args[]) throws IOException, JSONException{
-		/**
-		 * Initialize Datastore ds
-		 */
-		System.out.println("Start initialization of MongoDB");
-		InitialDB init = new InitialDB();
-		Datastore ds = init.initialize();
+import com.mongodb.DBCollection;
+import com.secondmarket.service.CommonStrings;
+import com.secondmarket.service.MongoDBFactory;
+
+public class Run 
+{
+	protected static Logger logger = Logger.getLogger("core"); 
+
+	public static void main(String args[]) throws IOException, JSONException
+	{
+		logger.debug("Start getting collections from MongoDB");
+		DBCollection companyColl = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve collection
+		DBCollection investorColl = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString());// Retrieve collection
 		
-//		System.out.println("Start process!");
-//		Mongo mongo = new Mongo("localhost", 27017);
-//		System.out.println("Check 0");
-//		Morphia morphia = new Morphia();
-//		System.out.println("Check 1");
-//		Datastore ds = morphia.createDatastore(mongo, "SecondMarket");
-//		System.out.println("success!");
-		/*
-		 * Use HashMap to rule out identical companies.
-		 */
-		HashMap companyList = new HashMap();
-//		HashMap companySlugList = new HashMap();
-		HashMap id_list = new HashMap();
-//		JSONObject Investor = new JSONObject();		
-		JSONObject Investor = new JSONObject();
+		//Use HashMap to rule out identical companies.
+		HashMap<String, String> id_list = new HashMap<String, String>();	
+		JSONObject investor = new JSONObject();
 		JSONArray invest = new JSONArray();
 		
-		HashMap funding = new HashMap();
-		HashMap round = new HashMap();
-		HashMap slug_id = new HashMap();
+		HashMap<String, String> funding = new HashMap<String, String>();
+		HashMap<String, ArrayList<HashMap<Object, Object>>> round = new HashMap<String, ArrayList<HashMap<Object, Object>>>();
 		
-		InitialInvestorObj investObj = new InitialInvestorObj();
-		investObj.initialize(ds, companyList, id_list, Investor, invest);
-		InitialCompanyObj companyObj = new InitialCompanyObj();
-		companyObj.initialize(funding, round, slug_id, id_list, ds);
-		
-
-
+		InitialInvestorObj.initialize(investorColl, id_list, investor, invest);
+		InitialCompanyObj.initialize(companyColl, funding, round, id_list);
 		System.out.println(funding);
 		System.out.println(round);
 	}

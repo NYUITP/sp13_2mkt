@@ -1,28 +1,40 @@
 package com.secondmarket.core;
-import java.io.* ;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.net.* ;
-import java.util.* ;
 
-import org.json.*;
+import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class AngelCrunch {
+import com.secondmarket.domain.CompanyEnum;
+import com.secondmarket.domain.FundEnum;
+import com.secondmarket.domain.InvestorEnum;
+
+public class AngelCrunch 
+{	
+	protected static Logger logger = Logger.getLogger("core"); 
 	/***
 	 * The method takes in a String of return content from the API and parse it into a JSONObject.
 	 * @param input
 	 * @return jobj
 	 */
-	public JSONObject parseToJSON(String input){
+	public static JSONObject parseToJSON(String input){
 		JSONObject jobj = null;
 		try {
 			jobj = new JSONObject(input);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return jobj;
-		
+		return jobj;	
 	}
 	
 	/***
@@ -32,21 +44,19 @@ public class AngelCrunch {
 	 * @return crunchbase slug in correspondence to angellist record.
 	 * @throws JSONException
 	 */
-	public String getCrunchSlug(JSONObject jobj){
+	public static String getCrunchSlug(JSONObject jobj){
 		String url = "";
 		String slug = "";
 		try {
-			url = jobj.getString("crunchbase_url");
+			url = jobj.getString(CompanyEnum.CRUNCHBASE_URL.getLabel().toString());
 			Pattern p = Pattern.compile("http://www.crunchbase.com/company/(.*)",Pattern.DOTALL);
 			Matcher match = p.matcher(url);
 			if (match.matches()){
 				 slug = match.group(1);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		
 		return slug;
 	}
 	
@@ -55,16 +65,14 @@ public class AngelCrunch {
 	 * @param jobj
 	 * @return
 	 */
-	public int getFollowerCount(JSONObject jobj){
+	public static int getFollowerCount(JSONObject jobj){
 		int f_count = 0;
 		try {
-			f_count = jobj.getInt("follower_count");
+			f_count = jobj.getInt(CompanyEnum.FOLLOWER_COUNT.getLabel().toString());
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+		//	e.printStackTrace();
 		}
-		
 		return f_count;
 	}
 	
@@ -73,16 +81,14 @@ public class AngelCrunch {
 	 * @param jobj
 	 * @return
 	 */
-	public int getQuality(JSONObject jobj){
+	public static int getQuality(JSONObject jobj){
 		int q = 0;
 		try {
-			q = jobj.getInt("follower_count");
+			q = jobj.getInt(CompanyEnum.QUALITY.getLabel().toString());
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		
 		return q;
 	}
 	
@@ -91,16 +97,14 @@ public class AngelCrunch {
 	 * @param jobj
 	 * @return
 	 */
-	public String getAngelListUrl(JSONObject jobj){
+	public static String getAngelListUrl(JSONObject jobj){
 		String url = null;
 		try {
-			url = jobj.getString("angellist_url");
+			url = jobj.getString(CompanyEnum.ANGLELIST_URL.getLabel().toString());
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		
 		return url;
 	}
 	
@@ -109,7 +113,7 @@ public class AngelCrunch {
 	 * @param slug is the url slug of the investor
 	 * @return result is a json format result of investor information. Use this information to set-up a library of company names.
 	 */
-	public String searchAngelInvestor(String slug){
+	public static String searchAngelInvestor(String slug){
 		URL url;
 		HttpURLConnection conn;
 		BufferedReader rd;
@@ -130,24 +134,6 @@ public class AngelCrunch {
 		}
 		return result;
 	}
-
-//	/***
-//	 * Get the id of investor (Now use this to get all information about the investor!
-//	 * @param investor
-//	 * @return result is the id of the investor
-//	 */
-//	public String getID(String investor){
-//		JSONObject jj = null;// = new JSONObject(str1);
-//		String result = "";
-//		try {
-//			jj = new JSONObject(investor);
-//			result += jj.get("id");
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
 	
 	/***
 	 * This method returns the specific field associated with the investor
@@ -155,54 +141,16 @@ public class AngelCrunch {
 	 * @param field
 	 * @return the desired string according to the field
 	 */
-	public String getfield(String investor, String field){
-		JSONObject jj = null;// = new JSONObject(str1);
+	public static String getfield(String investor, String field){
+		JSONObject jj = null;
 		String result = "";
 		try {
 			jj = new JSONObject(investor);
 			result += jj.get(field);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
-//	public String getNAME(String investor){
-//		JSONObject jj = null;// = new JSONObject(str1);
-//		String result = "";
-//		try {
-//			jj = new JSONObject(investor);
-//			result += jj.get("name");
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
-	
-	/***
-	 * Get company information by id
-	 * @param company
-	 */
-	public void companyINFO(String id){
-		JSONObject jj = null;// = new JSONObject(str1);
-		String ID = id;
-		String followerCnt = "";
-		String Quality = "";
-		String Name = "";
-		try {
-			jj = new JSONObject(id);
-			Name += jj.get("name");
-			Quality += jj.get("quality");
-			followerCnt += jj.get("follower_count");
-			/*
-			 * Some other things like all kinds of urls could be added here.
-			 */
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	/***
@@ -210,7 +158,7 @@ public class AngelCrunch {
 	 * @param investor_id
 	 * @return result is a string of startup role record
 	 */
-	public String getStartUpRole(String investor_id){
+	public static String getStartUpRole(String investor_id){
 		URL url;
 		HttpURLConnection conn;
 		BufferedReader rd;
@@ -238,24 +186,24 @@ public class AngelCrunch {
 	 * @param start_up_role
 	 * @param companySlugList
 	 */
-	public void hashCompanyList(String start_up_role,HashMap id_list){
-		JSONObject startupRole = null;// = new JSONObject(str1);
+	public static void hashCompanyList(String start_up_role, HashMap<String, String> id_list){
+		JSONObject startupRole = null;
 		try {
 			startupRole = new JSONObject(start_up_role);
 //			System.out.println(startupRole);
-			JSONArray st_arr = startupRole.getJSONArray("startup_roles");
+			JSONArray st_arr = startupRole.getJSONArray(InvestorEnum.STARTUP_ROLES.getLabel().toString());
 
 			for (int index = 0; index<st_arr.length(); ++index){
 				JSONObject each = st_arr.getJSONObject(index);
-				JSONObject company = each.getJSONObject("startup");
+				JSONObject company = each.getJSONObject(InvestorEnum.STARTUP.getLabel().toString());
 				
-				Integer id = company.getInt("id");
+				Integer id = company.getInt(CompanyEnum.ID.getLabel().toString());
 				String id2 = id.toString();
-				String name = company.getString("name");
-				String url = company.getString("angellist_url");
-//				System.out.println(url);
+				String name = company.getString(CompanyEnum.NAME.getLabel().toString());
+				String url = company.getString(CompanyEnum.ANGLELIST_URL.getLabel().toString());
 				Pattern p = Pattern.compile("https://angel.co/(.*)",Pattern.DOTALL);
 				Matcher match = p.matcher(url);
+				@SuppressWarnings("unused")
 				String slug2 = "";
 				if (match.matches()){
 					 slug2 += match.group(1);
@@ -263,11 +211,9 @@ public class AngelCrunch {
 				/*
 				 * Put the id and name into the HashMap
 				 */
-//				companyList.put(id2, name);
 				id_list.put(id2,name);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -278,7 +224,7 @@ public class AngelCrunch {
 	 * @param id
 	 * @return JSON format content
 	 */
-	public String getangelHTML(String id){
+	public static String getangelHTML(String id){
 		URL url;
 		HttpURLConnection conn;
 		BufferedReader rd;
@@ -305,7 +251,7 @@ public class AngelCrunch {
 	 * @return
 	 * @throws IOException 
 	 */
-	public String getcrunchHTML(String company_name){
+	public static String getcrunchHTML(String company_name){
 		URL url;
 		HttpURLConnection conn;
 		BufferedReader rd;
@@ -322,8 +268,7 @@ public class AngelCrunch {
 			}
 			rd.close();
 		} catch(Exception e){
-//			e.printStackTrace();
-//			System.out.println(company_name);
+			//e.printStackTrace();
 		}
 		return result;
 	}
@@ -337,29 +282,24 @@ public class AngelCrunch {
 	 * @param id_funding
 	 * @param id_round
 	 */
-	public void crunchCompanyInfo(String crunchCompany, String id, HashMap id_funding, HashMap id_round){
-		JSONObject company = null;// = new JSONObject(str1);
+	public static void crunchCompanyInfo(String crunchCompany, String id, HashMap<String, String> id_funding, HashMap<String, ArrayList<HashMap<Object, Object>>> id_round){
+		JSONObject company = null;
 		try {
 			company = new JSONObject(crunchCompany);
-//			System.out.println(company);
-			String funding = company.getString("total_money_raised");
-			JSONArray st_arr = company.getJSONArray("funding_rounds");
+			String funding = company.getString(CompanyEnum.TOTAL_MONEY_RAISED.getLabel().toString());
+			JSONArray st_arr = company.getJSONArray(CompanyEnum.FUNDING_ROUNDS.getLabel().toString());
 			
-			ArrayList al = new ArrayList();
-//			System.out.println(st_arr);
+			ArrayList<HashMap<Object, Object>> all = new ArrayList<HashMap<Object, Object>>();
 			for (int index = 0; index<st_arr.length(); ++index){
 				JSONObject each = st_arr.getJSONObject(index);
-//				System.out.println(each); // each is a JSONObject
-				HashMap temp = new HashMap();
-//				temp.put(rc, am);
-				temp.put(each.get("round_code"), each.get("raised_amount"));
-				al.add(temp);
+				HashMap<Object, Object> temp = new HashMap<Object, Object>();
+				temp.put(each.get(FundEnum.ROUND_CODE.getLabel().toString()), each.get(FundEnum.RAISED_AMOUNT.getLabel().toString()));
+				all.add(temp);
 			}
 			id_funding.put(id, funding);
-			id_round.put(id,al);
+			id_round.put(id,all);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -369,31 +309,14 @@ public class AngelCrunch {
 	 * @param crunchCompany
 	 * @return The total funding of each company available from crunchBase
 	 */
-	public String getCrunchTotalFund(String crunchCompany){
-		JSONObject company = null;// = new JSONObject(str1);
+	public static String getCrunchTotalFund(String crunchCompany){
+		JSONObject company = null;
 		String funding = "$0";
 		try {
 			company = new JSONObject(crunchCompany);
-//			System.out.println(company);
-			funding = company.getString("total_money_raised");
-			
-//			JSONArray st_arr = company.getJSONArray("funding_rounds");
-//			
-//			ArrayList al = new ArrayList();
-////			System.out.println(st_arr);
-//			for (int index = 0; index<st_arr.length(); ++index){
-//				JSONObject each = st_arr.getJSONObject(index);
-////				System.out.println(each); // each is a JSONObject
-//				HashMap temp = new HashMap();
-////				temp.put(rc, am);
-//				temp.put(each.get("round_code"), each.get("raised_amount"));
-//				al.add(temp);
-//			}
-//			id_funding.put(id, funding);
-//			id_round.put(id,al);
+			funding = company.getString(CompanyEnum.TOTAL_MONEY_RAISED.getLabel().toString());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return funding;
 	}
@@ -403,51 +326,18 @@ public class AngelCrunch {
 	 * @param crunchCompany
 	 * @return
 	 */
-	public String getCrunchURL(String crunchCompany){
-		JSONObject company = null;// = new JSONObject(str1);
+	public static String getCrunchURL(String crunchCompany){
+		JSONObject company = null;
 		String url = null;
 		try {
 			company = new JSONObject(crunchCompany);
-//			System.out.println(company);
-			url = company.getString("total_money_raised");
+			url = company.getString(CompanyEnum.TOTAL_MONEY_RAISED.getLabel().toString());
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return url;
 	}
-	
-	
-//	public HashMap getCrunchRoundFunding(String crunchCompany){
-//		JSONObject company = null;// = new JSONObject(str1);
-//		String funding = null;
-//		HashMap<String, List<Double>> hm_dollar = new HashMap();
-//		try {
-//			company = new JSONObject(crunchCompany);
-//			JSONArray st_arr = company.getJSONArray("funding_rounds");
-//			
-//			for (int index = 0; index<st_arr.length(); ++index){
-//				JSONObject each = st_arr.getJSONObject(index);// each is a JSONObject
-//				String round_code = each.getString("round_code");
-//				double raised_amount = each.getDouble("raised_amount");
-//				if (!hm_dollar.containsKey(round_code)){
-//					List lst = new ArrayList();
-//					lst.add(raised_amount);
-//					hm_dollar.put(round_code, lst);
-//				}else{
-//					hm_dollar.get(round_code).add(raised_amount);
-//				}
-//				
-//			}
-////			id_funding.put(id, funding);
-////			id_round.put(id,al);
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-////			e.printStackTrace();
-//		}
-//		return hm_dollar;
-//	}
 	
 	/***
 	 * This method will return a JSONArray created to contain all
@@ -468,49 +358,43 @@ public class AngelCrunch {
 	 * @param crunchCompany
 	 * @return A JSONArray of each round of funding
 	 */
-	public JSONArray getCrunchRoundFunding(String crunchCompany){
+	public static JSONArray getCrunchRoundFunding(String crunchCompany){
 		JSONArray round_funding = new JSONArray();
-		JSONObject company = null;// = new JSONObject(str1);
-		String funding = null;
-		HashMap<String, List<Double>> hm_dollar = new HashMap();
+		JSONObject company = null;
+		
+		HashMap<String, List<Double>> hm_dollar = new HashMap<String, List<Double>>();
 		try {
 			company = new JSONObject(crunchCompany);
-			JSONArray st_arr = company.getJSONArray("funding_rounds");
+			JSONArray st_arr = company.getJSONArray(CompanyEnum.FUNDING_ROUNDS.getLabel().toString());
 			
 			for (int index = 0; index<st_arr.length(); ++index){
 				//each round has a JSONObject that contains all stuff
 				JSONObject each_round = new JSONObject();
 				JSONObject each = st_arr.getJSONObject(index);// each is a JSONObject
-				String round_code = each.getString("round_code");
-//				System.out.println(round_code);
-				double raised_amount = each.getDouble("raised_amount");
-				int funded_year = each.getInt("funded_year");
-				int funded_month = each.getInt("funded_month");
-				int funded_day = each.getInt("funded_day");
+				String round_code = each.getString(FundEnum.ROUND_CODE.getLabel().toString());
+				double raised_amount = each.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+				int funded_year = each.getInt(FundEnum.YEAR.getLabel().toString());
+				int funded_month = each.getInt(FundEnum.MONTH.getLabel().toString());
+				int funded_day = each.getInt(FundEnum.DAY.getLabel().toString());
 				if (!hm_dollar.containsKey(round_code)){
-					List lst = new ArrayList();
+					List<Double> lst = new ArrayList<Double>();
 					lst.add(raised_amount);
 					hm_dollar.put(round_code, lst);
 				}else{
 					hm_dollar.get(round_code).add(raised_amount);
 				}
-				each_round.put("round_code", round_code);
-//				System.out.println(each_round);
-				each_round.put("raised_amount", raised_amount);
-				each_round.put("funded_year",funded_year);
-				each_round.put("funded_month",funded_month);
-				each_round.put("funded_day",funded_day);
-//				System.out.println(each_round);
+				each_round.put(FundEnum.ROUND_CODE.getLabel().toString(), round_code);
+				each_round.put(FundEnum.RAISED_AMOUNT.getLabel().toString(), raised_amount);
+				each_round.put(FundEnum.YEAR.getLabel().toString(),funded_year);
+				each_round.put(FundEnum.MONTH.getLabel().toString(),funded_month);
+				each_round.put(FundEnum.DAY.getLabel().toString(),funded_day);
 				//get all the investments in each round
 				JSONArray investments = each.getJSONArray("investments");
-//				System.out.println(investments);
 				JSONArray fund_company = new JSONArray();
 				JSONArray fund_financial_org = new JSONArray();
 				JSONArray fund_person = new JSONArray();
 				for (int index2 = 0; index2<investments.length(); ++index2){
 					JSONObject each_investment = investments.getJSONObject(index2);
-//					System.out.println(each_investment.get("person"));
-//					JSONObject ccc = (JSONObject) each_investment.get("company");
 					if(!each_investment.isNull("company"))
 						fund_company.put(each_investment.get("company"));
 					if(!each_investment.isNull("financial_org"))
@@ -519,25 +403,17 @@ public class AngelCrunch {
 						fund_person.put(each_investment.get("person"));
 					
 				}
-//				System.out.println(fund_company);
-//				System.out.println(fund_financial_org);
-//				System.out.println(fund_person);
 				each_round.put("fund_company",fund_company);
 				each_round.put("fund_financial_org", fund_financial_org);
 				each_round.put("fund_person",fund_person);
-//				System.out.println(each_round);
 				round_funding.put(each_round);
 			}
 //			id_funding.put(id, funding);
 //			id_round.put(id,al);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			//e.printStackTrace();
 		}
 //		System.out.println(round_funding);
 		return round_funding;
 	}
-	
-	
-	
 }

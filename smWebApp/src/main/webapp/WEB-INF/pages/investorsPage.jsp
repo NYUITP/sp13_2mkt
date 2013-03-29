@@ -5,17 +5,23 @@
 <%@include file="../../resources/include/head.jsp"%>
 
 <script type="text/javascript">
+
 	function showValue(newValue) {
 		if (newValue == 1) {
 			document.getElementById("follower-value").innerHTML = "Not Important";
+			document.getElementById('followersImpLevel').value = 1;
 		} else if (newValue == 2) {
 			document.getElementById("follower-value").innerHTML = "A Little Important";
+			document.getElementById('followersImpLevel').value = 2;
 		} else if (newValue == 3) {
 			document.getElementById("follower-value").innerHTML = "Moderately Important";
+			document.getElementById('followersImpLevel').value = 3;
 		} else if (newValue == 4) {
 			document.getElementById("follower-value").innerHTML = "Important";
+			document.getElementById('followersImpLevel').value = 4;
 		} else if (newValue == 5) {
 			document.getElementById("follower-value").innerHTML = "Very Important";
+			document.getElementById('followersImpLevel').value = 5;
 		}
 
 	}
@@ -41,12 +47,13 @@
 					onchange="showValue(this.value)" />
 
 				<!-- <span class="pull-left">Not</span> -->
-				<span id="follower-value" class="slider-value">Somewhat
-					Important</span>
+				<span id="follower-value" class="slider-value">Moderately Important</span>
 
 				<hr class="space" />
-				<a href="#" class="btn">Update</a>
-
+				<form action="investorRanking" method="post">
+					<input type='hidden' id='followersImpLevel' name='followersImpLevel' value='3'/>
+					<input type="submit" value="Update">
+				</form>
 			</div>
 
 			<hr class="space" />
@@ -108,7 +115,8 @@
 									value="${investor.follower_count}" /></span> Followers
 						</div>
 						<div>
-							<span class="large-number">#</span> Companies Invested in
+							<span class="large-number"><c:out
+									value="${investor.company_count}" /></span> Companies Invested in
 						</div>
 					</div>
 

@@ -5,7 +5,9 @@ public enum FundEnum {
     AMOUNT("amount"),
 	YEAR("funded_year"),
 	MONTH("funded_month"),
-	DAY("funded_day");
+	DAY("funded_day"),
+	ROUND_CODE("round_code"),
+	RAISED_AMOUNT("raised_amount");
 	
     private String label;
  

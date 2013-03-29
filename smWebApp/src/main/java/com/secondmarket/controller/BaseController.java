@@ -7,9 +7,9 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.secondmarket.batch.CompanyService;
 import com.secondmarket.batch.InvestorService;
@@ -20,67 +20,56 @@ import com.secondmarket.domain.Investor;
 @RequestMapping("/")
 public class BaseController 
 {
-	// base controller
 	protected static Logger logger = Logger.getLogger("controller");
+	
 	@Resource(name="investorService")
 	private InvestorService investorService;
 	@Resource(name="companyService")
 	private CompanyService companyService;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String welcome(ModelMap model) {
- 
+	public String welcome(ModelMap model) 
+	{
 		model.addAttribute("message", "Welcome!");
- 
-		//Spring uses InternalResourceViewResolver and return back index.jsp
-		return "index";
- 
-	}
- 
-	@RequestMapping(value="/{name}", method = RequestMethod.GET)
-	public String welcomeName(@PathVariable String name, ModelMap model) {
- 
-		model.addAttribute("message", "Welcome " + name);
-		return "index";
- 
+		return "index"; //Spring uses InternalResourceViewResolver and return back index.jsp
 	}
 	
 	@RequestMapping(value="/companies", method = RequestMethod.GET)
-	public String getCompanies(ModelMap model) {
- 
+	public String getCompanies(ModelMap model) 
+	{
 		logger.debug("Received request to show all companies");
-    	
     	// Retrieve all companies by delegating the call to CompanyService
     	List<Company> companies = companyService.getAll();
-    	
-    	// Attach Company to the Model
-    	System.out.println(companies.size());
+    	logger.debug(companies.size());
     	model.addAttribute("companies", companies);
-    	
-    	// This will resolve to /WEB-INF/jsp/companyPage.jsp
     	return "companyPage";
- 
 	}
 	
 	@RequestMapping(value="/investors", method = RequestMethod.GET)
-	public String getInvestors(ModelMap model) {
- 
-		logger.debug("Received request to show all investors");
-    	
+	public String getInvestors(ModelMap model) 
+	{
+		logger.debug("Received request to show all investors");	
     	// Retrieve all Investor by delegating the call to InvestorService
     	List<Investor> investors = investorService.getAll();
-    	
-    	// Attach Investor to the Model	
-    	System.out.println(investors.size());
+    	logger.debug(investors.size());
     	model.addAttribute("investors", investors);
-    	
-    	// This will resolve to /WEB-INF/jsp/investorsPage.jsp
+    	return "investorsPage";
+	}
+	
+	@RequestMapping(value="/investorRanking", method = RequestMethod.POST)
+	public String getInvestorRanking(@RequestParam("followersImpLevel") String followersImpLevel, ModelMap model) 
+	{
+		logger.debug("Received request to rank investors, value = " + followersImpLevel);
+    	// Retrieve all Investor by delegating the call to InvestorService
+    	List<Investor> investors = investorService.getAll();
+    	logger.debug(investors.size());
+    	model.addAttribute("investors", investors);
     	return "investorsPage";
 	}
 	
 	@RequestMapping(value="/investorsSearch", method = RequestMethod.GET)
-	public String getSearchedInvestors(ModelMap model) {
- 
+	public String getSearchedInvestors(ModelMap model)
+	{
 		logger.debug("Received request to show investors");
     	return "investorSearch";
 	}
@@ -92,5 +81,4 @@ public class BaseController
 		model.addAttribute("investorsResults", "Results");
     	return "investorSearch";
 	}
- 
 }

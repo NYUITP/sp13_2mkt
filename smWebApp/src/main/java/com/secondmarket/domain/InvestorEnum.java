@@ -1,12 +1,16 @@
 package com.secondmarket.domain;
 
 public enum InvestorEnum {
-	ID("_id"),
+	ID("id"),
     NAME("name"),
     BIO("bio"),
 	FOLLOWER_COUNT("follower_count"),
 	COMPANY_COUNT("company_count"),
-	COMPANY_IDS("company_id");
+	COMPANY_IDS("company_id"),
+	STARTUP_INVESTED("startup_invested"),
+	STARTUP_ROLES("startup_roles"),
+	STARTUP("startup"),
+	INVESTOR_INFO("Investor_information");
 	
     private String label;
  

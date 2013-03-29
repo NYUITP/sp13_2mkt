@@ -13,74 +13,53 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.domain.Company;
 import com.secondmarket.domain.CompanyEnum;
+import com.secondmarket.service.CommonStrings;
 import com.secondmarket.service.MongoDBFactory;
-
 
 @Service("companyService")
 @Transactional
-public class CompanyService {
-
+public class CompanyService 
+{
 	protected static Logger logger = Logger.getLogger("batch");
-	
 	public CompanyService() {}
-	
-	/**
-	 * Retrieves all investors
-	 */
-	public List<Company> getAll() {
+
+	public List<Company> getAll() 
+	{
 		logger.debug("Retrieving all companies");
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());
+    	DBCursor cur = coll.find();// Retrieve cursor for iterating records
+		List<Company> items = new ArrayList<Company>(); // Create new list
 		
-		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("secondmarket","Company");
-		// Retrieve cursor for iterating records
-    	DBCursor cur = coll.find();
-    	// Create new list
-		List<Company> items = new ArrayList<Company>();
 		// Iterate cursor
-        while(cur.hasNext()) {
-        	// Map DBOject to company
-        	DBObject dbObject = cur.next();
+        while(cur.hasNext())
+        {
+        	DBObject dbObject = cur.next(); // Map DBOject to company
         	Company company = new Company();
-        	
         	company.setId(Integer.valueOf(dbObject.get(CompanyEnum.ID.getLabel()).toString()));
         	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
         	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
         	company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
         	company.setProduct_desc(dbObject.get(CompanyEnum.PRODUCT_DESC.getLabel()).toString());
-
-        	// Add to new list
-        	items.add(company);
+        	items.add(company); // Add to new list
         }
-        
-        // Return list
-		return items;
+		return items;  // Return list
 	}
 	
-	/**
-	 * Retrieves a single company
-	 */
-	public Company get( String id ) {
+	public Company get( String id ) 
+	{
 		logger.debug("Retrieving an existing Company");
-		
-		// Retrieve collection
-		DBCollection coll = MongoDBFactory.getCollection("secondmarket","Company");
-		// Create a new object
-		DBObject doc = new BasicDBObject();
-		// Put id to search
-        doc.put("id", id);
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve collection
+		DBObject doc = new BasicDBObject(); // Create a new object
+        doc.put(CompanyEnum.ID.getLabel().toString(), id); // Put id to search
+        DBObject dbObject = coll.findOne(doc);  // Find and return the Company with the given id
         
-        // Find and return the Company with the given id
-        DBObject dbObject = coll.findOne(doc);
-        
-        // Map DBOject to Company
-        Company company = new Company();
+        Company company = new Company(); // Map DBOject to Company
         company.setId(Integer.valueOf(dbObject.get(CompanyEnum.ID.getLabel()).toString()));
     	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
     	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
     	company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
     	company.setProduct_desc(dbObject.get(CompanyEnum.PRODUCT_DESC.getLabel()).toString());
-    	
-        // Return company
-		return company;
+        
+		return company; // Return company
 	}
 }
