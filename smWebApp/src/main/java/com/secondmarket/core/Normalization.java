@@ -27,8 +27,9 @@ public class Normalization
 		{
 	        DBObject dbObject = cur.next();// Map DBOject to investor
 	        normalize(dbObject, highest_follower_count, highest_company_count);
+	        people.save(dbObject);
 		}
-		logger.debug("Normalization finish!");
+		logger.debug("Normalization completed and persisted");
 	}
 
 	protected static double maxFcPeople(DBCollection people)
@@ -61,7 +62,11 @@ public class Normalization
 		
 		double follower_count_norm = follower_count/highest_follower_count;
 		double company_count_norm = company_count/highest_company_count;
-		System.out.println(follower_count_norm);
-		System.out.println(company_count_norm);
+		
+		//System.out.println(String.format("%.4f", follower_count_norm));
+		//System.out.println(String.format("%.4f", company_count_norm));
+		
+		dbObject.put(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString(), Double.valueOf(String.format("%.4f", follower_count_norm)));
+		dbObject.put(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel().toString(), Double.valueOf(String.format("%.4f", company_count_norm)));
 	}
 }
