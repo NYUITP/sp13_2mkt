@@ -190,7 +190,6 @@ public class AngelCrunch
 		JSONObject startupRole = null;
 		try {
 			startupRole = new JSONObject(start_up_role);
-//			System.out.println(startupRole);
 			JSONArray st_arr = startupRole.getJSONArray(InvestorEnum.STARTUP_ROLES.getLabel().toString());
 
 			for (int index = 0; index<st_arr.length(); ++index){
@@ -413,7 +412,6 @@ public class AngelCrunch
 		} catch (JSONException e) {
 			//e.printStackTrace();
 		}
-//		System.out.println(round_funding);
 		return round_funding;
 	}
 }

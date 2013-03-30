@@ -1,4 +1,4 @@
-package com.secondmarket.service;
+package com.secondmarket.common;
 
 import java.net.UnknownHostException;
 

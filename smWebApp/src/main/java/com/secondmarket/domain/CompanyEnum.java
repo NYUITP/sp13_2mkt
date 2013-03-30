@@ -2,7 +2,7 @@ package com.secondmarket.domain;
 
 public enum CompanyEnum {
 	ID("id"),
-    NAME("name"),
+	NAME("name"),
 	FOLLOWER_COUNT("follower_count"),
 	TOTAL_FUNDING("total_funding"),
 	ANGLELIST_URL("angellist_url"),

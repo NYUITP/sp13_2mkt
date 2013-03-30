@@ -18,8 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.mongodb.DBCollection;
-import com.secondmarket.service.CommonStrings;
-import com.secondmarket.service.MongoDBFactory;
+import com.secondmarket.common.CommonStrings;
+import com.secondmarket.common.MongoDBFactory;
 
 public class Run 
 {
@@ -41,8 +41,8 @@ public class Run
 		
 		InitialInvestorObj.initialize(investorColl, id_list, investor, invest);
 		InitialCompanyObj.initialize(companyColl, funding, round, id_list);
-		System.out.println(funding);
-		System.out.println(round);
+		logger.debug(funding);
+		logger.debug(round);
 	}
 }
 

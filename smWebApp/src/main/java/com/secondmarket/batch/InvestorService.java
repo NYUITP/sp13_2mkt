@@ -11,10 +11,10 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.secondmarket.common.CommonStrings;
+import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Investor;
 import com.secondmarket.domain.InvestorEnum;
-import com.secondmarket.service.CommonStrings;
-import com.secondmarket.service.MongoDBFactory;
 
 @Service("investorService")
 @Transactional

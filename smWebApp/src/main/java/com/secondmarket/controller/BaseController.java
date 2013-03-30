@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.secondmarket.batch.CompanyService;
 import com.secondmarket.batch.InvestorService;
+import com.secondmarket.batch.RankInvestor;
 import com.secondmarket.domain.Company;
 import com.secondmarket.domain.Investor;
 
@@ -26,6 +27,8 @@ public class BaseController
 	private InvestorService investorService;
 	@Resource(name="companyService")
 	private CompanyService companyService;
+	@Resource(name="rankingService")
+	private RankInvestor rankedInvestor;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) 
@@ -61,7 +64,7 @@ public class BaseController
 	{
 		logger.debug("Received request to rank investors, value = " + followersImpLevel);
     	// Retrieve all Investor by delegating the call to InvestorService
-    	List<Investor> investors = investorService.getAll();
+    	List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC(followersImpLevel);
     	logger.debug(investors.size());
     	model.addAttribute("investors", investors);
     	return "investorsPage";

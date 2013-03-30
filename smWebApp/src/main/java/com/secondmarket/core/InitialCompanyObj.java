@@ -57,7 +57,7 @@ public class InitialCompanyObj
 					AngelCrunch.crunchCompanyInfo(crunchCompany, key, funding, round);
 
 					// if(!each_company.get("total_funding").equals("$0"))
-					System.out.println(each_company);
+					logger.debug(each_company);
 					/**
 					 * Here each_company is the JSONObject returned for each of
 					 * the company. Zoe, you must push the JSONObject to MongoDB

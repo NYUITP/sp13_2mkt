@@ -1,4 +1,4 @@
-package com.secondmarket.service;
+package com.secondmarket.common;
 
 public enum CommonStrings {
 	DATABASENAME("secondmarket"),

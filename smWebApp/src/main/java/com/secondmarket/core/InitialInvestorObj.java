@@ -75,7 +75,7 @@ public class InitialInvestorObj
 					each_investor.put(InvestorEnum.NAME.getLabel().toString(),investor_name);
 					each_investor.put(InvestorEnum.BIO.getLabel().toString(), investor_bio);
 					each_investor.put(InvestorEnum.FOLLOWER_COUNT.getLabel().toString(), investor_follower_count);
-					System.out.println(each_investor);
+					logger.debug(each_investor);
 					
 					/**
 					 * Noted that for this stage of the project, we need only the

@@ -3,11 +3,11 @@ package com.secondmarket.domain;
 import java.io.Serializable;
 import java.util.List;
 
-public class Investor implements Serializable {
+public class Investor implements Serializable{
 	
 private static final long serialVersionUID = -5527566248012296042L;
 	
-	private Integer _id;
+	private Integer id;
 	private String name;
 	private String bio;
 	private Integer follower_count;
@@ -15,10 +15,10 @@ private static final long serialVersionUID = -5527566248012296042L;
 	private List<Integer> company_id;
 	
 	public Integer getId() {
-		return _id;
+		return id;
 	}
 	public void setId(Integer id) {
-		this._id = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -50,5 +50,31 @@ private static final long serialVersionUID = -5527566248012296042L;
 	public void setCompany_id(List<Integer> company_id) {
 		this.company_id = company_id;
 	}
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Investor guest = (Investor) obj;
+        return this.id == guest.getId()
+               && (this.name == guest.getName() || (this.name != null && this.name.equals(guest.getName())));
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + this.id;      
+        return result;
+    }
+
+	
 
 }
