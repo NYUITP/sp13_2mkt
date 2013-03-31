@@ -7,16 +7,15 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
+import com.google.code.morphia.Datastore;
+import com.secondmarket.domain.Company;
 import com.secondmarket.domain.CompanyEnum;
 
 public class InitialCompanyObj 
 {
 	protected static Logger logger = Logger.getLogger("core"); 
 	
-	public static boolean initialize(DBCollection coll,
+	public static boolean initialize(Datastore ds,
 			HashMap<String, String> funding, 
 			HashMap<String, ArrayList<HashMap<Object, Object>>>round, 
 			HashMap<String, String> id_list) throws JSONException
@@ -64,8 +63,8 @@ public class InitialCompanyObj
 					 * from HERE!!!!! This is really important! I have discarded
 					 * all companies with $0 total funding amount and null fields!
 					 */
-					DBObject dbObject = (DBObject)JSON.parse(each_company.toString());
-					coll.insert(dbObject);
+					Company comp = new Company(each_company);
+					ds.save(comp);
 				}
 			} else
 				continue;

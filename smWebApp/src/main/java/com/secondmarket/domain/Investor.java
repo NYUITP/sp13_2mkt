@@ -1,19 +1,43 @@
 package com.secondmarket.domain;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Investor implements Serializable{
-	
-private static final long serialVersionUID = -5527566248012296042L;
-	
-	private Integer id;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
+
+@Entity
+public class Investor
+{	
+	@Id private Integer id;
 	private String name;
 	private String bio;
 	private Integer follower_count;
 	private Integer company_count;
-	private List<Integer> company_id;
+	private List<Integer> company_id  = new ArrayList<Integer>();
 	
+	public Investor(){}
+	
+	public Investor(JSONObject js) throws JSONException
+	{
+		id = js.getInt(InvestorEnum.ID.getLabel().toString());
+		name = js.getString(InvestorEnum.NAME.getLabel().toString());
+		bio = js.getString(InvestorEnum.BIO.getLabel().toString());
+		follower_count = js.getInt(InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
+		company_count = js.getInt(InvestorEnum.COMPANY_COUNT.getLabel().toString());
+
+		JSONArray startups = js.getJSONArray(InvestorEnum.STARTUP_INVESTED.getLabel().toString());
+		for(int i = 0; i<startups.length(); i++)
+		{
+			JSONObject startup = startups.getJSONObject(i);
+			company_id.add(startup.getInt(CompanyEnum.ID.getLabel().toString()));
+		}
+	}
+		
 	public Integer getId() {
 		return id;
 	}
@@ -74,7 +98,4 @@ private static final long serialVersionUID = -5527566248012296042L;
         result = prime * result + this.id;      
         return result;
     }
-
-	
-
 }

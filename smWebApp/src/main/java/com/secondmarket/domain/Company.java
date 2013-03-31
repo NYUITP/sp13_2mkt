@@ -1,24 +1,48 @@
 package com.secondmarket.domain;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Company implements Serializable{
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-private static final long serialVersionUID = -5527566248012296042L;
-	
-	private Integer id;
+import com.google.code.morphia.annotations.Embedded;
+import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
+
+@Entity
+public class Company{
+
+	@Id private Integer id;
 	private String name;
 	private Integer follower_count;
-	private Double total_funding;
+	private String total_funding;
 	private String angellist_url;
 	private Integer quality;
 	private String product_desc;
-	private List<String> markets;
-	private List<String> locations;
-	private Fund fund_info;
-	private List<Investor> investor;
+	private List<String> markets = new ArrayList<String>();
+	private List<String> locations = new ArrayList<String>();
+	private List<Investor> investor = new ArrayList<Investor>();
+	@Embedded
+	private List<Fund> fund_info = new ArrayList<Fund>();	
 	
+	public Company(){} 
+	
+	public Company(JSONObject js) throws JSONException
+	{
+		id = js.getInt(CompanyEnum.ID.getLabel().toString());
+		name = js.getString(CompanyEnum.NAME.getLabel().toString());
+		total_funding = js.getString(CompanyEnum.TOTAL_FUNDING.getLabel().toString());
+
+		JSONArray fund = js.getJSONArray(CompanyEnum.FUNDING_ROUNDS.getLabel().toString());
+		for(int i = 0; i<fund.length(); i++)
+		{
+			Fund fund_i = new Fund(fund.getJSONObject(i));
+			fund_info.add(fund_i);
+		}
+	}
+		
 	public Integer getId() {
 		return id;
 	}
@@ -37,10 +61,10 @@ private static final long serialVersionUID = -5527566248012296042L;
 	public void setFollower_count(Integer follower_count) {
 		this.follower_count = follower_count;
 	}
-	public Double getTotal_funding() {
+	public String getTotal_funding() {
 		return total_funding;
 	}
-	public void setTotal_funding(Double total_funding) {
+	public void setTotal_funding(String total_funding) {
 		this.total_funding = total_funding;
 	}
 	public String getAngellist_url() {
@@ -73,16 +97,16 @@ private static final long serialVersionUID = -5527566248012296042L;
 	public void setLocations(List<String> locations) {
 		this.locations = locations;
 	}
-	public Fund getFund_info() {
-		return fund_info;
-	}
-	public void setFund_info(Fund fund_info) {
-		this.fund_info = fund_info;
-	}
 	public List<Investor> getInvestor() {
 		return investor;
 	}
 	public void setInvestor(List<Investor> investor) {
 		this.investor = investor;
+	}
+	public List<Fund> getFund_info() {
+		return fund_info;
+	}
+	public void setFund_info(List<Fund> fund_info) {
+		this.fund_info = fund_info;
 	}
 }

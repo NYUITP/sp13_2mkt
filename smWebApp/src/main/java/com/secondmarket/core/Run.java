@@ -17,8 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mongodb.DBCollection;
-import com.secondmarket.common.CommonStrings;
+import com.google.code.morphia.Datastore;
 import com.secondmarket.common.MongoDBFactory;
 
 public class Run 
@@ -27,9 +26,8 @@ public class Run
 
 	public static void main(String args[]) throws IOException, JSONException
 	{
-		logger.debug("Start getting collections from MongoDB");
-		DBCollection companyColl = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve collection
-		DBCollection investorColl = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString());// Retrieve collection
+		logger.debug("Intializing Data store");
+		Datastore ds = MongoDBFactory.getDataStore();
 		
 		//Use HashMap to rule out identical companies.
 		HashMap<String, String> id_list = new HashMap<String, String>();	
@@ -39,8 +37,8 @@ public class Run
 		HashMap<String, String> funding = new HashMap<String, String>();
 		HashMap<String, ArrayList<HashMap<Object, Object>>> round = new HashMap<String, ArrayList<HashMap<Object, Object>>>();
 		
-		InitialInvestorObj.initialize(investorColl, id_list, investor, invest);
-		InitialCompanyObj.initialize(companyColl, funding, round, id_list);
+		InitialInvestorObj.initialize(ds, id_list, investor, invest);
+		InitialCompanyObj.initialize(ds, funding, round, id_list);
 		logger.debug(funding);
 		logger.debug(round);
 	}

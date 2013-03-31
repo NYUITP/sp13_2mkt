@@ -10,18 +10,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
+import com.google.code.morphia.Datastore;
 import com.secondmarket.domain.CompanyEnum;
+import com.secondmarket.domain.Investor;
 import com.secondmarket.domain.InvestorEnum;
 
 public class InitialInvestorObj 
 {
 	protected static Logger logger = Logger.getLogger("core"); 
 	
-	public static boolean initialize(DBCollection coll, 
-			HashMap<String, String> id_list, JSONObject Investor,
+	public static boolean initialize(Datastore ds, 
+			HashMap<String, String> id_list, JSONObject Investors,
 			JSONArray invest) throws IOException, JSONException
 	{
 		// Read in the InvestorList.txt file
@@ -84,9 +83,9 @@ public class InitialInvestorObj
 					 */
 					//This is for future reference. A giant JSONObject that contains all the investors.
 					invest.put(each_investor);
-					Investor.put(InvestorEnum.INVESTOR_INFO.getLabel().toString(), invest);
-					DBObject dbObject = (DBObject)JSON.parse(each_investor.toString());
-					coll.insert(dbObject);
+					Investors.put(InvestorEnum.INVESTOR_INFO.getLabel().toString(), invest);
+					Investor user = new Investor(each_investor);
+					ds.save(user);
 				}
 		}
 		buff.close();

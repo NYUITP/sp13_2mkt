@@ -34,7 +34,7 @@ public class Normalization
 
 	protected static double maxFcPeople(DBCollection people)
 	{
-		DBCursor cur = people.find().sort( new BasicDBObject( "follower_count" , -1 ));
+		DBCursor cur = people.find().sort( new BasicDBObject( InvestorEnum.FOLLOWER_COUNT.getLabel().toString() , -1 ));
 		DBObject dbObject = cur.next();
 		double highest_follower_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString());
 		return highest_follower_count;
@@ -42,7 +42,7 @@ public class Normalization
 
 	protected static double maxCompInv(DBCollection people)
 	{
-		DBCursor cur = people.find().sort( new BasicDBObject( "company_count" , -1 ));
+		DBCursor cur = people.find().sort( new BasicDBObject( InvestorEnum.COMPANY_COUNT.getLabel().toString() , -1 ));
 		DBObject dbObject = cur.next();
 		double highest_company_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString());
 		return highest_company_count;

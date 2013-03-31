@@ -1,16 +1,28 @@
 package com.secondmarket.domain;
 
-import java.io.Serializable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class Fund implements Serializable{
+import com.google.code.morphia.annotations.Embedded;
 
-	private static final long serialVersionUID = -5527566248012296042L;
-	
+@Embedded
+public class Fund
+{
 	private String round;
 	private Double amount;
 	private Integer funded_year;
 	private Integer funded_month;
 	private Integer funded_day;
+	
+	public Fund(JSONObject js) throws JSONException
+	{
+		round = js.getString(FundEnum.ROUND_CODE.getLabel().toString());
+		amount = js.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+		funded_year = js.getInt(FundEnum.YEAR.getLabel().toString());
+		funded_month = js.getInt(FundEnum.MONTH.getLabel().toString());
+		funded_day = js.getInt(FundEnum.DAY.getLabel().toString());
+	}
+	
 	public String getRound() {
 		return round;
 	}
@@ -40,7 +52,5 @@ public class Fund implements Serializable{
 	}
 	public void setFunded_day(Integer funded_day) {
 		this.funded_day = funded_day;
-	}
-	
-	
+	}	
 }

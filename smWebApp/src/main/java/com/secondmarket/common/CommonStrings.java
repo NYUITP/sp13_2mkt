@@ -2,7 +2,7 @@ package com.secondmarket.common;
 
 public enum CommonStrings {
 	DATABASENAME("secondmarket"),
-	PEOPLE_COLL("People"),
+	PEOPLE_COLL("Investor"),
 	COMPANY_COLL("Company");
 	
     private String label;

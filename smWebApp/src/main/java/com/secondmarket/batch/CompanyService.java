@@ -38,7 +38,7 @@ public class CompanyService
         	company.setId(Integer.valueOf(dbObject.get(CompanyEnum.ID.getLabel()).toString()));
         	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
         	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
-        	company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
+        	company.setTotal_funding(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString());
         	company.setProduct_desc(dbObject.get(CompanyEnum.PRODUCT_DESC.getLabel()).toString());
         	items.add(company); // Add to new list
         }
@@ -57,7 +57,7 @@ public class CompanyService
         company.setId(Integer.valueOf(dbObject.get(CompanyEnum.ID.getLabel()).toString()));
     	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
     	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
-    	company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
+    	company.setTotal_funding(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString());
     	company.setProduct_desc(dbObject.get(CompanyEnum.PRODUCT_DESC.getLabel()).toString());
         
 		return company; // Return company
