@@ -12,9 +12,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
+import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Investor;
-import com.secondmarket.domain.InvestorEnum;
 
 @Service("investorService")
 @Transactional
@@ -36,7 +36,7 @@ public class InvestorService
         	DBObject dbObject = cur.next();// Map DBOject to investor
         	
         	Investor investor = new Investor();
-        	investor.setId(Integer.valueOf(dbObject.get(InvestorEnum.ID.getLabel()).toString()));
+        	investor.setId(Integer.valueOf(dbObject.get(InvestorEnum._ID.getLabel()).toString()));
         	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
         	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
         	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
@@ -53,11 +53,11 @@ public class InvestorService
 		logger.debug("Retrieving an existing Investor");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
 		DBObject doc = new BasicDBObject(); // Create a new object
-		doc.put(InvestorEnum.ID.getLabel().toString(), id); // Put id to search
+		doc.put(InvestorEnum._ID.getLabel().toString(), id); // Put id to search
         DBObject dbObject = coll.findOne(doc);    // Find and return the investor with the given id
 
         Investor investor = new Investor();  // Map DBOject to investor
-        investor.setId(Integer.valueOf(dbObject.get(InvestorEnum.ID.getLabel()).toString()));
+        investor.setId(Integer.valueOf(dbObject.get(InvestorEnum._ID.getLabel()).toString()));
     	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
     	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
     	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
@@ -74,7 +74,7 @@ public class InvestorService
 		{			
 			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
 			BasicDBObject doc = new BasicDBObject(); // Create a new object
-	        doc.put(InvestorEnum.ID.getLabel(), investor.getId()); 
+	        doc.put(InvestorEnum._ID.getLabel(), investor.getId()); 
 	        doc.put(InvestorEnum.NAME.getLabel(), investor.getName());
 	        doc.put(InvestorEnum.BIO.getLabel(), investor.getBio());
 	        doc.put(InvestorEnum.FOLLOWER_COUNT.getLabel(), investor.getFollower_count());

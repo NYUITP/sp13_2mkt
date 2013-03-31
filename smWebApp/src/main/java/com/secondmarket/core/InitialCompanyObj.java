@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.code.morphia.Datastore;
+import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.domain.Company;
-import com.secondmarket.domain.CompanyEnum;
 
 public class InitialCompanyObj 
 {

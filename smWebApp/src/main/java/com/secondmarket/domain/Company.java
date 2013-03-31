@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.secondmarket.common.CompanyEnum;
 
 @Entity
 public class Company{

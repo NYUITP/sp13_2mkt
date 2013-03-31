@@ -15,9 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.secondmarket.domain.CompanyEnum;
-import com.secondmarket.domain.FundEnum;
-import com.secondmarket.domain.InvestorEnum;
+import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.FundEnum;
+import com.secondmarket.common.InvestorEnum;
 
 public class AngelCrunch 
 {	

@@ -9,8 +9,8 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
+import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.MongoDBFactory;
-import com.secondmarket.domain.InvestorEnum;
 
 public class Normalization 
 {	

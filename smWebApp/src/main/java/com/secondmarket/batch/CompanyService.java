@@ -12,9 +12,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
+import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Company;
-import com.secondmarket.domain.CompanyEnum;
 
 @Service("companyService")
 @Transactional
@@ -35,7 +35,7 @@ public class CompanyService
         {
         	DBObject dbObject = cur.next(); // Map DBOject to company
         	Company company = new Company();
-        	company.setId(Integer.valueOf(dbObject.get(CompanyEnum.ID.getLabel()).toString()));
+        	company.setId(Integer.valueOf(dbObject.get(CompanyEnum._ID.getLabel()).toString()));
         	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
         	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
         	company.setTotal_funding(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString());
@@ -50,11 +50,11 @@ public class CompanyService
 		logger.debug("Retrieving an existing Company");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve collection
 		DBObject doc = new BasicDBObject(); // Create a new object
-        doc.put(CompanyEnum.ID.getLabel().toString(), id); // Put id to search
+        doc.put(CompanyEnum._ID.getLabel().toString(), id); // Put id to search
         DBObject dbObject = coll.findOne(doc);  // Find and return the Company with the given id
         
         Company company = new Company(); // Map DBOject to Company
-        company.setId(Integer.valueOf(dbObject.get(CompanyEnum.ID.getLabel()).toString()));
+        company.setId(Integer.valueOf(dbObject.get(CompanyEnum._ID.getLabel()).toString()));
     	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
     	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
     	company.setTotal_funding(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString());

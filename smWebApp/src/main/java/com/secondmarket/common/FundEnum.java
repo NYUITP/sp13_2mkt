@@ -1,4 +1,4 @@
-package com.secondmarket.domain;
+package com.secondmarket.common;
 
 public enum FundEnum {
 	ROUND("round"),

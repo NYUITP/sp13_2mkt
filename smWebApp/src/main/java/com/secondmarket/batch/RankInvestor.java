@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.secondmarket.common.FollowersImpScale;
 import com.secondmarket.common.MapUtil;
 import com.secondmarket.domain.Investor;
 

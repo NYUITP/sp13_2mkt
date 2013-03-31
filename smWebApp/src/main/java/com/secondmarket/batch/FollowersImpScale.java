@@ -1,4 +1,4 @@
-package com.secondmarket.common;
+package com.secondmarket.batch;
 
 public enum FollowersImpScale {
 	Not_Important("1"),

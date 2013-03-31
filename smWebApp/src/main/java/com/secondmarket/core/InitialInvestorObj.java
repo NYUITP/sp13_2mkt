@@ -11,9 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.code.morphia.Datastore;
-import com.secondmarket.domain.CompanyEnum;
+import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.domain.Investor;
-import com.secondmarket.domain.InvestorEnum;
 
 public class InitialInvestorObj 
 {
