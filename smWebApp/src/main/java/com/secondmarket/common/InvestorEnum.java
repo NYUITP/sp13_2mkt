@@ -5,6 +5,8 @@ public enum InvestorEnum {
 	_ID("_id"),
     NAME("name"),
     BIO("bio"),
+    INVESTOR_IMAGE("image"),
+    LOCATION("location"),
 	FOLLOWER_COUNT("follower_count"),
 	COMPANY_COUNT("company_count"),
 	COMPANY_IDS("company_id"),

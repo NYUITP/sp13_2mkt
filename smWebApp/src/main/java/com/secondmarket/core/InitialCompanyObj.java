@@ -27,6 +27,9 @@ public class InitialCompanyObj
 			String key = key1.toString();
 			String name = (id_list.get(key1)).toString();
 			String getFromAngel = AngelCrunch.getangelHTML(key);
+			//Print out getFromAngel
+//			System.out.println("getFromAngel");
+//			System.out.println(getFromAngel);
 			JSONObject jobj = AngelCrunch.parseToJSON(getFromAngel);
 			String slug = AngelCrunch.getCrunchSlug(jobj);
 			
@@ -39,6 +42,8 @@ public class InitialCompanyObj
 			{
 				String crunchCompany = null; 
 				crunchCompany = AngelCrunch.getcrunchHTML(slug);
+//				System.out.println("crunchCompany");
+//				System.out.println(crunchCompany);
 				String total_funding = null;
 				total_funding = AngelCrunch.getCrunchTotalFund(crunchCompany);
 				

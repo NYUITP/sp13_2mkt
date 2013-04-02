@@ -24,7 +24,7 @@ public class InitialInvestorObj
 			JSONArray invest) throws IOException, JSONException
 	{
 		// Read in the InvestorList.txt file
-		FileReader file = new FileReader("InvestorList.txt");
+		FileReader file = new FileReader("InvestorList11.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
 		
@@ -40,13 +40,18 @@ public class InitialInvestorObj
 				else 
 				{
 					String investor_info = AngelCrunch.searchAngelInvestor(slug);
+					//Print out the investor_info returned from Angellist.
+					System.out.println(investor_info);
 					String investor_id = AngelCrunch.getfield(investor_info,InvestorEnum.ID.getLabel().toString());
 					String investor_name = AngelCrunch.getfield(investor_info,InvestorEnum.NAME.getLabel().toString());
 					String investor_bio = AngelCrunch.getfield(investor_info,InvestorEnum.BIO.getLabel().toString());
 					String investor_follower_count = AngelCrunch.getfield(investor_info,InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
-			
-					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role		
+					//new fields:
+					String investor_image = AngelCrunch.getfield(investor_info,InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
 					
+					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role
+					//Print out the start_up_role returned from Angellist
+					System.out.println(start_up_role);
 					//Now call hashCompanyList(String start_up_role,HashMap companyList)
 					AngelCrunch.hashCompanyList(start_up_role, id_list);
 					
