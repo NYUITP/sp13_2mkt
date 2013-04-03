@@ -44,9 +44,10 @@ public class RankInvestor
 	private void caculateInvestorsScore(Investor investor) 
 	{
 		int id = investor.getId();
-		double followerCount = investor.getFollower_count();
-		double companyCount = investor.getCompany_count();
+		double followerCount = investor.getFl_norm();
+		double companyCount = investor.getCc_norm();
 		double score = (followerCount*weight_for_follower_count) + (companyCount*weight_for_company_count);
+		score = score*100.0000;
 		investorsScores.put(id, score);
 		investorIdObjectMap.put(id, investor);
 	}

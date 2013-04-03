@@ -21,6 +21,9 @@ public class Investor
 	private Integer follower_count;
 	private Integer company_count;
 	private String image;
+	private double fl_norm;
+	private double cc_norm;
+	
 	private List<Integer> company_id  = new ArrayList<Integer>();
 	
 	public Investor(){}
@@ -78,12 +81,28 @@ public class Investor
 	public void setCompany_id(List<Integer> company_id) {
 		this.company_id = company_id;
 	}
-	public String getImage_url() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage_url(String image) {
+	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public double getFl_norm() {
+		return fl_norm;
+	}
+
+	public void setFl_norm(double fl_norm) {
+		this.fl_norm = fl_norm;
+	}
+
+	public double getCc_norm() {
+		return cc_norm;
+	}
+
+	public void setCc_norm(double cc_norm) {
+		this.cc_norm = cc_norm;
 	}
 
 	@Override
