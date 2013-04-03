@@ -60,11 +60,12 @@ public class BaseController
 	}
 	
 	@RequestMapping(value="/investorRanking", method = RequestMethod.POST)
-	public String getInvestorRanking(@RequestParam("followersImpLevel") String followersImpLevel, ModelMap model) 
+	public String getInvestorRanking(@RequestParam("followersImpLevel") String followersImpLevel, @RequestParam("companyImpLevel") String companyImpLevel, ModelMap model) 
 	{
-		logger.debug("Received request to rank investors, value = " + followersImpLevel);
+		logger.debug("Received request to rank investors, weight on followers, value = " + followersImpLevel);
+		logger.debug("Received request to rank investors, weight on companies invested in, value = " + companyImpLevel);
     	// Retrieve all Investor by delegating the call to InvestorService
-    	List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC(followersImpLevel);
+    	List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC(followersImpLevel, companyImpLevel);
     	logger.debug(investors.size());
     	model.addAttribute("investors", investors);
     	return "investorsPage";

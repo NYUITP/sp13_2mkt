@@ -20,9 +20,9 @@ public class RankInvestor
 	private double weight_for_follower_count = 0.0;
 	private double weight_for_company_count = 0.0;
 	
-	public List<Investor> getSortedInvestorBasedOnFC_CC(String followersImpLevel)
+	public List<Investor> getSortedInvestorBasedOnFC_CC(String followersImpLevel, String companyImpLevel)
 	{
-		calculateWeights(followersImpLevel);
+		calculateWeights(followersImpLevel, companyImpLevel);
 		
 		List<Investor> investors = investorService.getAll();
 		for(Investor investor : investors)
@@ -51,7 +51,7 @@ public class RankInvestor
 		investorIdObjectMap.put(id, investor);
 	}
 
-	private void calculateWeights(String followersImpLevel) 
+	private void calculateWeights(String followersImpLevel, String companyImpLevel) 
 	{
 		weight_for_follower_count = 0.0;
 		if(followersImpLevel.equals(FollowersImpScale.Not_Important.getLabel().toString()))
@@ -74,6 +74,37 @@ public class RankInvestor
 		{
 			weight_for_follower_count = 1.0;
 		}
-		weight_for_company_count = (1.0 - weight_for_follower_count);
+		
+		weight_for_company_count = 0.0;
+		if(followersImpLevel.equals(CompanyImpScale.Not_Important.getLabel().toString()))
+		{
+			weight_for_company_count = 0.0;
+		}
+		else if(followersImpLevel.equals(CompanyImpScale.A_Little_Important.getLabel().toString()))
+		{
+			weight_for_company_count = 0.25;
+		}
+		else if(followersImpLevel.equals(CompanyImpScale.Moderately_Important.getLabel().toString()))
+		{
+			weight_for_company_count = 0.50;
+		}
+		else if(followersImpLevel.equals(CompanyImpScale.Important.getLabel().toString()))
+		{
+			weight_for_company_count = 0.75;
+		}
+		else
+		{
+			weight_for_company_count = 1.0;
+		}
+		
+		/**
+		 * Multi-dimension weights scale
+		 */
+		double x = weight_for_follower_count;
+		double y = weight_for_company_count;
+		double sum = x+y;
+		
+		weight_for_follower_count = x/sum;
+		weight_for_company_count = y/sum;
 	}
 }
