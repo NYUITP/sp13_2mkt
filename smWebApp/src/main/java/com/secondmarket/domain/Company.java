@@ -22,6 +22,11 @@ public class Company{
 	private String angellist_url;
 	private Integer quality;
 	private String product_desc;
+	private String high_concept;
+	private String logo_url;
+	private String company_url;
+	private String twitter_url;
+	private String blog_url;
 	private List<String> markets = new ArrayList<String>();
 	private List<String> locations = new ArrayList<String>();
 	private List<Investor> investor = new ArrayList<Investor>();
@@ -35,7 +40,17 @@ public class Company{
 		id = js.getInt(CompanyEnum.ID.getLabel().toString());
 		name = js.getString(CompanyEnum.NAME.getLabel().toString());
 		total_funding = js.getString(CompanyEnum.TOTAL_FUNDING.getLabel().toString());
-
+		follower_count  = js.getInt(CompanyEnum.FOLLOWER_COUNT.getLabel().toString());
+		quality = js.getInt(CompanyEnum.QUALITY.getLabel().toString());
+		angellist_url = js.getString(CompanyEnum.ANGLELIST_URL.getLabel().toString());
+		product_desc = js.getString(CompanyEnum.PRODUCT_DESC.getLabel().toString());
+		total_funding = js.getString(CompanyEnum.TOTAL_FUNDING.getLabel().toString());
+		high_concept = js.getString(CompanyEnum.HIGH_CONCEPT.getLabel().toString());
+		logo_url = js.getString(CompanyEnum.LOGO_URL.getLabel().toString());
+		company_url = js.getString(CompanyEnum.COMPANY_URL.getLabel().toString());
+		twitter_url = js.getString(CompanyEnum.TWITTER_URL.getLabel().toString());
+		blog_url = js.getString(CompanyEnum.BLOG_URL.getLabel().toString());
+		
 		JSONArray fund = js.getJSONArray(CompanyEnum.FUNDING_ROUNDS.getLabel().toString());
 		for(int i = 0; i<fund.length(); i++)
 		{
@@ -109,5 +124,45 @@ public class Company{
 	}
 	public void setFund_info(List<Fund> fund_info) {
 		this.fund_info = fund_info;
+	}
+
+	public String getHigh_concept() {
+		return high_concept;
+	}
+
+	public void setHigh_concept(String high_concept) {
+		this.high_concept = high_concept;
+	}
+
+	public String getLogo_url() {
+		return logo_url;
+	}
+
+	public void setLogo_url(String logo_url) {
+		this.logo_url = logo_url;
+	}
+
+	public String getCompany_url() {
+		return company_url;
+	}
+
+	public void setCompany_url(String company_url) {
+		this.company_url = company_url;
+	}
+
+	public String getTwitter_url() {
+		return twitter_url;
+	}
+
+	public void setTwitter_url(String twitter_url) {
+		this.twitter_url = twitter_url;
+	}
+
+	public String getBlog_url() {
+		return blog_url;
+	}
+
+	public void setBlog_url(String blog_url) {
+		this.blog_url = blog_url;
 	}
 }

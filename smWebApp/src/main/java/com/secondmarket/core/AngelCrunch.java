@@ -61,51 +61,34 @@ public class AngelCrunch
 	}
 	
 	/***
-	 * Return the follower_count for each of the company
+	 * Return the value for each of the field passed
 	 * @param jobj
 	 * @return
 	 */
-	public static int getFollowerCount(JSONObject jobj){
-		int f_count = 0;
+	public static int getIntCompanyField(JSONObject jobj, CompanyEnum field){
+		int value = 0;
 		try {
-			f_count = jobj.getInt(CompanyEnum.FOLLOWER_COUNT.getLabel().toString());
+			value = jobj.getInt(field.toString());
 			
 		} catch (JSONException e) {
 		//	e.printStackTrace();
 		}
-		return f_count;
+		return value;
 	}
 	
-	/***
-	 * This method returns the quality of the company
-	 * @param jobj
-	 * @return
-	 */
-	public static int getQuality(JSONObject jobj){
-		int q = 0;
+	public static String getStringCompanyField(JSONObject jobj, CompanyEnum field){
+		String value = null;
 		try {
-			q = jobj.getInt(CompanyEnum.QUALITY.getLabel().toString());
+			value = jobj.getString(field.toString());
 			
 		} catch (JSONException e) {
 			//e.printStackTrace();
 		}
-		return q;
-	}
-	
-	/***
-	 * Returns the angellist url for each_company
-	 * @param jobj
-	 * @return
-	 */
-	public static String getAngelListUrl(JSONObject jobj){
-		String url = null;
-		try {
-			url = jobj.getString(CompanyEnum.ANGLELIST_URL.getLabel().toString());
-			
-		} catch (JSONException e) {
-			//e.printStackTrace();
+		if(value == null)
+		{
+			value = "";
 		}
-		return url;
+		return value;
 	}
 	
 	/***
@@ -141,7 +124,7 @@ public class AngelCrunch
 	 * @param field
 	 * @return the desired string according to the field
 	 */
-	public static String getfield(String investor, String field){
+	public static String getInvestorfield(String investor, String field){
 		JSONObject jj = null;
 		String result = "";
 		try {

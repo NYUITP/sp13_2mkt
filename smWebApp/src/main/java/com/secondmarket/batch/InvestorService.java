@@ -41,6 +41,7 @@ public class InvestorService
         	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
         	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
         	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
+        	investor.setImage_url(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
         	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));
         	
         	items.add(investor); // Add to new list
@@ -62,6 +63,7 @@ public class InvestorService
     	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
     	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
     	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
+    	investor.setImage_url(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
     	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));
         
 		return investor;// Return investor

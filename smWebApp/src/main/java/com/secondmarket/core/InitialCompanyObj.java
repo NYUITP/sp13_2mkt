@@ -27,25 +27,25 @@ public class InitialCompanyObj
 			String key = key1.toString();
 			String name = (id_list.get(key1)).toString();
 			String getFromAngel = AngelCrunch.getangelHTML(key);
-			//Print out getFromAngel
-//			System.out.println("getFromAngel");
-//			System.out.println(getFromAngel);
 			JSONObject jobj = AngelCrunch.parseToJSON(getFromAngel);
 			String slug = AngelCrunch.getCrunchSlug(jobj);
 			
 			//Additional fields
-			int follower_count = AngelCrunch.getFollowerCount(jobj);
-			int quality = AngelCrunch.getQuality(jobj);
-			String angellist_url = AngelCrunch.getAngelListUrl(jobj);
+			int follower_count = AngelCrunch.getIntCompanyField(jobj, CompanyEnum.FOLLOWER_COUNT);
+			int quality = AngelCrunch.getIntCompanyField(jobj, CompanyEnum.QUALITY);
+			String prodDesc = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.PRODUCT_DESC);
+			String concept = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.HIGH_CONCEPT);
+			String logo_url = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.LOGO_URL);
+			String company_url = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.COMPANY_URL);
+			String twitter_url = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.TWITTER_URL);
+			String blog_url = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.BLOG_URL);
+			
+			String angellist_url = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.ANGLELIST_URL);
 			
 			if (!slug.isEmpty())
 			{
-				String crunchCompany = null; 
-				crunchCompany = AngelCrunch.getcrunchHTML(slug);
-//				System.out.println("crunchCompany");
-//				System.out.println(crunchCompany);
-				String total_funding = null;
-				total_funding = AngelCrunch.getCrunchTotalFund(crunchCompany);
+				String crunchCompany = AngelCrunch.getcrunchHTML(slug);
+				String total_funding = AngelCrunch.getCrunchTotalFund(crunchCompany);
 				
 				if (!total_funding.equals("$0"))
 				{
@@ -54,6 +54,12 @@ public class InitialCompanyObj
 					each_company.put(CompanyEnum.ANGLELIST_URL.getLabel().toString(),angellist_url);
 					each_company.put(CompanyEnum.ID.getLabel().toString(), key);
 					each_company.put(CompanyEnum.NAME.getLabel().toString(), name);
+					each_company.put(CompanyEnum.PRODUCT_DESC.getLabel().toString(), prodDesc);
+					each_company.put(CompanyEnum.HIGH_CONCEPT.getLabel().toString(), concept);
+					each_company.put(CompanyEnum.LOGO_URL.getLabel().toString(), logo_url);
+					each_company.put(CompanyEnum.COMPANY_URL.getLabel().toString(), company_url);
+					each_company.put(CompanyEnum.TWITTER_URL.getLabel().toString(), twitter_url);
+					each_company.put(CompanyEnum.BLOG_URL.getLabel().toString(), blog_url);
 					
 					// Later: Process the total_funding amount using regular expression and parse it to double.
 					each_company.put(CompanyEnum.TOTAL_FUNDING.getLabel().toString(), total_funding);

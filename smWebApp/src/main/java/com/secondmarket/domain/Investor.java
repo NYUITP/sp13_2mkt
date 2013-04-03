@@ -20,6 +20,7 @@ public class Investor
 	private String bio;
 	private Integer follower_count;
 	private Integer company_count;
+	private String image;
 	private List<Integer> company_id  = new ArrayList<Integer>();
 	
 	public Investor(){}
@@ -31,6 +32,7 @@ public class Investor
 		bio = js.getString(InvestorEnum.BIO.getLabel().toString());
 		follower_count = js.getInt(InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
 		company_count = js.getInt(InvestorEnum.COMPANY_COUNT.getLabel().toString());
+		image = js.getString(InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
 
 		JSONArray startups = js.getJSONArray(InvestorEnum.STARTUP_INVESTED.getLabel().toString());
 		for(int i = 0; i<startups.length(); i++)
@@ -76,7 +78,14 @@ public class Investor
 	public void setCompany_id(List<Integer> company_id) {
 		this.company_id = company_id;
 	}
-	
+	public String getImage_url() {
+		return image;
+	}
+
+	public void setImage_url(String image) {
+		this.image = image;
+	}
+
 	@Override
     public boolean equals(Object obj) {
         if (obj == this) {

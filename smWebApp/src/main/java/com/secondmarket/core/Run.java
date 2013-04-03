@@ -27,7 +27,6 @@ public class Run
 	public static void main(String args[]) throws IOException, JSONException
 	{
 		logger.debug("Intializing Data store");
-		System.out.println("Initializing Data store");
 		Datastore ds = MongoDBFactory.getDataStore();
 		
 		//Use HashMap to rule out identical companies.
@@ -38,14 +37,10 @@ public class Run
 		HashMap<String, String> funding = new HashMap<String, String>();
 		HashMap<String, ArrayList<HashMap<Object, Object>>> round = new HashMap<String, ArrayList<HashMap<Object, Object>>>();
 		
-		System.out.println("Initializing Investor:");
 		InitialInvestorObj.initialize(ds, id_list, investor, invest);
-		System.out.println("Initializing Company");
 		InitialCompanyObj.initialize(ds, funding, round, id_list);
-		System.out.println(funding);
-		System.out.println(round);
-//		logger.debug(funding);
-//		logger.debug(round);
+		logger.debug(funding);
+		logger.debug(round);
 	}
 }
 

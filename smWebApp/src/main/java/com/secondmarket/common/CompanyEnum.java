@@ -13,6 +13,11 @@ public enum CompanyEnum {
 	LOCATIONS("locations"),
 	CRUNCHBASE_URL("crunchbase_url"),
 	FUNDING_ROUNDS("funding_rounds"),
+	HIGH_CONCEPT("high_concept"),
+	LOGO_URL("logo_url"),
+	COMPANY_URL("company_url"),
+	TWITTER_URL("twitter_url"),
+	BLOG_URL("blog_url"),
 	TOTAL_MONEY_RAISED("total_money_raised");
 	
     private String label;
