@@ -121,6 +121,32 @@
 
 			</div>
 
+			<hr class="space" />
+			
+			<div class="side-block">
+				<div>
+					<strong>Filter by Location</strong>
+				</div>
+				<hr class="space" />
+				<ul class="clear-ul">
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;San Francisco</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;New York</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;Boston</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;London</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+				</ul>
+
+				<hr class="space" />
+				<a href="#" class="btn">Update</a>
+
+			</div>
 
 		</div>
 
