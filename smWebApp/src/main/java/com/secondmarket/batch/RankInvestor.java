@@ -53,58 +53,59 @@ public class RankInvestor
 
 	private void calculateWeights(String followersImpLevel, String companyImpLevel) 
 	{
-		weight_for_follower_count = 0.0;
-		if(followersImpLevel.equals(FollowersImpScale.Not_Important.getLabel().toString()))
+		double weight_for_follower = 0.0;
+		double weight_for_company = 0.0;
+		if(followersImpLevel.equals(ImportanceScale.Not_Important.getLabel().toString()))
 		{
-			weight_for_follower_count = 0.0;
+			weight_for_follower = 0.0;
 		}
-		else if(followersImpLevel.equals(FollowersImpScale.A_Little_Important.getLabel().toString()))
+		else if(followersImpLevel.equals(ImportanceScale.A_Little_Important.getLabel().toString()))
 		{
-			weight_for_follower_count = 0.25;
+			weight_for_follower = 0.25;
 		}
-		else if(followersImpLevel.equals(FollowersImpScale.Moderately_Important.getLabel().toString()))
+		else if(followersImpLevel.equals(ImportanceScale.Moderately_Important.getLabel().toString()))
 		{
-			weight_for_follower_count = 0.50;
+			weight_for_follower = 0.50;
 		}
-		else if(followersImpLevel.equals(FollowersImpScale.Important.getLabel().toString()))
+		else if(followersImpLevel.equals(ImportanceScale.Important.getLabel().toString()))
 		{
-			weight_for_follower_count = 0.75;
+			weight_for_follower = 0.75;
 		}
 		else
 		{
-			weight_for_follower_count = 1.0;
+			weight_for_follower = 1.0;
 		}
 		
-		weight_for_company_count = 0.0;
-		if(followersImpLevel.equals(CompanyImpScale.Not_Important.getLabel().toString()))
+		if(companyImpLevel.equals(ImportanceScale.Not_Important.getLabel().toString()))
 		{
-			weight_for_company_count = 0.0;
+			weight_for_company = 0.0;
 		}
-		else if(followersImpLevel.equals(CompanyImpScale.A_Little_Important.getLabel().toString()))
+		else if(companyImpLevel.equals(ImportanceScale.A_Little_Important.getLabel().toString()))
 		{
-			weight_for_company_count = 0.25;
+			weight_for_company = 0.25;
 		}
-		else if(followersImpLevel.equals(CompanyImpScale.Moderately_Important.getLabel().toString()))
+		else if(companyImpLevel.equals(ImportanceScale.Moderately_Important.getLabel().toString()))
 		{
-			weight_for_company_count = 0.50;
+			weight_for_company = 0.50;
 		}
-		else if(followersImpLevel.equals(CompanyImpScale.Important.getLabel().toString()))
+		else if(companyImpLevel.equals(ImportanceScale.Important.getLabel().toString()))
 		{
-			weight_for_company_count = 0.75;
+			weight_for_company = 0.75;
 		}
 		else
 		{
-			weight_for_company_count = 1.0;
+			weight_for_company = 1.0;
 		}
 		
 		/**
 		 * Multi-dimension weights scale
 		 */
-		double x = weight_for_follower_count;
-		double y = weight_for_company_count;
+		double x = weight_for_follower;
+		double y = weight_for_company;
 		double sum = x+y;
 		
 		weight_for_follower_count = x/sum;
 		weight_for_company_count = y/sum;
+		
 	}
 }

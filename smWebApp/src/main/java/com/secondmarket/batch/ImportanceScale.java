@@ -1,6 +1,6 @@
 package com.secondmarket.batch;
 
-public enum CompanyImpScale {
+public enum ImportanceScale {
 	Not_Important("1"),
 	A_Little_Important("2"),
 	Moderately_Important("3"),
@@ -9,7 +9,7 @@ public enum CompanyImpScale {
 	
     private String label;
  
-    private CompanyImpScale(String label) {
+    private ImportanceScale(String label) {
         this.label = label;
     }
  

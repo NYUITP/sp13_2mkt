@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
 
-	function showValue(newValue) {
+	function showValueInvestor(newValue) {
 		if (newValue == 1) {
 			document.getElementById("follower-value").innerHTML = "Not Important";
 			document.getElementById('followersImpLevel').value = 1;
@@ -49,8 +49,6 @@
 
 	}
 </script>
-
-
 <div class="container">
 	<hr class="space" />
 
@@ -67,20 +65,15 @@
 				<hr class="space" />
 
 				<input type="range" min="1" max="5" step="1" value="3"
-					onchange="showValue(this.value)" />
+					onchange="showValueInvestor(this.value)" />
 
 				<!-- <span class="pull-left">Not</span> -->
 				<span id="follower-value" class="slider-value">Moderately Important</span>
-
-				<hr class="space" />
-				<form action="investorRanking" method="post">
-					<input type='hidden' id='followersImpLevel' name='followersImpLevel' value='3'/>
-					<input type="submit" value="Update">
-				</form>
+				
 			</div>
 
 			<hr class="space" />
-			
+
 			<div class="side-block hidden-phone">
 				<div>
 					<strong>Importance of Companies Invested In</strong>
@@ -92,12 +85,40 @@
 
 				<!-- <span class="pull-left">Not</span> -->
 				<span id="company-value" class="slider-value">Moderately Important</span>
-
-				<hr class="space" />
+				
+			</div>
+			
+			
+			<hr class="space" />
 				<form action="investorRanking" method="post">
 					<input type='hidden' id='companyImpLevel' name='companyImpLevel' value='3'/>
+					<input type='hidden' id='followersImpLevel' name='followersImpLevel' value='3'/>
 					<input type="submit" value="Update">
 				</form>
+			
+			<div class="side-block">
+				<div>
+					<strong>Filter by Companies Invested In</strong>
+				</div>
+				<hr class="space" />
+				<ul class="clear-ul">
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+				</ul>
+
+				<hr class="space" />
+				<a href="#" class="btn">Update</a>
+
 			</div>
 
 
