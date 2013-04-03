@@ -27,6 +27,29 @@
 	}
 </script>
 
+<script type="text/javascript">
+
+	function showValueCompany(newValue) {
+		if (newValue == 1) {
+			document.getElementById("company-value").innerHTML = "Not Important";
+			document.getElementById('companyImpLevel').value = 1;
+		} else if (newValue == 2) {
+			document.getElementById("company-value").innerHTML = "A Little Important";
+			document.getElementById('companyImpLevel').value = 2;
+		} else if (newValue == 3) {
+			document.getElementById("company-value").innerHTML = "Moderately Important";
+			document.getElementById('companyImpLevel').value = 3;
+		} else if (newValue == 4) {
+			document.getElementById("company-value").innerHTML = "Important";
+			document.getElementById('companyImpLevel').value = 4;
+		} else if (newValue == 5) {
+			document.getElementById("company-value").innerHTML = "Very Important";
+			document.getElementById('companyImpLevel').value = 5;
+		}
+
+	}
+</script>
+
 
 <div class="container">
 	<hr class="space" />
@@ -57,30 +80,24 @@
 			</div>
 
 			<hr class="space" />
-
-			<div class="side-block">
+			
+			<div class="side-block hidden-phone">
 				<div>
 					<strong>Importance of Companies Invested In</strong>
 				</div>
 				<hr class="space" />
-				<ul class="clear-ul">
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50</input>
-						<a class="small-text pull-right" href="#">only</a></li>
+				<input type="range" min="1" max="5" step="1" value="3"
+					onchange="showValueCompany(this.value)" />
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100</input>
-						<a class="small-text pull-right" href="#">only</a></li>
-
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150</input>
-						<a class="small-text pull-right" href="#">only</a></li>
-
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+</input>
-						<a class="small-text pull-right" href="#">only</a></li>
-				</ul>
+				<!-- <span class="pull-left">Not</span> -->
+				<span id="company-value" class="slider-value">Moderately Important</span>
 
 				<hr class="space" />
-				<a href="#" class="btn">Update</a>
-
+				<form action="investorRanking" method="post">
+					<input type='hidden' id='companyImpLevel' name='companyImpLevel' value='3'/>
+					<input type="submit" value="Update">
+				</form>
 			</div>
 
 
