@@ -20,7 +20,7 @@ public class Company{
 	@Id private Integer id;
 	private String name;
 	private Integer follower_count;
-	private String total_funding;
+	private double total_funding;
 	private String angellist_url;
 	private Integer quality;
 	private String product_desc;
@@ -44,12 +44,12 @@ public class Company{
 	{
 		id = js.getInt(CompanyEnum.ID.getLabel().toString());
 		name = js.getString(CompanyEnum.NAME.getLabel().toString());
-		total_funding = js.getString(CompanyEnum.TOTAL_FUNDING.getLabel().toString());
+		total_funding = js.getDouble(CompanyEnum.TOTAL_FUNDING.getLabel().toString());
 		follower_count  = js.getInt(CompanyEnum.FOLLOWER_COUNT.getLabel().toString());
 		quality = js.getInt(CompanyEnum.QUALITY.getLabel().toString());
 		angellist_url = js.getString(CompanyEnum.ANGLELIST_URL.getLabel().toString());
 		product_desc = js.getString(CompanyEnum.PRODUCT_DESC.getLabel().toString());
-		total_funding = js.getString(CompanyEnum.TOTAL_FUNDING.getLabel().toString());
+		total_funding = js.getDouble(CompanyEnum.TOTAL_FUNDING.getLabel().toString());
 		high_concept = js.getString(CompanyEnum.HIGH_CONCEPT.getLabel().toString());
 		logo_url = js.getString(CompanyEnum.LOGO_URL.getLabel().toString());
 		company_url = js.getString(CompanyEnum.COMPANY_URL.getLabel().toString());
@@ -92,10 +92,10 @@ public class Company{
 	public void setFollower_count(Integer follower_count) {
 		this.follower_count = follower_count;
 	}
-	public String getTotal_funding() {
+	public double getTotal_funding() {
 		return total_funding;
 	}
-	public void setTotal_funding(String total_funding) {
+	public void setTotal_funding(double total_funding) {
 		this.total_funding = total_funding;
 	}
 	public String getAngellist_url() {

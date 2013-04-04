@@ -365,7 +365,6 @@ public class AngelCrunch
 	public static JSONArray getCrunchRoundFunding(String crunchCompany){
 		JSONArray round_funding = new JSONArray();
 		JSONObject company = null;
-		
 		HashMap<String, List<Double>> hm_dollar = new HashMap<String, List<Double>>();
 		try {
 			company = new JSONObject(crunchCompany);
@@ -377,6 +376,7 @@ public class AngelCrunch
 				JSONObject each = st_arr.getJSONObject(index);// each is a JSONObject
 				String round_code = each.getString(FundEnum.ROUND_CODE.getLabel().toString());
 				double raised_amount = each.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+//				total_fund += raised_amount;
 				int funded_year = each.getInt(FundEnum.YEAR.getLabel().toString());
 				int funded_month = each.getInt(FundEnum.MONTH.getLabel().toString());
 				int funded_day = each.getInt(FundEnum.DAY.getLabel().toString());
@@ -418,5 +418,29 @@ public class AngelCrunch
 			//e.printStackTrace();
 		}
 		return round_funding;
+	}
+	
+	public static double getCrunchTotalFunding(String crunchCompany){
+//		JSONArray round_funding = new JSONArray();
+		JSONObject company = null;
+		double total_fund = 0.0;
+		HashMap<String, List<Double>> hm_dollar = new HashMap<String, List<Double>>();
+		try {
+			company = new JSONObject(crunchCompany);
+			JSONArray st_arr = company.getJSONArray(CompanyEnum.FUNDING_ROUNDS.getLabel().toString());
+			
+			for (int index = 0; index<st_arr.length(); ++index){
+				//each round has a JSONObject that contains all stuff
+//				JSONObject each_round = new JSONObject();
+				JSONObject each = st_arr.getJSONObject(index);// each is a JSONObject
+				double raised_amount = each.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+				total_fund += raised_amount;
+			}
+//			id_funding.put(id, funding);
+//			id_round.put(id,al);
+		} catch (JSONException e) {
+			//e.printStackTrace();
+		}
+		return total_fund;
 	}
 }

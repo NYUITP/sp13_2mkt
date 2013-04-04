@@ -38,7 +38,7 @@ public class CompanyService
         	company.setId(Integer.valueOf(dbObject.get(CompanyEnum._ID.getLabel()).toString()));
         	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
         	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
-        	company.setTotal_funding(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString());
+        	company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
         	company.setProduct_desc(dbObject.get(CompanyEnum.PRODUCT_DESC.getLabel()).toString());
         	company.setLogo_url(dbObject.get(CompanyEnum.LOGO_URL.getLabel()).toString());
         	company.setCompany_url(dbObject.get(CompanyEnum.COMPANY_URL.getLabel()).toString());
@@ -61,7 +61,7 @@ public class CompanyService
         company.setId(Integer.valueOf(dbObject.get(CompanyEnum._ID.getLabel()).toString()));
     	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
     	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
-    	company.setTotal_funding(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString());
+    	company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
     	company.setProduct_desc(dbObject.get(CompanyEnum.PRODUCT_DESC.getLabel()).toString());
     	company.setLogo_url(dbObject.get(CompanyEnum.LOGO_URL.getLabel()).toString());
     	company.setCompany_url(dbObject.get(CompanyEnum.COMPANY_URL.getLabel()).toString());
@@ -86,7 +86,7 @@ public class CompanyService
         	company.setId(Integer.valueOf(dbObject.get(CompanyEnum._ID.getLabel()).toString()));
         	company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
         	company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString()));
-        	company.setTotal_funding(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString());
+        	company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
         	company.setProduct_desc(dbObject.get(CompanyEnum.PRODUCT_DESC.getLabel()).toString());
         	company.setLogo_url(dbObject.get(CompanyEnum.LOGO_URL.getLabel()).toString());
         	company.setCompany_url(dbObject.get(CompanyEnum.COMPANY_URL.getLabel()).toString());

@@ -55,6 +55,7 @@ public class InitialCompanyObj
 				
 				if (!total_funding.equals("$0"))
 				{
+					double total_fund = 0.0;
 					each_company.put(CompanyEnum.FOLLOWER_COUNT.getLabel().toString(),follower_count);
 					each_company.put(CompanyEnum.QUALITY.getLabel().toString(),quality);
 					each_company.put(CompanyEnum.ANGLELIST_URL.getLabel().toString(),angellist_url);
@@ -68,8 +69,9 @@ public class InitialCompanyObj
 					each_company.put(CompanyEnum.BLOG_URL.getLabel().toString(), blog_url);
 					each_company.put(LocationEnum.LOCATION.getLabel().toString(), company_locations);
 					// Later: Process the total_funding amount using regular expression and parse it to double.
-					each_company.put(CompanyEnum.TOTAL_FUNDING.getLabel().toString(), total_funding);
 					each_company.put(CompanyEnum.FUNDING_ROUNDS.getLabel().toString(), AngelCrunch.getCrunchRoundFunding(crunchCompany));
+					total_fund = AngelCrunch.getCrunchTotalFunding(crunchCompany);
+					each_company.put(CompanyEnum.TOTAL_FUNDING.getLabel().toString(), total_fund);
 					AngelCrunch.crunchCompanyInfo(crunchCompany, key, funding, round);
 
 					// if(!each_company.get("total_funding").equals("$0"))
