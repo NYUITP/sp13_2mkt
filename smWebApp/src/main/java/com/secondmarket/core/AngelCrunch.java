@@ -136,6 +136,18 @@ public class AngelCrunch
 		return result;
 	}
 	
+	public static JSONArray getInvestorfield_ja(String investor, String field){
+		JSONObject jj = null;
+		JSONArray result = null;
+		try {
+			jj = new JSONObject(investor);
+			result = jj.getJSONArray(field);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	/***
 	 * Use investor_id to get their startup roles
 	 * @param investor_id

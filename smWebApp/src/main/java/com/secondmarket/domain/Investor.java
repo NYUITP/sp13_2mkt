@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.secondmarket.common.CompanyEnum;
@@ -25,7 +26,8 @@ public class Investor
 	private double cc_norm;
 	
 	private List<Integer> company_id  = new ArrayList<Integer>();
-	
+	@Embedded
+	private List<Location> locations = new ArrayList<Location>();
 	public Investor(){}
 	
 	public Investor(JSONObject js) throws JSONException
@@ -36,7 +38,16 @@ public class Investor
 		follower_count = js.getInt(InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
 		company_count = js.getInt(InvestorEnum.COMPANY_COUNT.getLabel().toString());
 		image = js.getString(InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
-
+		JSONArray investor_locations = null;
+		if( js.has(InvestorEnum.LOCATION.getLabel().toString())){
+			investor_locations = js.getJSONArray(InvestorEnum.LOCATION.getLabel().toString());
+			for(int j = 0; j<investor_locations.length();j++){
+				JSONObject each_location = investor_locations.getJSONObject(j);
+				Location location_i = new Location(each_location);
+				locations.add(location_i);
+			}
+		}
+		
 		JSONArray startups = js.getJSONArray(InvestorEnum.STARTUP_INVESTED.getLabel().toString());
 		for(int i = 0; i<startups.length(); i++)
 		{

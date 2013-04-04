@@ -24,7 +24,7 @@ public class InitialInvestorObj
 			JSONArray invest) throws IOException, JSONException
 	{
 		// Read in the InvestorList.txt file
-		FileReader file = new FileReader("InvestorList.txt");
+		FileReader file = new FileReader("InvestorList11.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
 		
@@ -49,6 +49,13 @@ public class InitialInvestorObj
 					String investor_image = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
 					
 					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role
+					//Location not found, deal with such exceptions.
+					JSONObject invest_info = AngelCrunch.parseToJSON(investor_info);
+					JSONArray investor_locations = null;
+					if(invest_info.has(InvestorEnum.LOCATION.getLabel().toString())){
+						investor_locations = AngelCrunch.getInvestorfield_ja(investor_info,InvestorEnum.LOCATION.getLabel().toString());
+					}
+					
 					//Print out the start_up_role returned from Angellist
 					System.out.println(start_up_role);
 					//Now call hashCompanyList(String start_up_role,HashMap companyList)
@@ -79,6 +86,7 @@ public class InitialInvestorObj
 					each_investor.put(InvestorEnum.BIO.getLabel().toString(), investor_bio);
 					each_investor.put(InvestorEnum.FOLLOWER_COUNT.getLabel().toString(), investor_follower_count);
 					each_investor.put(InvestorEnum.INVESTOR_IMAGE.getLabel().toString(), investor_image);
+					each_investor.put(InvestorEnum.LOCATION.getLabel().toString(), investor_locations);
 					logger.debug(each_investor);
 					
 					/**
