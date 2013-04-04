@@ -83,6 +83,16 @@ public class BaseController
     	return "investorsPage";
 	}
 	
+	@RequestMapping(value="/fundFilter", method = RequestMethod.POST)
+	public String filterCompanyByFund(@RequestParam("fundRange") String fundRange, ModelMap model) 
+	{
+		logger.debug("Received request to filter company, by total funds raised, value = " + fundRange);
+    	// Retrieve all Investor by delegating the call to CompanyService
+    	List<Company> companies = companyService.filterByFunds(fundRange);
+    	model.addAttribute("companies", companies);
+    	return "companyPage";
+	}
+	
 	@RequestMapping(value="/investorsSearch", method = RequestMethod.GET)
 	public String getSearchedInvestors(ModelMap model)
 	{

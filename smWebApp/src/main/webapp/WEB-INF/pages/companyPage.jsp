@@ -49,24 +49,27 @@
 				<hr class="space" />
 				<ul class="clear-ul">
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-500k</input>
+					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="1">&nbsp;0-500k</input>
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;500k-1M</input>
+					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="2">&nbsp;500k-1M</input>
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;1M-5M</input>
+					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="3">&nbsp;1M-5M</input>
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;5M - 100M</input>
+					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="4">&nbsp;5M - 100M</input>
 						<a class="small-text pull-right" href="#">only</a></li>
 						
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;100M+</input>
+					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="5">&nbsp;100M+</input>
 						<a class="small-text pull-right" href="#">only</a></li>	
 				</ul>
 
 				<hr class="space" />
-				<a href="#" class="btn">Update</a>
+				<form action="fundFilter" method="post">
+					<input type='hidden' id='fundRange' name='fundRange' value='3'/>
+					<input type="submit" value="Update">
+				</form>
 
 			</div>
 

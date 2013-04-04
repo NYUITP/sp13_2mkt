@@ -14,6 +14,7 @@ public class Fund
 	private Integer funded_year;
 	private Integer funded_month;
 	private Integer funded_day;
+
 	
 	public Fund(JSONObject js) throws JSONException
 	{
