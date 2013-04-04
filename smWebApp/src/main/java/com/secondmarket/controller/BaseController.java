@@ -42,7 +42,6 @@ public class BaseController
  
 		model.addAttribute("message", "Welcome Home");
 		return "index";
- 
 	}
 	
 	@RequestMapping(value="/companies", method = RequestMethod.GET)
@@ -93,17 +92,10 @@ public class BaseController
     	return "companyPage";
 	}
 	
-	@RequestMapping(value="/investorsSearch", method = RequestMethod.GET)
-	public String getSearchedInvestors(ModelMap model)
-	{
-		logger.debug("Received request to show investors");
-    	return "investorSearch";
-	}
-	
-	@RequestMapping(value="/investorSearchResults", method = RequestMethod.GET)
-	public String getInvestorResults(ModelMap model) {
+	@RequestMapping(value="/investorProfile", method = RequestMethod.GET)
+	public String getInvestorProfile(ModelMap model) {
  
-		logger.debug("Received request to show investors");
+		logger.debug("Received request to show investors detailed profile");
 		model.addAttribute("investorsResults", "Results");
     	return "investorSearch";
 	}
