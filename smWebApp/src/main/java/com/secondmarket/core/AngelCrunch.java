@@ -91,6 +91,16 @@ public class AngelCrunch
 		return value;
 	}
 	
+	public static JSONArray getArrayCompanyField(JSONObject jobj, String field){
+		JSONArray result = null;
+		try {
+			result = jobj.getJSONArray(field);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	/***
 	 * 
 	 * @param slug is the url slug of the investor

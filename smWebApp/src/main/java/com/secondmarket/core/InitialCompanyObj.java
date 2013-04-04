@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.code.morphia.Datastore;
 import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.domain.Company;
 
 public class InitialCompanyObj 
@@ -41,6 +43,10 @@ public class InitialCompanyObj
 			String blog_url = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.BLOG_URL);
 			
 			String angellist_url = AngelCrunch.getStringCompanyField(jobj, CompanyEnum.ANGLELIST_URL);
+			JSONArray company_locations = null;
+			if(jobj.has(InvestorEnum.LOCATION.getLabel().toString())){
+				company_locations = AngelCrunch.getArrayCompanyField(jobj,InvestorEnum.LOCATION.getLabel().toString());
+			}
 			
 			if (!slug.isEmpty())
 			{
@@ -60,7 +66,7 @@ public class InitialCompanyObj
 					each_company.put(CompanyEnum.COMPANY_URL.getLabel().toString(), company_url);
 					each_company.put(CompanyEnum.TWITTER_URL.getLabel().toString(), twitter_url);
 					each_company.put(CompanyEnum.BLOG_URL.getLabel().toString(), blog_url);
-					
+					each_company.put(InvestorEnum.LOCATION.getLabel().toString(), company_locations);
 					// Later: Process the total_funding amount using regular expression and parse it to double.
 					each_company.put(CompanyEnum.TOTAL_FUNDING.getLabel().toString(), total_funding);
 					each_company.put(CompanyEnum.FUNDING_ROUNDS.getLabel().toString(), AngelCrunch.getCrunchRoundFunding(crunchCompany));

@@ -11,6 +11,7 @@ import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.InvestorEnum;
 
 @Entity
 public class Company{
@@ -28,10 +29,13 @@ public class Company{
 	private String twitter_url;
 	private String blog_url;
 	private List<String> markets = new ArrayList<String>();
-	private List<String> locations = new ArrayList<String>();
+//	private List<String> locations = new ArrayList<String>();
 	private List<Investor> investor = new ArrayList<Investor>();
 	@Embedded
 	private List<Fund> fund_info = new ArrayList<Fund>();	
+	
+	@Embedded
+	private List<Location> locations = new ArrayList<Location>();
 	
 	public Company(){} 
 	
@@ -56,6 +60,16 @@ public class Company{
 		{
 			Fund fund_i = new Fund(fund.getJSONObject(i));
 			fund_info.add(fund_i);
+		}
+		
+		JSONArray investor_locations = null;
+		if( js.has(InvestorEnum.LOCATION.getLabel().toString())){
+			investor_locations = js.getJSONArray(InvestorEnum.LOCATION.getLabel().toString());
+			for(int j = 0; j<investor_locations.length();j++){
+				JSONObject each_location = investor_locations.getJSONObject(j);
+				Location location_i = new Location(each_location);
+				locations.add(location_i);
+			}
 		}
 	}
 		
@@ -107,15 +121,23 @@ public class Company{
 	public void setMarkets(List<String> markets) {
 		this.markets = markets;
 	}
-	public List<String> getLocations() {
-		return locations;
-	}
-	public void setLocations(List<String> locations) {
-		this.locations = locations;
-	}
+//	public List<String> getLocations() {
+//		return locations;
+//	}
+//	public void setLocations(List<String> locations) {
+//		this.locations = locations;
+//	}
 	public List<Investor> getInvestor() {
 		return investor;
 	}
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+
 	public void setInvestor(List<Investor> investor) {
 		this.investor = investor;
 	}
