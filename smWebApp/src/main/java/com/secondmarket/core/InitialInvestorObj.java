@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import com.google.code.morphia.Datastore;
 import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.common.InvestorEnum;
+import com.secondmarket.common.LocationEnum;
 import com.secondmarket.domain.Investor;
 
 public class InitialInvestorObj 
@@ -52,8 +53,8 @@ public class InitialInvestorObj
 					//Location not found, deal with such exceptions.
 					JSONObject invest_info = AngelCrunch.parseToJSON(investor_info);
 					JSONArray investor_locations = null;
-					if(invest_info.has(InvestorEnum.LOCATION.getLabel().toString())){
-						investor_locations = AngelCrunch.getInvestorfield_ja(investor_info,InvestorEnum.LOCATION.getLabel().toString());
+					if(invest_info.has(LocationEnum.LOCATION.getLabel().toString())){
+						investor_locations = AngelCrunch.getInvestorfield_ja(investor_info,LocationEnum.LOCATION.getLabel().toString());
 					}
 					
 					//Print out the start_up_role returned from Angellist
@@ -86,7 +87,7 @@ public class InitialInvestorObj
 					each_investor.put(InvestorEnum.BIO.getLabel().toString(), investor_bio);
 					each_investor.put(InvestorEnum.FOLLOWER_COUNT.getLabel().toString(), investor_follower_count);
 					each_investor.put(InvestorEnum.INVESTOR_IMAGE.getLabel().toString(), investor_image);
-					each_investor.put(InvestorEnum.LOCATION.getLabel().toString(), investor_locations);
+					each_investor.put(LocationEnum.LOCATION.getLabel().toString(), investor_locations);
 					logger.debug(each_investor);
 					
 					/**

@@ -12,6 +12,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.common.InvestorEnum;
+import com.secondmarket.common.LocationEnum;
 
 @Entity
 public class Company{
@@ -63,8 +64,8 @@ public class Company{
 		}
 		
 		JSONArray investor_locations = null;
-		if( js.has(InvestorEnum.LOCATION.getLabel().toString())){
-			investor_locations = js.getJSONArray(InvestorEnum.LOCATION.getLabel().toString());
+		if( js.has(LocationEnum.LOCATION.getLabel().toString())){
+			investor_locations = js.getJSONArray(LocationEnum.LOCATION.getLabel().toString());
 			for(int j = 0; j<investor_locations.length();j++){
 				JSONObject each_location = investor_locations.getJSONObject(j);
 				Location location_i = new Location(each_location);
