@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import com.google.code.morphia.annotations.Embedded;
 //import com.secondmarket.common.FundEnum;
 import com.secondmarket.common.InvestorEnum;
+import com.secondmarket.common.LocationEnum;
 
 @Embedded
 public class Location {
@@ -14,9 +15,9 @@ public class Location {
 	public String location_angellist_url;
 	
 	public Location(JSONObject js) throws JSONException{
-		location_id = js.getInt(InvestorEnum.LOCATION_ID.getLabel().toString());
-		location_name = js.getString(InvestorEnum.LOCATION_NAME.getLabel().toString());
-		location_angellist_url = js.getString(InvestorEnum.LOCATION_ANGELLIST_URL.getLabel().toString());
+		location_id = js.getInt(LocationEnum.LOCATION_ID.getLabel().toString());
+		location_name = js.getString(LocationEnum.LOCATION_NAME.getLabel().toString());
+		location_angellist_url = js.getString(LocationEnum.LOCATION_ANGELLIST_URL.getLabel().toString());
 		
 	}
 
