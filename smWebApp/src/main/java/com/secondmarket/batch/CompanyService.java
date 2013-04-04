@@ -98,6 +98,7 @@ public class CompanyService
         	
         	//if(company.getTotal_funding())
         	
+        	
         	items.add(company); // Add to new list
         }
 		return items;  // Return list
