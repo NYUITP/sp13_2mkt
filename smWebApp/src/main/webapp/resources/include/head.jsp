@@ -22,5 +22,5 @@
 
 </head>
 
-<body>
+<body onload="load()">
 

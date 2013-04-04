@@ -37,6 +37,14 @@ public class BaseController
 		return "index"; //Spring uses InternalResourceViewResolver and return back index.jsp
 	}
 	
+	@RequestMapping(value="/home", method = RequestMethod.GET)
+	public String welcomeHome(ModelMap model) {
+ 
+		model.addAttribute("message", "Welcome Home");
+		return "index";
+ 
+	}
+	
 	@RequestMapping(value="/companies", method = RequestMethod.GET)
 	public String getCompanies(ModelMap model) 
 	{
@@ -56,6 +64,8 @@ public class BaseController
     	List<Investor> investors = investorService.getAll();
     	logger.debug(investors.size());
     	model.addAttribute("investors", investors);
+    	model.addAttribute("followerLevel", "3");
+    	model.addAttribute("companyLevel", "3");
     	return "investorsPage";
 	}
 	
@@ -68,6 +78,8 @@ public class BaseController
     	List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC(followersImpLevel, companyImpLevel);
     	logger.debug(investors.size());
     	model.addAttribute("investors", investors);
+    	model.addAttribute("followerLevel", followersImpLevel);
+    	model.addAttribute("companyLevel", companyImpLevel);
     	return "investorsPage";
 	}
 	

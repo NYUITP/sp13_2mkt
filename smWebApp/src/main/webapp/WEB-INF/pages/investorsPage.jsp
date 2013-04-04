@@ -6,6 +6,10 @@
 
 <script type="text/javascript">
 
+	function load() {
+		showValueInvestor(document.getElementById("followerRange").value);
+		showValueCompany(document.getElementById("companyRange").value);
+	}
 	function showValueInvestor(newValue) {
 		if (newValue == 1) {
 			document.getElementById("follower-value").innerHTML = "Not Important";
@@ -25,9 +29,6 @@
 		}
 
 	}
-</script>
-
-<script type="text/javascript">
 
 	function showValueCompany(newValue) {
 		if (newValue == 1) {
@@ -64,10 +65,9 @@
 				</div>
 				<hr class="space" />
 
-				<input type="range" min="1" max="5" step="1" value="3"
+				<input id="followerRange" type="range" min="1" max="5" step="1" value="${followerLevel}"
 					onchange="showValueInvestor(this.value)" />
 
-				<!-- <span class="pull-left">Not</span> -->
 				<span id="follower-value" class="slider-value">Moderately Important</span>
 				
 			</div>
@@ -80,10 +80,9 @@
 				</div>
 				<hr class="space" />
 
-				<input type="range" min="1" max="5" step="1" value="3"
+				<input id="companyRange" type="range" min="1" max="5" step="1" value="${companyLevel}"
 					onchange="showValueCompany(this.value)" />
 
-				<!-- <span class="pull-left">Not</span> -->
 				<span id="company-value" class="slider-value">Moderately Important</span>
 				
 			</div>
