@@ -48,6 +48,11 @@ public class InitialInvestorObj
 					String investor_bio = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.BIO.getLabel().toString());
 					String investor_follower_count = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
 					String investor_image = AngelCrunch.getInvestorfieldUrl(investor_info,InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
+					String linkedin_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.LINKEDIN_URL.getLabel().toString());
+					String angellist_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.ANGLELIST_URL.getLabel().toString());
+					String blog_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.BLOG_URL.getLabel().toString());
+					String twitter_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.TWITTER_URL.getLabel().toString());
+					String facebook_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.FB_URL.getLabel().toString());
 					
 					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role
 					//Location not found, deal with such exceptions.
@@ -87,7 +92,13 @@ public class InitialInvestorObj
 					each_investor.put(InvestorEnum.BIO.getLabel().toString(), investor_bio);
 					each_investor.put(InvestorEnum.FOLLOWER_COUNT.getLabel().toString(), investor_follower_count);
 					each_investor.put(InvestorEnum.INVESTOR_IMAGE.getLabel().toString(), investor_image);
+					each_investor.put(InvestorEnum.ANGLELIST_URL.getLabel().toString(), angellist_url);
+					each_investor.put(InvestorEnum.BLOG_URL.getLabel().toString(), blog_url);
+					each_investor.put(InvestorEnum.TWITTER_URL.getLabel().toString(), twitter_url);
+					each_investor.put(InvestorEnum.FB_URL.getLabel().toString(), facebook_url);
+					each_investor.put(InvestorEnum.LINKEDIN_URL.getLabel().toString(), linkedin_url);
 					each_investor.put(LocationEnum.LOCATION.getLabel().toString(), investor_locations);
+					
 					logger.debug(each_investor);
 					
 					/**

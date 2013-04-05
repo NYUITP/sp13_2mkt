@@ -25,6 +25,11 @@ public class Investor
 	private String image;
 	private double fl_norm;
 	private double cc_norm;
+	private String angellist_url;
+	private String blog_url;
+	private String twitter_url;
+	private String facebook_url;
+	private String linkedin_url;
 	
 	private List<Integer> company_id  = new ArrayList<Integer>();
 	@Embedded
@@ -39,6 +44,12 @@ public class Investor
 		follower_count = js.getInt(InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
 		company_count = js.getInt(InvestorEnum.COMPANY_COUNT.getLabel().toString());
 		image = js.getString(InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
+		angellist_url = js.getString(InvestorEnum.ANGLELIST_URL.getLabel().toString());
+		blog_url = js.getString(InvestorEnum.BLOG_URL.getLabel().toString());
+		twitter_url = js.getString(InvestorEnum.TWITTER_URL.getLabel().toString());
+		facebook_url = js.getString(InvestorEnum.FB_URL.getLabel().toString());
+		linkedin_url = js.getString(InvestorEnum.LINKEDIN_URL.getLabel().toString());
+		
 		JSONArray investor_locations = null;
 		if( js.has(LocationEnum.LOCATION.getLabel().toString())){
 			investor_locations = js.getJSONArray(LocationEnum.LOCATION.getLabel().toString());
@@ -115,6 +126,53 @@ public class Investor
 
 	public void setCc_norm(double cc_norm) {
 		this.cc_norm = cc_norm;
+	}
+	public String getAngellist_url() {
+		return angellist_url;
+	}
+
+	public void setAngellist_url(String angellist_url) {
+		this.angellist_url = angellist_url;
+	}
+
+	public String getBlog_url() {
+		return blog_url;
+	}
+
+	public void setBlog_url(String blog_url) {
+		this.blog_url = blog_url;
+	}
+
+	public String getTwitter_url() {
+		return twitter_url;
+	}
+
+	public void setTwitter_url(String twitter_url) {
+		this.twitter_url = twitter_url;
+	}
+
+	public String getFacebook_url() {
+		return facebook_url;
+	}
+
+	public void setFacebook_url(String facebook_url) {
+		this.facebook_url = facebook_url;
+	}
+
+	public String getLinkedin_url() {
+		return linkedin_url;
+	}
+
+	public void setLinkedin_url(String linkedin_url) {
+		this.linkedin_url = linkedin_url;
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
 	}
 
 	@Override

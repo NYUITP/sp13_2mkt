@@ -119,7 +119,6 @@ public class AngelCrunch
 			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			while ((line = rd.readLine())!=null){
 				result += line;
-//				result += "\n";
 			}
 			rd.close();
 		} catch(Exception e){

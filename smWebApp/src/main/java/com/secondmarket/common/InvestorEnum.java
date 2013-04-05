@@ -14,6 +14,11 @@ public enum InvestorEnum {
 	STARTUP("startup"),
 	INVESTOR_INFO("Investor_information"),
 	NORMALIZED_FOLLOWER_SCORE("fl_norm"),
+	ANGLELIST_URL("angellist_url"),
+	BLOG_URL("blog_url"),
+	TWITTER_URL("twitter_url"),
+	FB_URL("facebook_url"),
+	LINKEDIN_URL("linkedin_url"),
 	NORMALIZED_COMAPNY_SCORE("cc_norm");
 	
     private String label;
