@@ -75,6 +75,36 @@
 
 		</div>
 
+					<hr class="space" />
+			
+			<div class="side-block hidden-phone">
+				<div>
+					<strong>Company Location</strong> <small class="pull-right"><a>Select
+							All</a> | <a href="#">None</a></small>
+				</div>
+				<hr class="space" />
+				<ul class="clear-ul">
+				
+				<form name="form" method="POST" action="locationFilter">
+				
+					<li class="mts"><input type="checkbox" checked="checked" name="location" value="1">&nbsp;San Francisco</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked" name="location" value="2">&nbsp;New York, NY</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked" name="location" value="3">&nbsp;San Jose</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked" name="location" value="4">&nbsp;All Other Places</input>
+						<a class="small-text pull-right" href="#">only</a></li>
+						
+				</ul>
+
+				<hr class="space" />
+					<input type="submit" value="Update">
+				</form>
+			</div>
 
 		<div class="span9">
 

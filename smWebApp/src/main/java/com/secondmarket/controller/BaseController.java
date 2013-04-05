@@ -95,6 +95,19 @@ public class BaseController
     	return "companyPage";
 	}
 	
+	@RequestMapping(value="/locationFilter",  method = RequestMethod.POST)
+	public String filterCompanyByLocation(@RequestParam("location") String checkBoxVal, ModelMap model) 
+	{
+		logger.debug("Received request to filter company, by location, value = " + checkBoxVal);
+		//System.out.println("total_funding:" + checkBoxVal);
+		String[] parts = checkBoxVal.split(",");
+		
+    	// Retrieve all Investor by delegating the call to CompanyService
+    	List<Company> companies = companyService.filterByLocation(parts);
+    	model.addAttribute("companies", companies);
+    	return "companyPage";
+	}
+	
 	@RequestMapping(value="/investorProfile", method = RequestMethod.GET)
 	public String getInvestorProfile(@RequestParam("id") Integer id, ModelMap model) {
 		logger.debug("Received request to show investors detailed profile");
