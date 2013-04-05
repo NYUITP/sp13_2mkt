@@ -2,9 +2,9 @@ package com.secondmarket.common;
 
 public enum LocationEnum {
 	LOCATION("locations"),
-    LOCATION_ID("location_id"),
-    LOCATION_NAME("location_name"),
-	LOCATION_ANGELLIST_URL("location_angellist_url");
+    LOCATION_ID("id"),
+    LOCATION_NAME("name"),
+	LOCATION_ANGELLIST_URL("angellist_url");
 	
 	private String label;
 	 

@@ -98,7 +98,7 @@
 						</div>
 						<div>
 							<c:forEach items="${company.locations}" var="location">
-							<span class="pull-left muted" > <small>${location.location_name} </small></span>
+							<span class="pull-left muted" > <small>${location.name} </small></span>
 							<hr class="space"/>
 							</c:forEach>
 						</div>

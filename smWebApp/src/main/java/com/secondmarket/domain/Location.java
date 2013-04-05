@@ -8,43 +8,43 @@ import com.secondmarket.common.LocationEnum;
 
 @Embedded
 public class Location {
-	public Integer location_id;
-	public String location_name;
-	public String location_angellist_url;
+	public Integer id;
+	public String name;
+	public String angellist_url;
 	
 	public Location(JSONObject js)
 	{
 		try {
-			location_id = js.getInt(LocationEnum.LOCATION_ID.getLabel().toString());
-			location_name = js.getString(LocationEnum.LOCATION_NAME.getLabel().toString()).toUpperCase();
-			location_angellist_url = js.getString(LocationEnum.LOCATION_ANGELLIST_URL.getLabel().toString());
+			id = js.getInt(LocationEnum.LOCATION_ID.getLabel().toString());
+			name = js.getString(LocationEnum.LOCATION_NAME.getLabel().toString()).toUpperCase();
+			angellist_url = js.getString(LocationEnum.LOCATION_ANGELLIST_URL.getLabel().toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Integer getLocation_id() {
-		return location_id;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setLocation_id(Integer location_id) {
-		this.location_id = location_id;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public String getLocation_name() {
-		return location_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setLocation_name(String location_name) {
-		this.location_name = location_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLocation_angellist_url() {
-		return location_angellist_url;
+	public String getAngellist_url() {
+		return angellist_url;
 	}
 
-	public void setLocation_angellist_url(String location_angellist_url) {
-		this.location_angellist_url = location_angellist_url;
+	public void setAngellist_url(String angellist_url) {
+		this.angellist_url = angellist_url;
 	}
 	
 }
