@@ -157,13 +157,13 @@
 			<c:forEach items="${investors}" var="investor">
 				<div class="search-result">
 					<div class="pull-left search-pic">
-						<img src="${investor.image}" width="50" height="50" />
+						<img alt="${investor.name}" src="${investor.image}" width="50" height="50" />
 					</div>
 
 					<div class="pull-left search-content">
 						<div>
 							<h4 class="pull-left">
-								<a href="investorProfile"><c:out value="${investor.name}" />
+								<a href=investorProfile?id=${investor.id}><c:out value="${investor.name}" />
 							</h4>
 							</a>
 						</div>

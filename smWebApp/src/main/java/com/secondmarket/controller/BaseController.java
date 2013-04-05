@@ -96,10 +96,10 @@ public class BaseController
 	}
 	
 	@RequestMapping(value="/investorProfile", method = RequestMethod.GET)
-	public String getInvestorProfile(ModelMap model) {
- 
+	public String getInvestorProfile(@RequestParam("id") Integer id, ModelMap model) {
 		logger.debug("Received request to show investors detailed profile");
-		model.addAttribute("investorsResults", "Results");
-    	return "investorSearch";
+		Investor investor = investorService.get(id);
+		model.addAttribute("investor", investor);
+    	return "investorProfile";
 	}
 }

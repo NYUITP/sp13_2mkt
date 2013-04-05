@@ -79,7 +79,7 @@ public class InvestorService
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Investor get( String id ) 
+	public Investor get( Integer id ) 
 	{
 		logger.debug("Retrieving an existing Investor");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
