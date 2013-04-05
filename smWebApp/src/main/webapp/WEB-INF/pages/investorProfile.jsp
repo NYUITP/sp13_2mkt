@@ -24,14 +24,18 @@
 				<h3>
 					<c:out value="${investor.name}" />
 				</h3>
-				<span class="badge badge-info"><c:out
-						value="${investor.follower_count}" /> Followers</span>
-
+				<span><c:out value="${investor.follower_count}" />
+					Followers </span> <br> <span> <c:out
+						value="${investor.company_count}" /> Companies Invested in
+				</span>
+				<hr class="space" />
+				<c:forEach items="${investor.locations}" var="location">
+					<span class="pull-left muted"> <small>${location.name}
+					</small></span>
+				</c:forEach>
+				<br>
 				<hr class="space" />
 
-				<span class="badge badge-info"><c:out
-						value="${investor.company_count}" /> Companies Invested in</span>
-				<hr class="space" />
 				<div>
 					<a id="profileLinkedInIcon" target="_blank"
 						href="${investor.linkedin_url}"> <img class="img-rounded"
@@ -39,6 +43,10 @@
 					<a id="profileTwitterIcon" target="_blank"
 						href="${investor.twitter_url}"> <img class="img-rounded"
 						src="resources/img/pro-twitter-icon.png" width="30" height="30"></a>
+					<a id="profileAnglelistInIcon" target="_blank"
+						href="${investor.angellist_url}"> <img class="img-rounded"
+						src="resources/img/pro-anglelist-icon.png" width="100"
+						height="100"></a>
 				</div>
 
 			</div>
@@ -54,27 +62,27 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="span11 well">
 		<div class="row">
 			<div class="span11">
 				<h4>Companies Invested In</h4>
-				<span>
-					<c:forEach items="${companies}" var="company">
+				<span> <c:forEach items="${companies}" var="company">
 						<div class="pull-left">
-							<img class="img-rounded" src="${company.logo_url}" width="50" height="50" />
-							<span class="pull-left ">
-								<a href=companyProfile?id=${company.id}><c:out value="${company.name}" /></a>
+							<img class="img-rounded" src="${company.logo_url}" width="50"
+								height="50" /> <span class="pull-left "> <a
+								href=companyProfile?id=${company.id}><c:out
+										value="${company.name}" /></a>
 							</span>
 							<hr class="space" />
 						</div>
-						
+
 					</c:forEach>
 				</span>
 			</div>
 		</div>
 	</div>
-	
+
 </div>
 
 

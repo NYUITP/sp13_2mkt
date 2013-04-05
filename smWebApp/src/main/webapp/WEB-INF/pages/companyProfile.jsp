@@ -24,21 +24,32 @@
 				<h3>
 					<c:out value="${company.name}" />
 				</h3>
-				<span class="badge badge-info"><c:out
+				<span><c:out
 						value="${company.follower_count}" /> Followers</span>
-
-				<hr class="space" />
-
-				<span class="badge badge-info"><c:out
+				<br>
+				<span><c:out
 						value="$${company.total_funding}M" /> Total Funding</span>
 				<hr class="space" />
+				
+				<br>
+				<span class="pull-left" >Website: </span>
+				<a class="pull-left" href="${company.company_url}">${company.company_url}</a>
+						
+				<hr class="space" />
+				<c:forEach items="${company.locations}" var="location">
+					<span class="pull-left muted"> <small>${location.name}
+					</small></span>
+				</c:forEach>
+				<br>
+				<hr class="space" />
+				
 				<div>
-					<a id="profileAnglelistInIcon" target="_blank"
-						href="${company.angellist_url}"> <img class="img-rounded"
-						src="resources/img/pro-anglelist-icon.png" width="100" height="100"></a>
 					<a id="profileTwitterIcon" target="_blank"
 						href="${company.twitter_url}"> <img class="img-rounded"
 						src="resources/img/pro-twitter-icon.png" width="30" height="30"></a>
+					<a id="profileAnglelistInIcon" target="_blank"
+						href="${company.angellist_url}"> <img class="img-rounded"
+						src="resources/img/pro-anglelist-icon.png" width="100" height="100"></a>
 				</div>
 
 			</div>
@@ -51,6 +62,7 @@
 			<div class="span11">
 				<h4>About</h4>
 				<span><c:out value="${company.product_desc}" /></span>
+					<span><c:out value="${company.high_concept}" /></span>
 			</div>
 		</div>
 	</div>
