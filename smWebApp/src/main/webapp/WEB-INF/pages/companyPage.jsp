@@ -48,7 +48,9 @@
 				</div>
 				<hr class="space" />
 				<ul class="clear-ul">
-
+				
+				<form name="form" method="POST" action="fundFilter">
+				
 					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="1">&nbsp;0-500k</input>
 						<a class="small-text pull-right" href="#">only</a></li>
 
@@ -66,11 +68,8 @@
 				</ul>
 
 				<hr class="space" />
-				<form action="fundFilter" method="post">
-					<input type='hidden' id='fundRange' name='fundRange' value='3'/>
 					<input type="submit" value="Update">
 				</form>
-
 			</div>
 
 		</div>
