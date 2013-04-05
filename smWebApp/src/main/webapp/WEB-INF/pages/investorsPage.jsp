@@ -102,16 +102,16 @@
 				<hr class="space" />
 				<ul class="clear-ul">
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+
 						<a class="small-text pull-right" href="#">only</a></li>
 				</ul>
 
@@ -129,16 +129,16 @@
 				<hr class="space" />
 				<ul class="clear-ul">
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;San Francisco</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;San Francisco
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;New York</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;New York
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;Boston</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;Boston
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;London</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;London
 						<a class="small-text pull-right" href="#">only</a></li>
 				</ul>
 
@@ -163,9 +163,9 @@
 					<div class="pull-left search-content">
 						<div>
 							<h4 class="pull-left">
-								<a href=investorProfile?id=${investor.id}><c:out value="${investor.name}" />
+								<a href=investorProfile?id=${investor.id}><c:out value="${investor.name}" /></a>
 							</h4>
-							</a>
+							
 						</div>
 						<div>
 							<c:forEach items="${investor.locations}" var="location">

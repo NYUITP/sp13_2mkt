@@ -89,7 +89,7 @@ public class InvestorService
         	}
     	}
     	investor.setLocations(locations);
-    	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));	
+    	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));	
 		return investor;
 	}
 	public Boolean add(Investor investor) 

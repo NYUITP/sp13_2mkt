@@ -112,7 +112,17 @@ public class BaseController
 	public String getInvestorProfile(@RequestParam("id") Integer id, ModelMap model) {
 		logger.debug("Received request to show investors detailed profile");
 		Investor investor = investorService.get(id);
+		List<Company> companiesInvestedIn = companyService.get(investor.getCompany_id());
 		model.addAttribute("investor", investor);
+		model.addAttribute("companies", companiesInvestedIn);
     	return "investorProfile";
+	}
+	
+	@RequestMapping(value="/companyProfile", method = RequestMethod.GET)
+	public String getCompanyProfile(@RequestParam("id") Integer id, ModelMap model) {
+		logger.debug("Received request to show company detailed profile");
+		Company company = companyService.get(id);
+		model.addAttribute("company", company);
+    	return "companyProfile";
 	}
 }

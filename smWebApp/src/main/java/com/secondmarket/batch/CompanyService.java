@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -43,7 +44,30 @@ public class CompanyService {
 		return items; // Return list
 	}
 
-	public Company get(String id) 
+	public List<Company> get(List<Integer> ids) 
+	{
+		logger.debug("Retrieving all companies for investor");
+		List<Company> items = new ArrayList<Company>(); // Create new list
+		BasicDBList docIds = new BasicDBList();
+		docIds.addAll(ids);
+		
+		DBObject inClause = new BasicDBObject("$in", docIds);
+        DBObject query = new BasicDBObject(CompanyEnum._ID.getLabel().toString(), inClause);
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve
+		DBCursor dbCursor = coll.find(query);
+        if (dbCursor != null)
+        {
+            while (dbCursor.hasNext())
+            {
+            	DBObject dbObject = dbCursor.next(); // Map DBOject to company
+    			Company company = getCompanyObject(dbObject);
+    			items.add(company); // Add to new list
+            }
+        }
+		return items; // Return company
+	}
+	
+	public Company get(Integer id) 
 	{
 		logger.debug("Retrieving an existing Company");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve

@@ -34,16 +34,16 @@
 				<hr class="space" />
 				<ul class="clear-ul">
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150
 						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+</input>
+					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+
 						<a class="small-text pull-right" href="#">only</a></li>
 				</ul>
 
@@ -66,15 +66,15 @@
 					<ul class="clear-ul">
 
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="1">&nbsp;0-500k</input>
+							name="total_funding" value="1">&nbsp;0-500k
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="2">&nbsp;500k-1M</input>
+							name="total_funding" value="2">&nbsp;500k-1M
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="3">&nbsp;1M-5M</input>
+							name="total_funding" value="3">&nbsp;1M-5M
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="4">&nbsp;5M - 100M</input>
+							name="total_funding" value="4">&nbsp;5M - 100M
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="5">&nbsp;100M+</input>
+							name="total_funding" value="5">&nbsp;100M+
 					</ul>
 					<hr class="space" />
 					<input type="submit" value="Update">
@@ -94,19 +94,19 @@
 					<ul class="clear-ul">
 
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="1">&nbsp;San Francisco</input> <a
+							name="location" value="1">&nbsp;San Francisco <a
 							class="small-text pull-right" href="#">only</a></li>
 
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="2">&nbsp;New York, NY</input> <a
+							name="location" value="2">&nbsp;New York, NY <a
 							class="small-text pull-right" href="#">only</a></li>
 
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="3">&nbsp;San Jose</input> <a
+							name="location" value="3">&nbsp;San Jose <a
 							class="small-text pull-right" href="#">only</a></li>
 
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="4">&nbsp;All Other Places</input> <a
+							name="location" value="4">&nbsp;All Other Places<a
 							class="small-text pull-right" href="#">only</a></li>
 					</ul>
 
@@ -131,9 +131,8 @@
 					<div class="pull-left search-content">
 						<div>
 							<h4 class="pull-left">
-								<a href="companyProfile"><c:out value="${company.name}" />
+								<a href=companyProfile?id=${company.id}><c:out value="${company.name}" /></a>
 							</h4>
-							</a>
 						</div>
 						<div>
 							<span class="pull-left ">${company.high_concept}</span>
