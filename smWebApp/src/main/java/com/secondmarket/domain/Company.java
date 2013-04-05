@@ -11,7 +11,6 @@ import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.secondmarket.common.CompanyEnum;
-import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.LocationEnum;
 
 @Entity
@@ -30,7 +29,6 @@ public class Company{
 	private String twitter_url;
 	private String blog_url;
 	private List<String> markets = new ArrayList<String>();
-//	private List<String> locations = new ArrayList<String>();
 	private List<Investor> investor = new ArrayList<Investor>();
 	@Embedded
 	private List<Fund> fund_info = new ArrayList<Fund>();	
@@ -122,12 +120,6 @@ public class Company{
 	public void setMarkets(List<String> markets) {
 		this.markets = markets;
 	}
-//	public List<String> getLocations() {
-//		return locations;
-//	}
-//	public void setLocations(List<String> locations) {
-//		this.locations = locations;
-//	}
 	public List<Investor> getInvestor() {
 		return investor;
 	}

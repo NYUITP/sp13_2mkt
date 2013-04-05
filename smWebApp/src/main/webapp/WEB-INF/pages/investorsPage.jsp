@@ -157,7 +157,7 @@
 			<c:forEach items="${investors}" var="investor">
 				<div class="search-result">
 					<div class="pull-left search-pic">
-						<img src="resources/img/user-icon.png" width="50" height="50" />
+						<img src="${company.image}" width="50" height="50" />
 					</div>
 
 					<div class="pull-left search-content">

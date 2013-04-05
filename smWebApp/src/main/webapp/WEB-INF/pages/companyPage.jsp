@@ -106,7 +106,7 @@
 						</div>
 						<div>
 							<span class="large-number"><c:out
-									value="${company.total_funding}" /></span> Total Funding
+									value="$${company.total_funding}M" /></span> Total Funding
 						</div>
 					</div>
 

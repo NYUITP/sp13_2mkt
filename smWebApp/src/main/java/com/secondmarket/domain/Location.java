@@ -4,8 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.code.morphia.annotations.Embedded;
-//import com.secondmarket.common.FundEnum;
-import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.LocationEnum;
 
 @Embedded
