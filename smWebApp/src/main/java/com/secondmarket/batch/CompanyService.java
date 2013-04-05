@@ -119,7 +119,7 @@ public class CompanyService
 		return company; // Return company
 	}
 	
-	public List<Company> filterByFunds(String fundRange){
+public List<Company> filterByFunds(String[] fundRange){
 		
 		logger.debug("Retrieving all companies");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());
@@ -143,11 +143,30 @@ public class CompanyService
         	/**
         	 * filter function
         	 */
-        	
-        	//if(company.getTotal_funding())
-        	
-        	
-        	items.add(company); // Add to new list
+   
+        	for(String each:fundRange){
+        		
+        		if(each.equals("1")){
+        			if(company.getTotal_funding()<500000)
+        				items.add(company); 
+        		}
+        		else if(each.equals("2")){
+        			if(company.getTotal_funding()<1000000 && company.getTotal_funding()>=500000)
+        				items.add(company); 
+        		}
+        		else if(each.equals("3")){
+        			if(company.getTotal_funding()<5000000 && company.getTotal_funding()>=1000000)
+        				items.add(company); 
+        		}
+        		else if(each.equals("4")){
+        			if(company.getTotal_funding()<100000000 && company.getTotal_funding()>=5000000)
+        				items.add(company); 
+        		}
+        		else if(each.equals("5")){
+        			if(company.getTotal_funding()>=100000000)
+        				items.add(company); 
+        		}
+        	}
         }
 		return items;  // Return list
 

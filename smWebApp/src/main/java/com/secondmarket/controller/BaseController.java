@@ -82,12 +82,15 @@ public class BaseController
     	return "investorsPage";
 	}
 	
-	@RequestMapping(value="/fundFilter", method = RequestMethod.POST)
-	public String filterCompanyByFund(@RequestParam("fundRange") String fundRange, ModelMap model) 
+	@RequestMapping(value="/fundFilter",  method = RequestMethod.POST)
+	public String filterCompanyByFund(@RequestParam("total_funding") String checkBoxVal, ModelMap model) 
 	{
-		logger.debug("Received request to filter company, by total funds raised, value = " + fundRange);
+		logger.debug("Received request to filter company, by total funds raised, value = " + checkBoxVal);
+		//System.out.println("total_funding:" + checkBoxVal);
+		String[] parts = checkBoxVal.split(",");
+		
     	// Retrieve all Investor by delegating the call to CompanyService
-    	List<Company> companies = companyService.filterByFunds(fundRange);
+    	List<Company> companies = companyService.filterByFunds(parts);
     	model.addAttribute("companies", companies);
     	return "companyPage";
 	}
