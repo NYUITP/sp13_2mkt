@@ -174,6 +174,21 @@ public class CompanyService {
 					CompanyEnum.TWITTER_URL.getLabel()).toString());
 			company.setBlog_url(dbObject.get(CompanyEnum.BLOG_URL.getLabel())
 					.toString());
+			List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject
+					.get(LocationEnum.LOCATION.getLabel());
+			List<Location> locations = new ArrayList<Location>();
+			if (locationObjects != null) {
+				for (BasicDBObject location : locationObjects) {
+					try {
+						JSONObject locObj = new JSONObject(location.toString());
+						Location loc1 = new Location(locObj);
+						locations.add(loc1);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			company.setLocations(locations);
 			/**
 			 * filter function
 			 */
@@ -254,35 +269,6 @@ public class CompanyService {
 			/**
 			 * filter function
 			 */
-
-//			for (String each : loc) {
-//				List<Location> all_locations = company.getLocations();
-//				for(Location each_location: all_locations){
-//					String location_name = each_location.getName();
-//					if (each.equals("1")){
-//						if (location_name.equalsIgnoreCase("san francisco")){
-//							items.add(company);
-//							break;
-//						}
-//					} else if (each.equals("2")){
-//						if (location_name.equalsIgnoreCase("new york, ny")){
-//							items.add(company);
-//							break;
-//						}
-//					} else if (each.equals("3")){
-//						if (location_name.equalsIgnoreCase("san jose")){
-//							items.add(company);
-//							break;
-//						}
-//					} else if (each.equals("4")){
-//						if (!location_name.equalsIgnoreCase("san francisco") &&
-//								!location_name.equalsIgnoreCase("new york, ny") &&
-//								!location_name.equalsIgnoreCase("san jose"))
-//							items.add(company);
-//					}
-//					
-//				}
-//			}
 			
 			List<Location> all_locations = company.getLocations();
 			done:for(Location each_location: all_locations){

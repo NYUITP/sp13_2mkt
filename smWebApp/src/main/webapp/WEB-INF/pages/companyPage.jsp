@@ -41,7 +41,7 @@
 			</div>
 
 			<hr class="space" />
-			
+
 			<div class="side-block hidden-phone">
 				<div>
 					<strong>Total Fund Raised</strong> <small class="pull-right"><a>Select
@@ -49,62 +49,70 @@
 				</div>
 				<hr class="space" />
 				<ul class="clear-ul">
-				
-				<form name="form" method="POST" action="fundFilter">
-				
-					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="1">&nbsp;0-500k</input>
-						<a class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="2">&nbsp;500k-1M</input>
-						<a class="small-text pull-right" href="#">only</a></li>
+					<form name="form" method="POST" action="fundFilter">
 
-					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="3">&nbsp;1M-5M</input>
-						<a class="small-text pull-right" href="#">only</a></li>
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="total_funding" value="1">&nbsp;0-500k</input> <a
+							class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="4">&nbsp;5M - 100M</input>
-						<a class="small-text pull-right" href="#">only</a></li>
-						
-					<li class="mts"><input type="checkbox" checked="checked" name="total_funding" value="5">&nbsp;100M+</input>
-						<a class="small-text pull-right" href="#">only</a></li>	
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="total_funding" value="2">&nbsp;500k-1M</input> <a
+							class="small-text pull-right" href="#">only</a></li>
+
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="total_funding" value="3">&nbsp;1M-5M</input> <a
+							class="small-text pull-right" href="#">only</a></li>
+
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="total_funding" value="4">&nbsp;5M - 100M</input> <a
+							class="small-text pull-right" href="#">only</a></li>
+
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="total_funding" value="5">&nbsp;100M+</input> <a
+							class="small-text pull-right" href="#">only</a></li>
 				</ul>
 
 				<hr class="space" />
-					<input type="submit" value="Update">
+				<input type="submit" value="Update">
 				</form>
 			</div>
 
 		</div>
 
-					<hr class="space" />
-			
-			<div class="side-block hidden-phone">
-				<div>
-					<strong>Company Location</strong> <small class="pull-right"><a>Select
-							All</a> | <a href="#">None</a></small>
-				</div>
-				<hr class="space" />
-				<ul class="clear-ul">
-				
-				<form name="form" method="POST" action="locationFilter">
-				
-					<li class="mts"><input type="checkbox" checked="checked" name="location" value="1">&nbsp;San Francisco</input>
-						<a class="small-text pull-right" href="#">only</a></li>
+		<hr class="space" />
 
-					<li class="mts"><input type="checkbox" checked="checked" name="location" value="2">&nbsp;New York, NY</input>
-						<a class="small-text pull-right" href="#">only</a></li>
-
-					<li class="mts"><input type="checkbox" checked="checked" name="location" value="3">&nbsp;San Jose</input>
-						<a class="small-text pull-right" href="#">only</a></li>
-
-					<li class="mts"><input type="checkbox" checked="checked" name="location" value="4">&nbsp;All Other Places</input>
-						<a class="small-text pull-right" href="#">only</a></li>
-						
-				</ul>
-
-				<hr class="space" />
-					<input type="submit" value="Update">
-				</form>
+		<div class="side-block hidden-phone">
+			<div>
+				<strong>Company Location</strong> <small class="pull-right"><a>Select
+						All</a> | <a href="#">None</a></small>
 			</div>
+			<hr class="space" />
+			<ul class="clear-ul">
+
+				<form name="form" method="POST" action="locationFilter">
+
+					<li class="mts"><input type="checkbox" checked="checked"
+						name="location" value="1">&nbsp;San Francisco</input> <a
+						class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked"
+						name="location" value="2">&nbsp;New York, NY</input> <a
+						class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked"
+						name="location" value="3">&nbsp;San Jose</input> <a
+						class="small-text pull-right" href="#">only</a></li>
+
+					<li class="mts"><input type="checkbox" checked="checked"
+						name="location" value="4">&nbsp;All Other Places</input> <a
+						class="small-text pull-right" href="#">only</a></li>
+			</ul>
+
+			<hr class="space" />
+			<input type="submit" value="Update">
+			</form>
+		</div>
 
 		<div class="span9">
 
@@ -124,12 +132,13 @@
 							</a>
 						</div>
 						<div>
-							<span class="pull-left " >${company.high_concept}</span>
+							<span class="pull-left ">${company.high_concept}</span>
 						</div>
 						<div>
 							<c:forEach items="${company.locations}" var="location">
-							<span class="pull-left muted" > <small>${location.name} </small></span>
-							<hr class="space"/>
+								<span class="pull-left muted"> <small>${location.name}
+								</small></span>
+								<hr class="space" />
 							</c:forEach>
 						</div>
 					</div>
@@ -148,9 +157,9 @@
 
 					<div class="clearfix"></div>
 					<hr class="space" />
-					
+
 				</div>
-				 <hr class="space"/>
+				<hr class="space" />
 			</c:forEach>
 		</div>
 
