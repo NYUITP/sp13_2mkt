@@ -47,7 +47,7 @@ public class InitialInvestorObj
 					String investor_name = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.NAME.getLabel().toString());
 					String investor_bio = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.BIO.getLabel().toString());
 					String investor_follower_count = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
-					String investor_image = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
+					String investor_image = AngelCrunch.getInvestorfieldUrl(investor_info,InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
 					
 					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role
 					//Location not found, deal with such exceptions.

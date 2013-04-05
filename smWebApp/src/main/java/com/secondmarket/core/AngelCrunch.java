@@ -146,6 +146,22 @@ public class AngelCrunch
 		return result;
 	}
 	
+	public static String getInvestorfieldUrl(String investor, String field){
+		JSONObject jj = null;
+		String result = null;
+		try {
+			jj = new JSONObject(investor);
+			result = jj.getString(field);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		if(result == null)
+		{
+			result = "";
+		}
+		return result;
+	}
+	
 	public static JSONArray getInvestorfield_ja(String investor, String field){
 		JSONObject jj = null;
 		JSONArray result = null;
