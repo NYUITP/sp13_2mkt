@@ -169,7 +169,7 @@
 						</div>
 						<div>
 							<c:forEach items="${investor.locations}" var="location">
-							<span class="pull-left" >${location.location_name}</span>
+							<span class="pull-left muted" > <small>${location.location_name} </small></span>
 							</c:forEach>
 						</div>
 					</div>

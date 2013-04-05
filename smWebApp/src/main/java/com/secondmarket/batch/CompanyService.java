@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +15,10 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Company;
+import com.secondmarket.domain.Location;
 
 @Service("companyService")
 @Transactional
@@ -23,6 +27,7 @@ public class CompanyService
 	protected static Logger logger = Logger.getLogger("batch");
 	public CompanyService() {}
 
+	@SuppressWarnings("unchecked")
 	public List<Company> getAll() 
 	{
 		logger.debug("Retrieving all companies");
@@ -46,11 +51,31 @@ public class CompanyService
         	company.setCompany_url(dbObject.get(CompanyEnum.COMPANY_URL.getLabel()).toString());
         	company.setTwitter_url(dbObject.get(CompanyEnum.TWITTER_URL.getLabel()).toString());
         	company.setBlog_url(dbObject.get(CompanyEnum.BLOG_URL.getLabel()).toString());
+        	company.setHigh_concept(dbObject.get(CompanyEnum.HIGH_CONCEPT.getLabel()).toString());
+        	company.setAngellist_url(dbObject.get(CompanyEnum.ANGLELIST_URL.getLabel()).toString());
+        	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
+        	List<Location> locations = new ArrayList<Location>();
+        	if(locationObjects !=null)
+        	{
+	        	for(BasicDBObject location : locationObjects)
+	        	{
+	        		try {
+						JSONObject locObj = new JSONObject(location.toString());
+						Location loc = new Location(locObj);
+						locations.add(loc);
+					} catch (JSONException e)
+					{
+						e.printStackTrace();
+					}
+	        	}
+        	}
+        	company.setLocations(locations);
         	items.add(company); // Add to new list
         }
 		return items;  // Return list
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Company get( String id ) 
 	{
 		logger.debug("Retrieving an existing Company");
@@ -71,6 +96,25 @@ public class CompanyService
     	company.setCompany_url(dbObject.get(CompanyEnum.COMPANY_URL.getLabel()).toString());
     	company.setTwitter_url(dbObject.get(CompanyEnum.TWITTER_URL.getLabel()).toString());
     	company.setBlog_url(dbObject.get(CompanyEnum.BLOG_URL.getLabel()).toString());
+    	company.setHigh_concept(dbObject.get(CompanyEnum.HIGH_CONCEPT.getLabel()).toString());
+    	company.setAngellist_url(dbObject.get(CompanyEnum.ANGLELIST_URL.getLabel()).toString());
+    	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
+    	List<Location> locations = new ArrayList<Location>();
+    	if(locationObjects !=null)
+    	{
+        	for(BasicDBObject location : locationObjects)
+        	{
+        		try {
+					JSONObject locObj = new JSONObject(location.toString());
+					Location loc = new Location(locObj);
+					locations.add(loc);
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+        	}
+    	}
+    	company.setLocations(locations);
         
 		return company; // Return company
 	}

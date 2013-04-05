@@ -56,16 +56,19 @@ public class InvestorService
         	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
         	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
         	List<Location> locations = new ArrayList<Location>();
-        	for(BasicDBObject location : locationObjects)
+        	if(locationObjects !=null)
         	{
-        		try {
-					JSONObject locObj = new JSONObject(location.toString());
-					Location loc = new Location(locObj);
-					locations.add(loc);
-				} catch (JSONException e)
-				{
-					e.printStackTrace();
-				}
+	        	for(BasicDBObject location : locationObjects)
+	        	{
+	        		try {
+						JSONObject locObj = new JSONObject(location.toString());
+						Location loc = new Location(locObj);
+						locations.add(loc);
+					} catch (JSONException e)
+					{
+						e.printStackTrace();
+					}
+	        	}
         	}
         	investor.setLocations(locations);
         	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));
@@ -100,16 +103,19 @@ public class InvestorService
     	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
     	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
     	List<Location> locations = new ArrayList<Location>();
-    	for(BasicDBObject location : locationObjects)
+    	if(locationObjects !=null)
     	{
-    		try {
-				JSONObject locObj = new JSONObject(location.toString());
-				Location loc = new Location(locObj);
-				locations.add(loc);
-			} catch (JSONException e)
-			{
-				e.printStackTrace();
-			}
+        	for(BasicDBObject location : locationObjects)
+        	{
+        		try {
+					JSONObject locObj = new JSONObject(location.toString());
+					Location loc = new Location(locObj);
+					locations.add(loc);
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+        	}
     	}
     	investor.setLocations(locations);
     	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));

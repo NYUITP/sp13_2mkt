@@ -94,7 +94,13 @@
 							</a>
 						</div>
 						<div>
-							<a class="pull-left" href="#">${company.company_url}</a>
+							<span class="pull-left " >${company.high_concept}</span>
+						</div>
+						<div>
+							<c:forEach items="${company.locations}" var="location">
+							<span class="pull-left muted" > <small>${location.location_name} </small></span>
+							<hr class="space"/>
+							</c:forEach>
 						</div>
 					</div>
 
