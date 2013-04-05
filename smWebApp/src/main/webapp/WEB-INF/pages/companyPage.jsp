@@ -5,17 +5,16 @@
 <%@include file="../../resources/include/head.jsp"%>
 
 <script language="javascript">
-function selectToggle(toggle, form) {
-    var myForm = document.forms[form];
-    for( var i=0; i < myForm.length; i++ ) { 
-         if(toggle) {
-              myForm.elements[i].checked = "checked";
-         } 
-         else {
-              myForm.elements[i].checked = "";
-         }
-    }
-}
+	function selectToggle(toggle, form) {
+		var myForm = document.forms[form];
+		for ( var i = 0; i < myForm.length; i++) {
+			if (toggle) {
+				myForm.elements[i].checked = "checked";
+			} else {
+				myForm.elements[i].checked = "";
+			}
+		}
+	}
 </script>
 
 <div class="container">
@@ -57,45 +56,42 @@ function selectToggle(toggle, form) {
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-			<form name="tform" method="POST" action="fundFilter">
-				<div>
-					<strong>Total Fund Raised</strong> 
-					<small class="pull-right"><a href="javascript:selectToggle(true, 'tform');">Select All</a> | <a href="javascript:selectToggle(false, 'tform');">None</a></small>
-				</div>
-				<hr class="space" />
-				<ul class="clear-ul">
+				<form name="tform" method="POST" action="fundFilter">
+					<div>
+						<strong>Total Fund Raised</strong> <small class="pull-right"><a
+							href="javascript:selectToggle(true, 'tform');">Select All</a> | <a
+							href="javascript:selectToggle(false, 'tform');">None</a></small>
+					</div>
+					<hr class="space" />
+					<ul class="clear-ul">
 
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="1">&nbsp;0-500k</input> 
-
+							name="total_funding" value="1">&nbsp;0-500k</input>
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="2">&nbsp;500k-1M</input> 
-
+							name="total_funding" value="2">&nbsp;500k-1M</input>
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="3">&nbsp;1M-5M</input> 
-
+							name="total_funding" value="3">&nbsp;1M-5M</input>
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="4">&nbsp;5M - 100M</input> 
-
+							name="total_funding" value="4">&nbsp;5M - 100M</input>
 						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="5">&nbsp;100M+</input> 
-				</ul>
-				<hr class="space" />
-				<input type="submit" value="Update">
-			</form>
+							name="total_funding" value="5">&nbsp;100M+</input>
+					</ul>
+					<hr class="space" />
+					<input type="submit" value="Update">
+				</form>
 			</div>
 
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<div>
-					<strong>Company Location</strong> <small class="pull-right"><a>Select
-							All</a> | <a href="#">None</a></small>
-				</div>
-				<hr class="space" />
-				<ul class="clear-ul">
-
-					<form name="form" method="POST" action="locationFilter">
+				<form name="tform2" method="POST" action="locationFilter">
+					<div>
+						<strong>Company Location</strong> <small class="pull-right"><a
+							href="javascript:selectToggle(true, 'tform2');">Select All</a> | <a
+							href="javascript:selectToggle(false, 'tform2');">None</a></small>
+					</div>
+					<hr class="space" />
+					<ul class="clear-ul">
 
 						<li class="mts"><input type="checkbox" checked="checked"
 							name="location" value="1">&nbsp;San Francisco</input> <a
@@ -112,10 +108,10 @@ function selectToggle(toggle, form) {
 						<li class="mts"><input type="checkbox" checked="checked"
 							name="location" value="4">&nbsp;All Other Places</input> <a
 							class="small-text pull-right" href="#">only</a></li>
-				</ul>
+					</ul>
 
-				<hr class="space" />
-				<input type="submit" value="Update">
+					<hr class="space" />
+					<input type="submit" value="Update">
 				</form>
 			</div>
 		</div>
