@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +15,10 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.InvestorEnum;
+import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Investor;
+import com.secondmarket.domain.Location;
 
 @Service("investorService")
 @Transactional
@@ -23,6 +27,7 @@ public class InvestorService
 	protected static Logger logger = Logger.getLogger("batch");
 	public InvestorService() {}
 
+	@SuppressWarnings("unchecked")
 	public List<Investor> getAll() 
 	{
 		logger.debug("Retrieving all investors");
@@ -44,6 +49,25 @@ public class InvestorService
         	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
         	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel()).toString()));
         	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel()).toString()));
+        	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel()).toString());
+        	investor.setBlog_url(dbObject.get(InvestorEnum.BLOG_URL.getLabel()).toString());
+        	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel()).toString());
+        	investor.setFacebook_url(dbObject.get(InvestorEnum.FB_URL.getLabel()).toString());
+        	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
+        	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
+        	List<Location> locations = new ArrayList<Location>();
+        	for(BasicDBObject location : locationObjects)
+        	{
+        		try {
+					JSONObject locObj = new JSONObject(location.toString());
+					Location loc = new Location(locObj);
+					locations.add(loc);
+				} catch (JSONException e)
+				{
+					e.printStackTrace();
+				}
+        	}
+        	investor.setLocations(locations);
         	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));
         	
         	items.add(investor); // Add to new list
@@ -51,6 +75,7 @@ public class InvestorService
 		return items;  // Return list
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Investor get( String id ) 
 	{
 		logger.debug("Retrieving an existing Investor");
@@ -68,6 +93,25 @@ public class InvestorService
     	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
     	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel()).toString()));
     	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel()).toString()));
+    	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel()).toString());
+    	investor.setBlog_url(dbObject.get(InvestorEnum.BLOG_URL.getLabel()).toString());
+    	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel()).toString());
+    	investor.setFacebook_url(dbObject.get(InvestorEnum.FB_URL.getLabel()).toString());
+    	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
+    	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
+    	List<Location> locations = new ArrayList<Location>();
+    	for(BasicDBObject location : locationObjects)
+    	{
+    		try {
+				JSONObject locObj = new JSONObject(location.toString());
+				Location loc = new Location(locObj);
+				locations.add(loc);
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
+			}
+    	}
+    	investor.setLocations(locations);
     	//investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));
         
 		return investor;// Return investor

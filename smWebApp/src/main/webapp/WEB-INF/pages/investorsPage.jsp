@@ -168,7 +168,9 @@
 							</a>
 						</div>
 						<div>
-							<a class="pull-left" href="#">Website</a>
+							<c:forEach items="${investor.locations}" var="location">
+							<span class="pull-left" >${location.location_name}</span>
+							</c:forEach>
 						</div>
 					</div>
 
@@ -185,7 +187,7 @@
 
 					<div class="clearfix"></div>
 
-					<c:out value="${investor.bio}" />
+					<!-- <c:out value="${investor.bio}" /> -->
 					<hr class="space" />
 				</div>
 			</c:forEach>

@@ -12,11 +12,15 @@ public class Location {
 	public String location_name;
 	public String location_angellist_url;
 	
-	public Location(JSONObject js) throws JSONException{
-		location_id = js.getInt(LocationEnum.LOCATION_ID.getLabel().toString());
-		location_name = js.getString(LocationEnum.LOCATION_NAME.getLabel().toString());
-		location_angellist_url = js.getString(LocationEnum.LOCATION_ANGELLIST_URL.getLabel().toString());
-		
+	public Location(JSONObject js)
+	{
+		try {
+			location_id = js.getInt(LocationEnum.LOCATION_ID.getLabel().toString());
+			location_name = js.getString(LocationEnum.LOCATION_NAME.getLabel().toString()).toUpperCase();
+			location_angellist_url = js.getString(LocationEnum.LOCATION_ANGELLIST_URL.getLabel().toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Integer getLocation_id() {
