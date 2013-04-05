@@ -3,6 +3,7 @@ package com.secondmarket.core;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -22,17 +23,25 @@ public class InitialInvestorObj
 	
 	public static boolean initialize(Datastore ds, 
 			HashMap<String, String> id_list, JSONObject Investors,
-			JSONArray invest) throws IOException, JSONException
+			JSONArray invest, HashMap<String,Integer> counter) throws IOException, JSONException
 	{
 		// Read in the InvestorList.txt file
-		FileReader file = new FileReader("InvestorList11.txt");
+		FileReader file = new FileReader("InvestorList.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
-		
+		// Counter for calling AngelList API
+		int cc = 0;
 		//Go through the investorList file, put company ids and names into the HashMap.
 		while(!eof)
 		{
-			 	//Read each line of record, use slug to search for investor
+			if(counter.get("count") > 950){
+				try {
+			        Thread.sleep(1000 * 60 * 60);
+			        counter.put("count", 0);
+			        cc = 0;
+			    } catch (InterruptedException ex) {}
+			} else{
+				//Read each line of record, use slug to search for investor
 				String slug = buff.readLine();
 				if (slug == null)
 				{
@@ -40,7 +49,9 @@ public class InitialInvestorObj
 				}
 				else 
 				{
+					//First time call AngelList API++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 					String investor_info = AngelCrunch.searchAngelInvestor(slug);
+					cc += 1;
 					//Print out the investor_info returned from Angellist.
 					System.out.println(investor_info);
 					String investor_id = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.ID.getLabel().toString());
@@ -54,7 +65,10 @@ public class InitialInvestorObj
 					String twitter_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.TWITTER_URL.getLabel().toString());
 					String facebook_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.FB_URL.getLabel().toString());
 					
+					//Second time call AngelList API+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role
+					cc += 1;
+					counter.put("count", cc);
 					//Location not found, deal with such exceptions.
 					JSONObject invest_info = AngelCrunch.parseToJSON(investor_info);
 					JSONArray investor_locations = null;
@@ -112,6 +126,8 @@ public class InitialInvestorObj
 					Investor user = new Investor(each_investor);
 					ds.save(user);
 				}
+			}
+
 		}
 		buff.close();
 		return true;

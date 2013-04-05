@@ -33,12 +33,14 @@ public class Run
 		HashMap<String, String> id_list = new HashMap<String, String>();	
 		JSONObject investor = new JSONObject();
 		JSONArray invest = new JSONArray();
-		
+		HashMap<String,Integer> counter = new HashMap();
+		int count = 0;
+		counter.put("count", count);
 		HashMap<String, String> funding = new HashMap<String, String>();
 		HashMap<String, ArrayList<HashMap<Object, Object>>> round = new HashMap<String, ArrayList<HashMap<Object, Object>>>();
 		
-		InitialInvestorObj.initialize(ds, id_list, investor, invest);
-		InitialCompanyObj.initialize(ds, funding, round, id_list);
+		InitialInvestorObj.initialize(ds, id_list, investor, invest, counter);
+		InitialCompanyObj.initialize(ds, funding, round, id_list,counter);
 		logger.debug(funding);
 		logger.debug(round);
 	}
