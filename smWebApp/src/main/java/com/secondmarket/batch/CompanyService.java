@@ -119,7 +119,6 @@ public List<Company> filterByFunds(String[] fundRange){
         				items.add(company); 
         		}
         	}
-      	
         }
 		return items;  // Return list
 
