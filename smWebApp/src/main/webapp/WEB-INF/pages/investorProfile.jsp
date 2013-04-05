@@ -50,8 +50,7 @@
 		<div class="row">
 			<div class="span11">
 				<h4>About</h4>
-				<span><c:out value="${investor.bio}" /></span> <span><c:out
-						value="${investor.company_count}" /> Companies Invested in</span>
+				<span><c:out value="${investor.bio}" /></span>
 			</div>
 		</div>
 	</div>
