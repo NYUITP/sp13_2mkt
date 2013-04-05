@@ -33,7 +33,7 @@ public class Run
 		HashMap<String, String> id_list = new HashMap<String, String>();	
 		JSONObject investor = new JSONObject();
 		JSONArray invest = new JSONArray();
-		HashMap<String,Integer> counter = new HashMap();
+		HashMap<String,Integer> counter = new HashMap<String,Integer>();
 		int count = 0;
 		counter.put("count", count);
 		HashMap<String, String> funding = new HashMap<String, String>();
