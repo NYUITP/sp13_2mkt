@@ -70,6 +70,8 @@ public class Company{
 				locations.add(location_i);
 			}
 		}
+		
+		
 	}
 		
 	public Integer getId() {

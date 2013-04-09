@@ -25,7 +25,7 @@ public class InitialInvestorObj
 			JSONArray invest, HashMap<String,Integer> counter) throws IOException, JSONException
 	{
 		// Read in the InvestorList.txt file
-		FileReader file = new FileReader("InvestorList.txt");
+		FileReader file = new FileReader("InvestorList11.txt");
 		BufferedReader buff = new BufferedReader(file);
 		boolean eof = false;
 		// Counter for calling AngelList API
