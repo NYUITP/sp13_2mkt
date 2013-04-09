@@ -52,6 +52,18 @@
 				myForm.elements[i].checked="";
 		}
 	}
+	
+	function RemoveContent(d) {
+		document.getElementById(d).style.visibility = "hidden";
+	}
+
+	function InsertContent(d) {
+		document.getElementById(d).style.visibility = "visible";
+	}
+	function hide(){
+		document.getElementByTagName("a").style.visibility = "hidden";
+	}
+
 </script>
 
 <div class="container">
@@ -102,20 +114,20 @@
 					<hr class="space" />
 					<ul class="clear-ul">
 
-						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf1" value="1">&nbsp;0 - 1M<a
+						<li class="mts" onMouseOver="InsertContent('only1')" onMouseOut="RemoveContent('only1')"><input type="checkbox"
+							name="total_funding" id="tf1" value="1">&nbsp;0 - 1M<a id="only1" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(1,'tform');">only</a></li>
-						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf2" value="2">&nbsp;1M - 5M<a
+						<li class="mts" onMouseOver="InsertContent('only2')" onMouseOut="RemoveContent('only2')"><input type="checkbox" 
+							name="total_funding" id="tf2" value="2">&nbsp;1M - 5M<a id="only2" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(2,'tform');">only</a></li>
-						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf3" value="3">&nbsp;5M - 100M<a
+						<li class="mts" onMouseOver="InsertContent('only3')" onMouseOut="RemoveContent('only3')"><input type="checkbox" 
+							name="total_funding" id="tf3" value="3">&nbsp;5M - 100M<a id="only3" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(3,'tform');">only</a></li>
-						<li class="mts"><input type="checkbox"
-							name="total_funding" id="tf4" value="4">&nbsp;100M - 500M<a
+						<li class="mts" onMouseOver="InsertContent('only4')" onMouseOut="RemoveContent('only4')"><input type="checkbox"
+							name="total_funding" id="tf4" value="4">&nbsp;100M - 500M<a id="only4" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(4,'tform');">only</a></li>
-						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf5" value="5">&nbsp;500M +<a
+						<li class="mts" onMouseOver="InsertContent('only5')" onMouseOut="RemoveContent('only5')"><input type="checkbox" 
+							name="total_funding" id="tf5" value="5">&nbsp;500M +<a id="only5" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(5,'tform');">only</a></li>
 					</ul>
 					<hr class="space" />
