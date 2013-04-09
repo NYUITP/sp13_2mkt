@@ -86,7 +86,7 @@ public class BaseController
 	public String filterCompanyByFund(@RequestParam("total_funding") String checkBoxVal, ModelMap model) 
 	{
 		logger.debug("Received request to filter company, by total funds raised, value = " + checkBoxVal);
-		System.out.println("total_funding:" + checkBoxVal);
+		//System.out.println("total_funding:" + checkBoxVal);
 		String[] parts = checkBoxVal.split(",");
 		
     	// Retrieve all Investor by delegating the call to CompanyService

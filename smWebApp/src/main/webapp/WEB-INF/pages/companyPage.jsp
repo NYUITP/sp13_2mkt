@@ -26,6 +26,22 @@
 			document.getElementById("tf"+checkVal[i]).checked="checked";
 		}
 	}
+	
+	function check(form,id){
+		var flag=false;
+		var myForm = document.forms[form];
+		for ( var i = 0; i < myForm.length-1; i++) {
+			if (myForm.elements[i].checked) {
+				flag=true;
+			} 
+		}
+		if(!flag){
+			alert("Please select at least one!");
+			for ( var i = 1; i < myForm.length; i++){
+				document.getElementById(id+i).checked="checked";
+			}
+		}
+	}
 </script>
 
 <div class="container">
@@ -88,7 +104,7 @@
 							name="total_funding" id="tf5" value="5">&nbsp;100M +
 					</ul>
 					<hr class="space" />
-					<input type="submit" value="Update">
+					<input type="submit" value="Update" onClick="check('tform','tf')">
 				</form>
 			</div>
 
