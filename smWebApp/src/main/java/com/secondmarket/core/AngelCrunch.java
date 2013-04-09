@@ -408,23 +408,29 @@ public class AngelCrunch
 				each_round.put(FundEnum.MONTH.getLabel().toString(),funded_month);
 				each_round.put(FundEnum.DAY.getLabel().toString(),funded_day);
 				//get all the investments in each round
-				JSONArray investments = each.getJSONArray("investments");
+				JSONArray investments = each.getJSONArray(FundEnum.INVESTMENTS.getLabel().toString());
 				JSONArray fund_company = new JSONArray();
 				JSONArray fund_financial_org = new JSONArray();
 				JSONArray fund_person = new JSONArray();
 				for (int index2 = 0; index2<investments.length(); ++index2){
 					JSONObject each_investment = investments.getJSONObject(index2);
-					if(!each_investment.isNull("company"))
-						fund_company.put(each_investment.get("company"));
-					if(!each_investment.isNull("financial_org"))
-						fund_financial_org.put(each_investment.get("financial_org"));
-					if(!each_investment.isNull("person"))	
-						fund_person.put(each_investment.get("person"));
+					if(!each_investment.isNull(FundEnum.COMPANY.getLabel().toString()))
+						fund_company.put(each_investment.get(FundEnum.COMPANY.getLabel().toString()));
+					if(!each_investment.isNull(FundEnum.FINANCIAL_ORG.getLabel().toString()))
+						fund_financial_org.put(each_investment.get(FundEnum.FINANCIAL_ORG.getLabel().toString()));
+					if(!each_investment.isNull(FundEnum.PERSON.getLabel().toString()))	
+						fund_person.put(each_investment.get(FundEnum.PERSON.getLabel().toString()));
 					
 				}
-				each_round.put("fund_company",fund_company);
-				each_round.put("fund_financial_org", fund_financial_org);
-				each_round.put("fund_person",fund_person);
+				if(!fund_company.isNull(0)){
+					each_round.put(FundEnum.COMPANY.getLabel().toString(),fund_company);
+				}
+				if(!fund_financial_org.isNull(0)){
+					each_round.put(FundEnum.FINANCIAL_ORG.getLabel().toString(), fund_financial_org);
+				}
+				if(!fund_person.isNull(0)){
+					each_round.put(FundEnum.PERSON.getLabel().toString(),fund_person);
+				}
 				round_funding.put(each_round);
 			}
 //			id_funding.put(id, funding);
