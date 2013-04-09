@@ -93,15 +93,15 @@
 					<ul class="clear-ul">
 
 						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf1" value="1">&nbsp;0 - 500k
+							name="total_funding" id="tf1" value="1">&nbsp;0 - 1M
 						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf2" value="2">&nbsp;500k - 1M
+							name="total_funding" id="tf2" value="2">&nbsp;1M - 5M
 						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf3" value="3">&nbsp;1M - 5M
+							name="total_funding" id="tf3" value="3">&nbsp;5M - 100M
 						<li class="mts"><input type="checkbox"
-							name="total_funding" id="tf4" value="4">&nbsp;5M - 100M
+							name="total_funding" id="tf4" value="4">&nbsp;100M - 500M
 						<li class="mts"><input type="checkbox" 
-							name="total_funding" id="tf5" value="5">&nbsp;100M +
+							name="total_funding" id="tf5" value="5">&nbsp;500M +
 					</ul>
 					<hr class="space" />
 					<input type="submit" value="Update" onClick="check('tform','tf')">
