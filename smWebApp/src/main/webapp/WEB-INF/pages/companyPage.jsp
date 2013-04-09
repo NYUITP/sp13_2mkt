@@ -15,6 +15,17 @@
 			}
 		}
 	}
+	
+	function load(){
+		showFundFilter();
+	}
+
+	function showFundFilter(){
+		var checkVal = new Array(0,${total_funding});
+		for(var i=1; i<checkVal.length; i++){
+			document.getElementById("tf"+checkVal[i]).checked="checked";
+		}
+	}
 </script>
 
 <div class="container">
@@ -65,16 +76,16 @@
 					<hr class="space" />
 					<ul class="clear-ul">
 
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="1">&nbsp;0-500k
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="2">&nbsp;500k-1M
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="3">&nbsp;1M-5M
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="4">&nbsp;5M - 100M
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="total_funding" value="5">&nbsp;100M+
+						<li class="mts"><input type="checkbox" 
+							name="total_funding" id="tf1" value="1">&nbsp;0 - 500k
+						<li class="mts"><input type="checkbox" 
+							name="total_funding" id="tf2" value="2">&nbsp;500k - 1M
+						<li class="mts"><input type="checkbox" 
+							name="total_funding" id="tf3" value="3">&nbsp;1M - 5M
+						<li class="mts"><input type="checkbox"
+							name="total_funding" id="tf4" value="4">&nbsp;5M - 100M
+						<li class="mts"><input type="checkbox" 
+							name="total_funding" id="tf5" value="5">&nbsp;100M +
 					</ul>
 					<hr class="space" />
 					<input type="submit" value="Update">
