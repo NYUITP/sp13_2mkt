@@ -11,6 +11,7 @@ package com.secondmarket.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -31,6 +32,7 @@ public class Run
 		
 		//Use HashMap to rule out identical companies.
 		HashMap<String, String> id_list = new HashMap<String, String>();	
+		HashMap<String,String> PersonPermalink = new HashMap<String, String>();
 		JSONObject investor = new JSONObject();
 		JSONArray invest = new JSONArray();
 		HashMap<String,Integer> counter = new HashMap<String,Integer>();
@@ -39,8 +41,11 @@ public class Run
 		HashMap<String, String> funding = new HashMap<String, String>();
 		HashMap<String, ArrayList<HashMap<Object, Object>>> round = new HashMap<String, ArrayList<HashMap<Object, Object>>>();
 		
-		InitialInvestorObj.initialize(ds, id_list, investor, invest, counter);
-		InitialCompanyObj.initialize(ds, funding, round, id_list,counter);
+		InitialInvestorObj.initialize(ds, id_list, investor, invest, counter,PersonPermalink);
+		/**
+		 * When initializing the investor object, put id and name into a HashMap?
+		 */
+		InitialCompanyObj.initialize(ds, funding, round, id_list,counter,PersonPermalink);
 		logger.debug(funding);
 		logger.debug(round);
 	}

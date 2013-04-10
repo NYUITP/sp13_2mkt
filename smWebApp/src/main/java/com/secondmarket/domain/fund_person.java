@@ -1,5 +1,7 @@
 package com.secondmarket.domain;
 
+import java.util.HashMap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +13,7 @@ public class fund_person {
 	public String first_name;
 	public String last_name;
 	public String permalink;
+	public String investor_id;
 	
 	public fund_person(JSONObject js)
 	{
@@ -18,9 +21,18 @@ public class fund_person {
 			first_name = js.getString(FundEnum.FIRST_NAME.getLabel().toString());
 			last_name = js.getString(FundEnum.LAST_NAME.getLabel().toString());
 			permalink = js.getString(FundEnum.PERMALINK.getLabel().toString());
+			if(js.has(FundEnum.INVESTOR_ID.getLabel().toString())){
+				investor_id = js.getString(FundEnum.INVESTOR_ID.getLabel().toString());
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+
+	public void setInvestor_id(String investor_id) {
+		this.investor_id = investor_id;
 	}
 
 	public String getFirst_name() {

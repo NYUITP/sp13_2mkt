@@ -15,7 +15,8 @@ public enum FundEnum {
 	FIRST_NAME("first_name"),
 	LAST_NAME("last_name"),
 	NAME("name"),
-	PERMALINK("permalink");
+	PERMALINK("permalink"),
+	INVESTOR_ID("investor_id");
 	
 	
     private String label;

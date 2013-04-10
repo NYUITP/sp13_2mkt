@@ -3,7 +3,11 @@ package com.secondmarket.core;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -22,7 +26,8 @@ public class InitialInvestorObj
 	
 	public static boolean initialize(Datastore ds, 
 			HashMap<String, String> id_list, JSONObject Investors,
-			JSONArray invest, HashMap<String,Integer> counter) throws IOException, JSONException
+			JSONArray invest, HashMap<String,Integer> counter,
+			HashMap<String,String> PersonPermalink) throws IOException, JSONException
 	{
 		// Read in the InvestorList.txt file
 		FileReader file = new FileReader("InvestorList11.txt");
@@ -54,7 +59,24 @@ public class InitialInvestorObj
 					//Print out the investor_info returned from Angellist.
 					System.out.println(investor_info);
 					String investor_id = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.ID.getLabel().toString());
+					System.out.println(investor_id);
 					String investor_name = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.NAME.getLabel().toString());
+					// parse investor_name into first name and last name
+					Pattern p = Pattern.compile("(\\S+)\\s(\\S+)",Pattern.DOTALL);
+					Matcher m = p.matcher(investor_name);
+					@SuppressWarnings("unused")
+					String fn = "";
+					String ln = "";
+					if (m.matches()){
+						 fn += m.group(1);
+						 ln += m.group(2);
+					}
+					String name = fn+"+"+ln;
+					/*
+					 * Here we can start using the name to locate records in the crunchbase.
+					 * Wait, they have a permalink for each investor right? Just use this instead of 
+					 * name. permalink:id
+					 */
 					String investor_bio = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.BIO.getLabel().toString());
 					String investor_follower_count = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
 					String investor_image = AngelCrunch.getInvestorfieldUrl(investor_info,InvestorEnum.INVESTOR_IMAGE.getLabel().toString());
@@ -63,6 +85,27 @@ public class InitialInvestorObj
 					String blog_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.BLOG_URL.getLabel().toString());
 					String twitter_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.TWITTER_URL.getLabel().toString());
 					String facebook_url = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.FB_URL.getLabel().toString());
+					
+					/*
+					 * Add fields from Crunchbase, use investor_name as search field
+					 */
+					String crunch_person = AngelCrunch.getCrunchPerson(name);
+//					System.out.println(crunch_person);
+//					JSONObject jperson = AngelCrunch.parseToJSON(crunch_person);
+					String permalink = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.PERMALINK.getLabel().toString());
+					String first_name = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.FIRST_NAME.getLabel().toString());
+					String last_name = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.LAST_NAME.getLabel().toString());
+					String crunchbase_url = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.CRUNCHBASE_URL.getLabel().toString());
+					String birthplace = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.BIRTHPLACE.getLabel().toString());
+					String twitter_username = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.TWITTER_USERNAME.getLabel().toString());
+					String born_year = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.BORN_YEAR.getLabel().toString());
+					String born_month = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.BORN_MONTH.getLabel().toString());
+					String born_day = AngelCrunch.getInvestorfield(crunch_person,InvestorEnum.BORN_DAY.getLabel().toString());
+					
+					/**
+					 * Add permalink to HashMap, for future reference
+					 */
+					PersonPermalink.put(permalink, investor_id);
 					
 					//Second time call AngelList API+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 					String start_up_role = AngelCrunch.getStartUpRole(investor_id);//get start-up role
@@ -112,6 +155,18 @@ public class InitialInvestorObj
 					each_investor.put(InvestorEnum.LINKEDIN_URL.getLabel().toString(), linkedin_url);
 					each_investor.put(LocationEnum.LOCATION.getLabel().toString(), investor_locations);
 					
+					/**
+					 * For Deepa, Here are some new fields added to Investor
+					 */
+					each_investor.put(InvestorEnum.PERMALINK.getLabel().toString(),permalink);
+					each_investor.put(InvestorEnum.FIRST_NAME.getLabel().toString(),first_name);
+					each_investor.put(InvestorEnum.LAST_NAME.getLabel().toString(),last_name);
+					each_investor.put(InvestorEnum.CRUNCHBASE_URL.getLabel().toString(),crunchbase_url);
+					each_investor.put(InvestorEnum.BIRTHPLACE.getLabel().toString(),birthplace);
+					each_investor.put(InvestorEnum.TWITTER_USERNAME.getLabel().toString(),twitter_username);
+					each_investor.put(InvestorEnum.BORN_YEAR.getLabel().toString(),born_year);
+					each_investor.put(InvestorEnum.BORN_MONTH.getLabel().toString(),born_month);
+					each_investor.put(InvestorEnum.BORN_DAY.getLabel().toString(),born_day);
 					logger.debug(each_investor);
 					
 					/**

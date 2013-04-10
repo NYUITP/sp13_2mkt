@@ -2,6 +2,7 @@ package com.secondmarket.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -19,7 +20,8 @@ public class InitialCompanyObj {
 	public static boolean initialize(Datastore ds,
 			HashMap<String, String> funding,
 			HashMap<String, ArrayList<HashMap<Object, Object>>> round,
-			HashMap<String, String> id_list, HashMap<String, Integer> counter)
+			HashMap<String, String> id_list, HashMap<String, Integer> counter,
+			HashMap<String,String> PersonPermalink)
 			throws JSONException {
 		int cc = counter.get("count");
 		for (Object key1 : id_list.keySet().toArray()) {
@@ -103,9 +105,19 @@ public class InitialCompanyObj {
 								.toString(), company_locations);
 						// Later: Process the total_funding amount using regular
 						// expression and parse it to double.
+						
+						/*
+						 * Here+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+						 * getCrunchRoundFunding will have to do something more, say, matching 
+						 * the investor name of each round funding with the ones in db.Investor
+						 * First it need to match for name. if match, and single id, then use this id,
+						 * if not, check if the company id exists in each of these investor's profile
+						 * with their corresponding id. Will need to change the structure of Fund and
+						 * fund_person, perhaps more. We'll come to that.
+						 */
 						each_company.put(CompanyEnum.FUNDING_ROUNDS.getLabel()
 								.toString(), AngelCrunch
-								.getCrunchRoundFunding(crunchCompany));
+								.getCrunchRoundFunding(crunchCompany,PersonPermalink));  
 						total_fund = AngelCrunch
 								.getCrunchTotalFunding(crunchCompany);
 						each_company.put(CompanyEnum.TOTAL_FUNDING.getLabel()

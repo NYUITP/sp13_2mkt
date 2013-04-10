@@ -19,7 +19,16 @@ public enum InvestorEnum {
 	TWITTER_URL("twitter_url"),
 	FB_URL("facebook_url"),
 	LINKEDIN_URL("linkedin_url"),
-	NORMALIZED_COMAPNY_SCORE("cc_norm");
+	NORMALIZED_COMAPNY_SCORE("cc_norm"),
+	PERMALINK("permalink"),
+	FIRST_NAME("first_name"),
+	LAST_NAME("last_name"),
+	CRUNCHBASE_URL("crunchbase_url"),
+	BIRTHPLACE("birthplace"),
+	TWITTER_USERNAME("twitter_username"),
+	BORN_YEAR("born_year"),
+	BORN_MONTH("born_month"),
+	BORN_DAY("born_day");
 	
     private String label;
  

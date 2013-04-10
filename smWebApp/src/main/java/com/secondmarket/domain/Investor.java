@@ -13,6 +13,7 @@ import com.google.code.morphia.annotations.Id;
 import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.LocationEnum;
+import com.secondmarket.core.AngelCrunch;
 
 @Entity
 public class Investor
@@ -30,6 +31,15 @@ public class Investor
 	private String twitter_url;
 	private String facebook_url;
 	private String linkedin_url;
+	private String permalink;
+	private String first_name;
+	private String last_name;
+	private String crunchbase_url;
+	private String birthplace;
+	private String twitter_username;
+	private String born_year;
+	private String born_month;
+	private String born_day;
 	
 	private List<Integer> company_id  = new ArrayList<Integer>();
 	@Embedded
@@ -49,7 +59,15 @@ public class Investor
 		twitter_url = js.getString(InvestorEnum.TWITTER_URL.getLabel().toString());
 		facebook_url = js.getString(InvestorEnum.FB_URL.getLabel().toString());
 		linkedin_url = js.getString(InvestorEnum.LINKEDIN_URL.getLabel().toString());
-		
+		permalink = js.getString(InvestorEnum.PERMALINK.getLabel().toString());
+		first_name = js.getString(InvestorEnum.FIRST_NAME.getLabel().toString());
+		last_name= js.getString(InvestorEnum.LAST_NAME.getLabel().toString());
+		crunchbase_url= js.getString(InvestorEnum.CRUNCHBASE_URL.getLabel().toString());
+		birthplace=js.getString(InvestorEnum.BIRTHPLACE.getLabel().toString());
+		twitter_username = js.getString(InvestorEnum.TWITTER_USERNAME.getLabel().toString());
+		born_year = js.getString(InvestorEnum.BORN_YEAR.getLabel().toString());
+		born_month = js.getString(InvestorEnum.BORN_MONTH.getLabel().toString());
+		born_day = js.getString(InvestorEnum.BORN_DAY.getLabel().toString());
 		JSONArray investor_locations = null;
 		if( js.has(LocationEnum.LOCATION.getLabel().toString())){
 			investor_locations = js.getJSONArray(LocationEnum.LOCATION.getLabel().toString());
@@ -68,6 +86,78 @@ public class Investor
 		}
 	}
 		
+	public String getPermalink() {
+		return permalink;
+	}
+
+	public void setPermalink(String permalink) {
+		this.permalink = permalink;
+	}
+
+	public String getFirst_name() {
+		return first_name;
+	}
+
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+
+	public String getLast_name() {
+		return last_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+	public String getCrunchbase_url() {
+		return crunchbase_url;
+	}
+
+	public void setCrunchbase_url(String crunchbase_url) {
+		this.crunchbase_url = crunchbase_url;
+	}
+
+	public String getBirthplace() {
+		return birthplace;
+	}
+
+	public void setBirthplace(String birthplace) {
+		this.birthplace = birthplace;
+	}
+
+	public String getTwitter_username() {
+		return twitter_username;
+	}
+
+	public void setTwitter_username(String twitter_username) {
+		this.twitter_username = twitter_username;
+	}
+
+	public String getBorn_year() {
+		return born_year;
+	}
+
+	public void setBorn_year(String born_year) {
+		this.born_year = born_year;
+	}
+
+	public String getBorn_month() {
+		return born_month;
+	}
+
+	public void setBorn_month(String born_month) {
+		this.born_month = born_month;
+	}
+
+	public String getBorn_day() {
+		return born_day;
+	}
+
+	public void setBorn_day(String born_day) {
+		this.born_day = born_day;
+	}
+
 	public Integer getId() {
 		return id;
 	}

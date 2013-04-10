@@ -377,7 +377,7 @@ public class AngelCrunch
 	 * @param crunchCompany
 	 * @return A JSONArray of each round of funding
 	 */
-	public static JSONArray getCrunchRoundFunding(String crunchCompany){
+	public static JSONArray getCrunchRoundFunding(String crunchCompany,HashMap<String,String> PersonPermalink ){
 		JSONArray round_funding = new JSONArray();
 		JSONObject company = null;
 		HashMap<String, List<Double>> hm_dollar = new HashMap<String, List<Double>>();
@@ -418,9 +418,17 @@ public class AngelCrunch
 						fund_company.put(each_investment.get(FundEnum.COMPANY.getLabel().toString()));
 					if(!each_investment.isNull(FundEnum.FINANCIAL_ORG.getLabel().toString()))
 						fund_financial_org.put(each_investment.get(FundEnum.FINANCIAL_ORG.getLabel().toString()));
-					if(!each_investment.isNull(FundEnum.PERSON.getLabel().toString()))	
+					if(!each_investment.isNull(FundEnum.PERSON.getLabel().toString())){
+						JSONObject ei = each_investment.getJSONObject(FundEnum.PERSON.getLabel().toString());
+						String pl = ei.getString(FundEnum.PERMALINK.getLabel().toString());
+//						System.out.println(pl);
+						if (PersonPermalink.containsKey(pl)){
+							ei.put("investor_id", PersonPermalink.get(pl));
+						}
 						fund_person.put(each_investment.get(FundEnum.PERSON.getLabel().toString()));
-					
+						
+					}
+						
 				}
 				if(!fund_company.isNull(0)){
 					each_round.put(FundEnum.COMPANY.getLabel().toString(),fund_company);
@@ -458,5 +466,28 @@ public class AngelCrunch
 			//e.printStackTrace();
 		}
 		return total_fund;
+	}
+	
+	public static String getCrunchPerson(String name){
+		
+		URL url;
+		HttpURLConnection conn;
+		BufferedReader rd;
+		String line;
+		String result = "";
+		try{
+			url = new URL("http://api.crunchbase.com/v/1/person/"+name+".js?api_key=m97aznucw5d57wk9m5a94ekp");
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			while ((line = rd.readLine())!=null){
+				result += line;
+//				result += "\n";
+			}
+			rd.close();
+		} catch(Exception e){
+			//e.printStackTrace();
+		}
+		return result;
 	}
 }
