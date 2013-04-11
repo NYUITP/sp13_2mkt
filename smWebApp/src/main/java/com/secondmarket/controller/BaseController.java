@@ -52,6 +52,7 @@ public class BaseController
     	List<Company> companies = companyService.getAll();
     	logger.debug(companies.size());
     	model.addAttribute("companies", companies);
+    	model.addAttribute("periods", "3");
     	return "companyPage";
 	}
 	
@@ -80,6 +81,18 @@ public class BaseController
     	model.addAttribute("followerLevel", followersImpLevel);
     	model.addAttribute("companyLevel", companyImpLevel);
     	return "investorsPage";
+	}
+	
+	@RequestMapping(value="/companyRankingByFundTime", method = RequestMethod.POST)
+	public String getCompanyRankingByFundTime(@RequestParam("periodPast") String periodPast, ModelMap model) 
+	{
+		logger.debug("Received request to rank companies, by fund time, value = " + periodPast);
+		// Retrieve all Investor by delegating the call to InvestorService
+    	List<Company> companies = companyService.companyRankingByFundTime(periodPast);
+    	
+    	model.addAttribute("companies", companies);
+    	model.addAttribute("periods", periodPast);
+    	return "companyPage";
 	}
 	
 	@RequestMapping(value="/fundFilter",  method = RequestMethod.POST)

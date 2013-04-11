@@ -1,7 +1,11 @@
 package com.secondmarket.batch;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -17,8 +21,10 @@ import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.common.LocationEnum;
+import com.secondmarket.common.MapUtil;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Company;
+import com.secondmarket.domain.Fund;
 import com.secondmarket.domain.Location;
 
 @Service("companyService")
@@ -76,6 +82,75 @@ public class CompanyService {
 		DBObject dbObject = coll.findOne(doc); // Find and return the Company
 		Company company = getCompanyObject(dbObject);	
 		return company; // Return company
+	}
+	
+	public List<Company> companyRankingByFundTime(String periodPast)
+	{
+		logger.debug("Retrieving companies ranking by fund time");
+		int period=0;
+		if(periodPast.equals("1"))
+		{
+			period=3;
+		}
+		else if(periodPast.equals("2"))
+		{
+			period=6;
+		}
+		else if(periodPast.equals("3"))
+		{
+			period=12;
+		}
+		else if(periodPast.equals("4"))
+		{
+			period=24;
+		}
+		else
+		{
+			period=36;
+		}
+		
+		Date current = new Date();  
+		//System.out.println(current);  
+		Calendar cal = Calendar.getInstance();  
+		cal.setTime(current);  
+		cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-period));  
+		current = cal.getTime();  
+		//System.out.println(current);  
+		
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(), CommonStrings.COMPANY_COLL.getLabel().toString());
+		DBCursor cur = coll.find();// Retrieve cursor for iterating records
+		List<Company> items = new ArrayList<Company>(); // Create new list
+		//a hashmap for company and fund_p for sorting
+		HashMap<Integer, Double> CompanyFund = new HashMap<Integer, Double>();
+		HashMap<Integer, Company> companyId = new HashMap<Integer, Company>();
+		
+		while (cur.hasNext()) {
+			DBObject dbObject = cur.next(); // Map DBOject to company
+			Company company = getCompanyObject(dbObject);
+			companyId.put(company.getId(), company);
+			double fund_p = 0.0;
+			
+			List<Fund> all_fund = company.getFund_info();
+			for (Fund each_fund: all_fund){
+				@SuppressWarnings("deprecation")
+				Date f_date = new Date(each_fund.getFunded_year(), each_fund.getFunded_month(), each_fund.getFunded_day());
+				//if in period, add to fund_p
+				if(f_date.after(current)){
+					fund_p += each_fund.getAmount();
+				}
+			}
+			//insert fund_p and company pair to hashmap
+			CompanyFund.put(company.getId(), fund_p);
+		}
+		
+		//items= sorted company based on fund_p
+		HashMap<Integer, Double> sortedMap = MapUtil.sortHashMap(CompanyFund);
+		
+		for(Entry<Integer, Double> entry : sortedMap.entrySet()){
+			items.add(companyId.get(entry.getKey()));
+		}
+
+		return items;
 	}
 
 	public List<Company> filterByFunds(String[] fundRange) 
