@@ -4,7 +4,9 @@
 
 <%@include file="../../resources/include/head.jsp"%>
 
-<script language="javascript">
+<script type="text/javascript">
+	$(document).ready(load);
+
 	function selectToggle(toggle, form) {
 		var myForm = document.forms[form];
 		for ( var i = 0; i < myForm.length; i++) {
@@ -18,12 +20,19 @@
 	
 	function load(){
 		showFundFilter();
+		showTimeRange(document.getElementById("timeRange").value);
 	}
 
-	function showFundFilter(){
-		var checkVal = new Array(0,${total_funding});
-		for(var i=1; i<checkVal.length; i++){
-			document.getElementById("tf"+checkVal[i]).checked="checked";
+	function showFundFilter() {
+		var checkedVal = [${total_funding}];
+		for (i in checkedVal) {
+			checkbox_id = "tf" + checkedVal[i];
+			try {
+				document.getElementById(checkbox_id).checked="checked";	
+			} catch (err) {
+				alert(checkbox_id);
+			}
+			
 		}
 	}
 	
@@ -62,6 +71,26 @@
 	}
 	function hide(){
 		document.getElementByTagName("a").style.visibility = "hidden";
+	}
+	
+	function showTimeRange(newValue) {
+		if (newValue == 1) {
+			document.getElementById("fund-period").innerHTML = "3 month";
+			document.getElementById('periodPast').value = 1;
+		} else if (newValue == 2) {
+			document.getElementById("fund-period").innerHTML = "6 month";
+			document.getElementById('periodPast').value = 2;
+		} else if (newValue == 3) {
+			document.getElementById("fund-period").innerHTML = "1 year";
+			document.getElementById('periodPast').value = 3;
+		} else if (newValue == 4) {
+			document.getElementById("fund-period").innerHTML = "2 year";
+			document.getElementById('periodPast').value = 4;
+		} else if (newValue == 5) {
+			document.getElementById("fund-period").innerHTML = "3 year";
+			document.getElementById('periodPast').value = 5;
+		}
+
 	}
 
 </script>
@@ -168,6 +197,30 @@
 					<input type="submit" value="Update">
 				</form>
 			</div>
+			
+			<hr class="space" />
+			<div class="side-block hidden-phone">
+				<div>
+					<strong>Rank Company by Fund raised in last</strong>
+				</div>
+				<hr class="space" />
+
+				<input id="timeRange" type="range" min="1" max="5" step="1" value="${periods}"
+					onchange="showTimeRange(this.value)" />
+
+				<span id="fund-period" class="slider-value">1 year</span>
+				
+				<hr class="space" />
+				<form action="companyRankingByFundTime" method="post">
+					<input type='hidden' id='periodPast' name='periodPast' value='3'/>
+					<input type="submit" value="Update">
+				</form>	
+			</div>
+			
+			
+			
+
+			
 		</div>
 
 
