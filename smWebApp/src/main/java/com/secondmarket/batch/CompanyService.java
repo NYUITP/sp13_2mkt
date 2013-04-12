@@ -250,6 +250,7 @@ public class CompanyService {
 		company.setBlog_url(dbObject.get(CompanyEnum.BLOG_URL.getLabel()).toString());
 		company.setHigh_concept(dbObject.get(CompanyEnum.HIGH_CONCEPT.getLabel()).toString());
 		company.setAngellist_url(dbObject.get(CompanyEnum.ANGLELIST_URL.getLabel()).toString());
+		company.setInvestor((ArrayList<Integer>)dbObject.get(CompanyEnum.INVESTORS.getLabel().toString()));	
 		
 		List<BasicDBObject> fundObjects = (List<BasicDBObject>) dbObject.get(FundEnum.FUND_INFO.getLabel());
 		List<Fund> fund_info = new ArrayList<Fund>();

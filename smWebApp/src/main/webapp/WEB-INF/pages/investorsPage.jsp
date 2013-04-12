@@ -189,6 +189,7 @@
 					<!-- <c:out value="${investor.bio}" /> -->
 					<hr class="space" />
 				</div>
+				<hr>
 			</c:forEach>
 		</div>
 	</div>

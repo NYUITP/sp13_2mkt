@@ -30,7 +30,7 @@ public class Company{
 	private String blog_url;
 	private double fl_norm;
 	private List<String> markets = new ArrayList<String>();
-	private List<Integer> investor = new ArrayList<Integer>();
+	private List<Integer> investors = new ArrayList<Integer>();
 	@Embedded
 	private List<Fund> fund_info = new ArrayList<Fund>();	
 	
@@ -62,10 +62,12 @@ public class Company{
 			fund_info.add(fund_i);
 		}
 		
-		JSONArray investors = js.getJSONArray(CompanyEnum.INVESTORS.getLabel().toString());
-		for(int i = 0; i<investors.length(); i++)
+		JSONArray investorsArray = js.getJSONArray(CompanyEnum.INVESTORS.getLabel().toString());
+		System.out.println(investorsArray);
+		for(int i = 0; i<investorsArray.length(); i++)
 		{
-			investor.add(investors.getInt(i));
+			System.out.println("hi " + investorsArray.getInt(i));
+			investors.add(investorsArray.getInt(i));
 		}
 		
 		JSONArray investor_locations = null;
@@ -128,7 +130,7 @@ public class Company{
 		this.markets = markets;
 	}
 	public List<Integer> getInvestor() {
-		return investor;
+		return investors;
 	}
 	public List<Location> getLocations() {
 		return locations;
@@ -139,7 +141,7 @@ public class Company{
 	}
 
 	public void setInvestor(List<Integer> investor) {
-		this.investor = investor;
+		this.investors = investor;
 	}
 	public List<Fund> getFund_info() {
 		return fund_info;
