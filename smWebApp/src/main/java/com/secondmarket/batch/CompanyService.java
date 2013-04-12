@@ -165,22 +165,22 @@ public class CompanyService {
 			//filter function
 			for (String each : fundRange) {
 				if (each.equals("1")) {
-					if (company.getTotal_funding() < 1000000)
+					if (company.getTotal_funding() < 50000)
 						items.add(company);
 				} else if (each.equals("2")) {
-					if (company.getTotal_funding() < 5000000
-							&& company.getTotal_funding() >= 1000000)
+					if (company.getTotal_funding() < 1000000
+							&& company.getTotal_funding() >= 50000)
 						items.add(company);
 				} else if (each.equals("3")) {
-					if (company.getTotal_funding() < 100000000
-							&& company.getTotal_funding() >= 5000000)
+					if (company.getTotal_funding() < 3000000
+							&& company.getTotal_funding() >= 1000000)
 						items.add(company);
 				} else if (each.equals("4")) {
-					if (company.getTotal_funding() < 500000000
-							&& company.getTotal_funding() >= 100000000)
+					if (company.getTotal_funding() < 5000000
+							&& company.getTotal_funding() >= 3000000)
 						items.add(company);
 				} else if (each.equals("5")) {
-					if (company.getTotal_funding() >= 500000000)
+					if (company.getTotal_funding() >= 5000000)
 						items.add(company);
 				}
 			}

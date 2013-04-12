@@ -163,27 +163,27 @@
 
 						<li class="mts" onMouseOver="InsertContent('only1')"
 							onMouseOut="RemoveContent('only1')"><input type="checkbox"
-							name="total_funding" id="tf1" value="1">&nbsp;0 - 1M<a
+							name="total_funding" id="tf1" value="1">&nbsp;0 - 50k<a
 							id="only1" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(1,'tform');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('only2')"
 							onMouseOut="RemoveContent('only2')"><input type="checkbox"
-							name="total_funding" id="tf2" value="2">&nbsp;1M - 5M<a
+							name="total_funding" id="tf2" value="2">&nbsp;50k - 1M<a
 							id="only2" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(2,'tform');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('only3')"
 							onMouseOut="RemoveContent('only3')"><input type="checkbox"
-							name="total_funding" id="tf3" value="3">&nbsp;5M - 100M<a
+							name="total_funding" id="tf3" value="3">&nbsp;1M - 3M<a
 							id="only3" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(3,'tform');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('only4')"
 							onMouseOut="RemoveContent('only4')"><input type="checkbox"
-							name="total_funding" id="tf4" value="4">&nbsp;100M - 500M<a
+							name="total_funding" id="tf4" value="4">&nbsp;3M - 5M<a
 							id="only4" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(4,'tform');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('only5')"
 							onMouseOut="RemoveContent('only5')"><input type="checkbox"
-							name="total_funding" id="tf5" value="5">&nbsp;500M +<a
+							name="total_funding" id="tf5" value="5">&nbsp;5M +<a
 							id="only5" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(5,'tform');">only</a></li>
 					</ul>
