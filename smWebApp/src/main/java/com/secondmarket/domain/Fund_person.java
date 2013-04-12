@@ -32,6 +32,10 @@ public class Fund_person {
 	public void setInvestor_id(String investor_id) {
 		this.investor_id = investor_id;
 	}
+	
+	public String getInvestor_id(){
+		return investor_id;
+	}
 
 	public String getFirst_name() {
 		return first_name;

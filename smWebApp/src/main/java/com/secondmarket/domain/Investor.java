@@ -271,6 +271,10 @@ public class Investor
 	public void setLocations(List<Location> locations) {
 		this.locations = locations;
 	}
+	
+	public void setROI(double roi){
+		this.average_roi=roi;
+	}
 
 	@Override
     public boolean equals(Object obj) {

@@ -156,5 +156,36 @@ public class Fund
 	public void setRaised_amount(Double raised_amount) {
 		this.raised_amount = raised_amount;
 	}
+	
+	/**
+	 * return if a round is before the round given in parameter
+	 */
+	public boolean round_before(String round_code){
+		int x = round_order(this.round_code);
+		int y = round_order(round_code);
+		if(x<y)
+			return true;
+		else
+			return false;		
+	}
+	
+	public int round_order(String round_code){
+		
+		if(round_code.equals("seed"))
+			return 0;
+		else if (round_code.equals("angel"))
+			return 1;
+		else if (round_code.equals("a"))
+			return 2;
+		else if (round_code.equals("b"))
+			return 3;
+		else if (round_code.equals("c"))
+			return 4;
+		else if (round_code.equals("d"))
+			return 5;
+		else if (round_code.equals("e"))
+			return 6;
+		else return 7;
+	}
 }
 	
