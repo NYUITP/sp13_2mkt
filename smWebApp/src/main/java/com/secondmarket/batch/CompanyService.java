@@ -56,21 +56,24 @@ public class CompanyService {
 		logger.debug("Retrieving all companies for investor");
 		List<Company> items = new ArrayList<Company>(); // Create new list
 		BasicDBList docIds = new BasicDBList();
-		docIds.addAll(ids);
-		
-		DBObject inClause = new BasicDBObject("$in", docIds);
-        DBObject query = new BasicDBObject(CompanyEnum._ID.getLabel().toString(), inClause);
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve
-		DBCursor dbCursor = coll.find(query);
-        if (dbCursor != null)
-        {
-            while (dbCursor.hasNext())
-            {
-            	DBObject dbObject = dbCursor.next(); // Map DBOject to company
-    			Company company = getCompanyObject(dbObject);
-    			items.add(company); // Add to new list
-            }
-        }
+		if(ids != null)
+		{
+			docIds.addAll(ids);
+			
+			DBObject inClause = new BasicDBObject("$in", docIds);
+	        DBObject query = new BasicDBObject(CompanyEnum._ID.getLabel().toString(), inClause);
+			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve
+			DBCursor dbCursor = coll.find(query);
+	        if (dbCursor != null)
+	        {
+	            while (dbCursor.hasNext())
+	            {
+	            	DBObject dbObject = dbCursor.next(); // Map DBOject to company
+	    			Company company = getCompanyObject(dbObject);
+	    			items.add(company); // Add to new list
+	            }
+	        }
+		}
 		return items; // Return company
 	}
 	
