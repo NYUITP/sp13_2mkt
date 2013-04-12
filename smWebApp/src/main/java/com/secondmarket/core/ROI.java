@@ -74,7 +74,6 @@ public class ROI {
 		
 		int count = 0;
 		double total = 0.0;
-		
 		for(double each : all_roi){
 			total += each;
 			count++;
