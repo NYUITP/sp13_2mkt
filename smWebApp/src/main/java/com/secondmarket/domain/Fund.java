@@ -19,7 +19,7 @@ public class Fund
 	private Integer funded_month;
 	private Integer funded_day;
 	@Embedded 
-	private List<fund_company> fund_company = new ArrayList<fund_company>();
+	private List<Fund_company> Fund_company = new ArrayList<Fund_company>();
 	public String getRound() {
 		return round;
 	}
@@ -70,40 +70,40 @@ public class Fund
 	}
 
 
-	public List<fund_company> getFund_company() {
-		return fund_company;
+	public List<Fund_company> getFund_company() {
+		return Fund_company;
 	}
 
 
-	public void setFund_company(List<fund_company> fund_company) {
-		this.fund_company = fund_company;
+	public void setFund_company(List<Fund_company> Fund_company) {
+		this.Fund_company = Fund_company;
 	}
 
 
-	public List<fund_financial_org> getFund_financial_org() {
-		return fund_financial_org;
+	public List<Fund_financial_org> getFund_financial_org() {
+		return Fund_financial_org;
 	}
 
 
-	public void setFund_financial_org(List<fund_financial_org> fund_financial_org) {
-		this.fund_financial_org = fund_financial_org;
+	public void setFund_financial_org(List<Fund_financial_org> Fund_financial_org) {
+		this.Fund_financial_org = Fund_financial_org;
 	}
 
 
-	public List<fund_person> getFund_person() {
-		return fund_person;
+	public List<Fund_person> getFund_person() {
+		return Fund_person;
 	}
 
 
-	public void setFund_person(List<fund_person> fund_person) {
-		this.fund_person = fund_person;
+	public void setFund_person(List<Fund_person> Fund_person) {
+		this.Fund_person = Fund_person;
 	}
 
 
 	@Embedded
-	private List<fund_financial_org> fund_financial_org = new ArrayList<fund_financial_org>();
+	private List<Fund_financial_org> Fund_financial_org = new ArrayList<Fund_financial_org>();
 	@Embedded
-	private List<fund_person> fund_person = new ArrayList<fund_person>();
+	private List<Fund_person> Fund_person = new ArrayList<Fund_person>();
 	
 	
 	public Fund(JSONObject js) throws JSONException
@@ -122,8 +122,8 @@ public class Fund
 			if(!company.isNull(0)){
 				for(int j = 0; j<company.length();j++){
 				JSONObject each_company = company.getJSONObject(j);
-				fund_company fund_company_i = new fund_company(each_company);
-				fund_company.add(fund_company_i);
+				Fund_company Fund_company_i = new Fund_company(each_company);
+				Fund_company.add(Fund_company_i);
 				}
 			}
 			
@@ -134,8 +134,8 @@ public class Fund
 			if (!financial_org.isNull(0)){
 				for (int j = 0; j<financial_org.length();j++){
 				JSONObject each_financial_org = financial_org.getJSONObject(j);
-				fund_financial_org fund_financial_org_i = new fund_financial_org(each_financial_org);
-				fund_financial_org.add(fund_financial_org_i);
+				Fund_financial_org Fund_financial_org_i = new Fund_financial_org(each_financial_org);
+				Fund_financial_org.add(Fund_financial_org_i);
 				}
 			}
 			
@@ -145,8 +145,8 @@ public class Fund
 			if(!person.isNull(0)){
 				for(int j = 0; j<person.length();j++){
 				JSONObject each_person = person.getJSONObject(j);
-				fund_person fund_person_i = new fund_person(each_person);
-				fund_person.add(fund_person_i);
+				Fund_person Fund_person_i = new Fund_person(each_person);
+				Fund_person.add(Fund_person_i);
 				}
 			}
 			
