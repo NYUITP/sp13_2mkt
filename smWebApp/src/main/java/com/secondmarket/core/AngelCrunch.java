@@ -218,7 +218,7 @@ public class AngelCrunch
 		if(investor_id != null && !investor_id.equals(""))
 		{
 			try{
-				url = new URL("https://api.angel.co/1/users/"+investor_id+"/startups");
+				url = new URL("https://api.angel.co/1/users/"+investor_id+"/roles");
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
 				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -250,6 +250,10 @@ public class AngelCrunch
 	
 				for (int index = 0; index<st_arr.length(); ++index){
 					JSONObject each = st_arr.getJSONObject(index);
+					if((each.get(InvestorEnum.ROLE.getLabel().toString()).equals("past_investor"))
+						|| (each.get(InvestorEnum.ROLE.getLabel().toString()).equals("current_investor"))
+						|| (each.get(InvestorEnum.ROLE.getLabel().toString()).equals("founder")))
+					{
 					JSONObject company = each.getJSONObject(InvestorEnum.STARTUP.getLabel().toString());
 					
 					Integer id = company.getInt(CompanyEnum.ID.getLabel().toString());
@@ -267,6 +271,7 @@ public class AngelCrunch
 					 * Put the id and name into the HashMap
 					 */
 					id_list.put(id2,name);
+					}
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -586,7 +591,8 @@ public class AngelCrunch
 			{
 				JSONObject startup_role = startup_roles.getJSONObject(index);
 				if((startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("past_investor"))
-				|| (startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("current_investor")))
+				|| (startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("current_investor"))
+				|| (startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("founder")))
 				{
 					investorIds.add(Integer.valueOf(startup_role.get(InvestorEnum.ID.getLabel().toString()).toString()));
 				}
@@ -624,7 +630,8 @@ public class AngelCrunch
 			{
 				JSONObject startup_role = startup_roles.getJSONObject(index);
 				if((startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("past_investor"))
-				|| (startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("current_investor")))
+				|| (startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("current_investor"))
+				|| (startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("founder")))
 				{
 					investorIds.add(Integer.valueOf(startup_role.get(InvestorEnum.ID.getLabel().toString()).toString()));
 				}
