@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -44,6 +45,32 @@ public class InvestorService
 		return items;  // Return list
 	}
 	
+	public List<Investor> get(List<Integer> ids) 
+	{
+		logger.debug("Retrieving all investors for a company");
+		List<Investor> items = new ArrayList<Investor>(); // Create new list
+		BasicDBList docIds = new BasicDBList();
+		if(ids != null)
+		{
+			docIds.addAll(ids);
+			
+			DBObject inClause = new BasicDBObject("$in", docIds);
+	        DBObject query = new BasicDBObject(InvestorEnum._ID.getLabel().toString(), inClause);
+			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString());// Retrieve
+			DBCursor dbCursor = coll.find(query);
+	        if (dbCursor != null)
+	        {
+	            while (dbCursor.hasNext())
+	            {
+	            	DBObject dbObject = dbCursor.next(); // Map DBOject to investor
+	            	Investor investor = getInvestorObject(dbObject);
+	    			items.add(investor); // Add to new list
+	            }
+	        }
+		}
+		return items; // Return investor
+	}
+	
 	public Investor get( Integer id ) 
 	{
 		logger.debug("Retrieving an existing Investor");
@@ -72,7 +99,7 @@ public class InvestorService
     	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel()).toString());
     	investor.setFacebook_url(dbObject.get(InvestorEnum.FB_URL.getLabel()).toString());
     	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
-    	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
+    	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
     	List<Location> locations = new ArrayList<Location>();
     	if(locationObjects !=null)
     	{
@@ -89,7 +116,7 @@ public class InvestorService
         	}
     	}
     	investor.setLocations(locations);
-    	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel()));	
+    	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel().toString()));	
 		return investor;
 	}
 	public Boolean add(Investor investor) 

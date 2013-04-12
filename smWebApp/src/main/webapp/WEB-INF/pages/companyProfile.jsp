@@ -66,6 +66,26 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="span11 well">
+		<div class="row">
+			<div class="span11">
+				<h4>Investors Invested</h4>
+				<span> <c:forEach items="${investorsInvested}" var="investor">
+						<div class="pull-left">
+							<img class="img-rounded" src="${investor.image}" width="50"
+								height="50" /> <span class="pull-left "> <a
+								href=companyProfile?id=${company.id}><c:out
+										value="${investor.name}" /></a>
+							</span>
+							<hr class="space" />
+						</div>
+
+					</c:forEach>
+				</span>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>

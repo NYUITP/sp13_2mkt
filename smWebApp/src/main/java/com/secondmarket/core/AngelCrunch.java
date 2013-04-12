@@ -6,7 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -493,6 +495,15 @@ public class AngelCrunch
 	
 	public static List<Integer> getInvestorsForCompany(String companyId)
 	{
+		List<Integer> investors = new ArrayList<Integer>();
+		Set<Integer> investorIds = getOutgoingRole(companyId);
+		getRoles(companyId, investorIds);
+		investors.addAll(investorIds);
+		return investors;
+	}
+
+	private static void getRoles(String companyId, Set<Integer> investorIds)
+	{
 		URL url;
 		HttpURLConnection conn;
 		BufferedReader rd;
@@ -500,7 +511,44 @@ public class AngelCrunch
 		String result = "";
 		JSONObject jobj = null;
 		JSONArray startup_roles = null;
-		List<Integer> investorIds = new ArrayList<Integer>();
+		
+		try{
+			url = new URL("https://api.angel.co/1/startups/"+companyId+"/roles");
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			while ((line = rd.readLine())!=null)
+			{
+				result += line;
+			}
+			rd.close();
+			
+			jobj = new JSONObject(result);
+			startup_roles = new JSONArray(jobj.get(InvestorEnum.STARTUP_ROLES.getLabel().toString()).toString());
+			for (int index = 0; index<startup_roles.length(); ++index)
+			{
+				JSONObject startup_role = startup_roles.getJSONObject(index);
+				if((startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("past_investor"))
+				|| (startup_role.get(InvestorEnum.ROLE.getLabel().toString()).equals("current_investor")))
+				{
+					investorIds.add(Integer.valueOf(startup_role.get(InvestorEnum.ID.getLabel().toString()).toString()));
+				}
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	private static Set<Integer> getOutgoingRole(String companyId) 
+	{
+		URL url;
+		HttpURLConnection conn;
+		BufferedReader rd;
+		String line;
+		String result = "";
+		JSONObject jobj = null;
+		JSONArray startup_roles = null;
+		Set<Integer> investorIds = new HashSet<Integer>();
 		
 		try{
 			url = new URL("https://api.angel.co/1/startups/"+companyId+"/roles?direction=outgoing");

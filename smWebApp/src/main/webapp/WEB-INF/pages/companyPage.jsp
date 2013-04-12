@@ -312,6 +312,7 @@
 
 				</div>
 				<hr class="space" />
+				<hr>
 			</c:forEach>
 		</div>
 
