@@ -1,5 +1,8 @@
 package com.secondmarket.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.secondmarket.batch.CompanyService;
 import com.secondmarket.batch.InvestorService;
 import com.secondmarket.domain.Company;
@@ -28,16 +31,18 @@ public class ROI {
 	/**
 	 * A method to calculate ROI for each investor.
 	 */
-	static double calculateROI(Investor investor){
+	static private double calculateROI(Investor investor){
 		
 		CompanyService cs = new CompanyService();
 		Company company = new Company();
-		double roi = 0.0;
+		List<Double> all_roi = new ArrayList<Double>();
+		double average_roi = 0.0;
 		
 		for(int cid : investor.getCompany_id()){
 			company = cs.get(cid);
 			String round_in = new String();
 			double fta = 0.0;
+			double roi = 0.0;
 			
 			for(Fund fund : company.getFund_info()){
 				
@@ -64,8 +69,18 @@ public class ROI {
 			}
 			
 			roi += fta/company.getTotal_funding();
+			all_roi.add(roi);
 		}
-		return roi;
+		
+		int count = 0;
+		double total = 0.0;
+		
+		for(double each : all_roi){
+			total += each;
+			count++;
+		}
+		average_roi = total / count;
+		return average_roi;
 	}
 	
 
