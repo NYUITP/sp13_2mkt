@@ -13,7 +13,6 @@ import com.google.code.morphia.annotations.Id;
 import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.LocationEnum;
-import com.secondmarket.core.AngelCrunch;
 
 @Entity
 public class Investor

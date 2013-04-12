@@ -5,6 +5,26 @@
 <%@include file="../../resources/include/head.jsp"%>
 
 <script type="text/javascript">
+
+
+	function showValueCompanyFollower(newValue) {
+		if (newValue == 1) {
+			document.getElementById("company-follower-value").innerHTML = "Not Important";
+			document.getElementById('comfollowersImpLevel').value = 1;
+		} else if (newValue == 2) {
+			document.getElementById("company-follower-value").innerHTML = "A Little Important";
+			document.getElementById('comfollowersImpLevel').value = 2;
+		} else if (newValue == 3) {
+			document.getElementById("company-follower-value").innerHTML = "Moderately Important";
+			document.getElementById('comfollowersImpLevel').value = 3;
+		} else if (newValue == 4) {
+			document.getElementById("company-follower-value").innerHTML = "Important";
+			document.getElementById('comfollowersImpLevel').value = 4;
+		} else if (newValue == 5) {
+			document.getElementById("company-follower-value").innerHTML = "Very Important";
+			document.getElementById('comfollowersImpLevel').value = 5;
+		}
+	}
 	$(document).ready(load);
 
 	function selectToggle(toggle, form) {
@@ -21,6 +41,7 @@
 	function load(){
 		showFundFilter();
 		showTimeRange(document.getElementById("timeRange").value);
+		showValueCompanyFollower(document.getElementById("companyFollowerRange").value);
 	}
 
 	function showFundFilter() {
@@ -32,7 +53,6 @@
 			} catch (err) {
 				alert(checkbox_id);
 			}
-			
 		}
 	}
 	
@@ -90,7 +110,6 @@
 			document.getElementById("fund-period").innerHTML = "3 year";
 			document.getElementById('periodPast').value = 5;
 		}
-
 	}
 
 </script>
@@ -104,7 +123,7 @@
 	<div class="row">
 
 		<div class="span3">
-			<div class="side-block hidden-phone">
+			<!--  <div class="side-block hidden-phone">
 				<div>
 					<strong>Followers</strong> <small class="pull-right"><a>Select
 							All</a> | <a href="#">None</a></small>
@@ -128,8 +147,7 @@
 				<hr class="space" />
 				<a href="#" class="btn">Update</a>
 
-
-			</div>
+			</div>-->
 
 			<hr class="space" />
 
@@ -143,20 +161,30 @@
 					<hr class="space" />
 					<ul class="clear-ul">
 
-						<li class="mts" onMouseOver="InsertContent('only1')" onMouseOut="RemoveContent('only1')"><input type="checkbox"
-							name="total_funding" id="tf1" value="1">&nbsp;0 - 1M<a id="only1" style="visibility: hidden;"
+						<li class="mts" onMouseOver="InsertContent('only1')"
+							onMouseOut="RemoveContent('only1')"><input type="checkbox"
+							name="total_funding" id="tf1" value="1">&nbsp;0 - 1M<a
+							id="only1" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(1,'tform');">only</a></li>
-						<li class="mts" onMouseOver="InsertContent('only2')" onMouseOut="RemoveContent('only2')"><input type="checkbox" 
-							name="total_funding" id="tf2" value="2">&nbsp;1M - 5M<a id="only2" style="visibility: hidden;"
+						<li class="mts" onMouseOver="InsertContent('only2')"
+							onMouseOut="RemoveContent('only2')"><input type="checkbox"
+							name="total_funding" id="tf2" value="2">&nbsp;1M - 5M<a
+							id="only2" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(2,'tform');">only</a></li>
-						<li class="mts" onMouseOver="InsertContent('only3')" onMouseOut="RemoveContent('only3')"><input type="checkbox" 
-							name="total_funding" id="tf3" value="3">&nbsp;5M - 100M<a id="only3" style="visibility: hidden;"
+						<li class="mts" onMouseOver="InsertContent('only3')"
+							onMouseOut="RemoveContent('only3')"><input type="checkbox"
+							name="total_funding" id="tf3" value="3">&nbsp;5M - 100M<a
+							id="only3" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(3,'tform');">only</a></li>
-						<li class="mts" onMouseOver="InsertContent('only4')" onMouseOut="RemoveContent('only4')"><input type="checkbox"
-							name="total_funding" id="tf4" value="4">&nbsp;100M - 500M<a id="only4" style="visibility: hidden;"
+						<li class="mts" onMouseOver="InsertContent('only4')"
+							onMouseOut="RemoveContent('only4')"><input type="checkbox"
+							name="total_funding" id="tf4" value="4">&nbsp;100M - 500M<a
+							id="only4" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(4,'tform');">only</a></li>
-						<li class="mts" onMouseOver="InsertContent('only5')" onMouseOut="RemoveContent('only5')"><input type="checkbox" 
-							name="total_funding" id="tf5" value="5">&nbsp;500M +<a id="only5" style="visibility: hidden;"
+						<li class="mts" onMouseOver="InsertContent('only5')"
+							onMouseOut="RemoveContent('only5')"><input type="checkbox"
+							name="total_funding" id="tf5" value="5">&nbsp;500M +<a
+							id="only5" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(5,'tform');">only</a></li>
 					</ul>
 					<hr class="space" />
@@ -170,8 +198,8 @@
 				<form name="tform2" method="POST" action="locationFilter">
 					<div>
 						<strong>Company Location</strong> <small class="pull-right"><a
-							href="javascript:selectToggle(true, 'tform2');">Select All</a> | <a
-							href="javascript:selectToggle(false, 'tform2');">None</a></small>
+							href="javascript:selectToggle(true, 'tform2');">Select All</a> |
+							<a href="javascript:selectToggle(false, 'tform2');">None</a></small>
 					</div>
 					<hr class="space" />
 					<ul class="clear-ul">
@@ -197,33 +225,47 @@
 					<input type="submit" value="Update">
 				</form>
 			</div>
-			
+
 			<hr class="space" />
+
 			<div class="side-block hidden-phone">
 				<div>
 					<strong>Rank Company by Fund raised in last</strong>
 				</div>
 				<hr class="space" />
 
-				<input id="timeRange" type="range" min="1" max="5" step="1" value="${periods}"
-					onchange="showTimeRange(this.value)" />
+				<input id="timeRange" type="range" min="1" max="5" step="1"
+					value="${periods}" onchange="showTimeRange(this.value)" /> <span
+					id="fund-period" class="slider-value">1 year</span>
 
-				<span id="fund-period" class="slider-value">1 year</span>
-				
 				<hr class="space" />
 				<form action="companyRankingByFundTime" method="post">
-					<input type='hidden' id='periodPast' name='periodPast' value='3'/>
+					<input type='hidden' id='periodPast' name='periodPast' value='3' />
 					<input type="submit" value="Update">
-				</form>	
+				</form>
 			</div>
-			
-			
-			
 
-			
+			<hr class="space" />
+
+			<div class="side-block hidden-phone">
+				<div>
+					<strong>Importance of Followers</strong>
+				</div>
+				<hr class="space" />
+
+				<input id="companyFollowerRange" type="range" min="1" max="5" step="1"
+					value="${companyfollowerLevel}"
+					onchange="showValueCompanyFollower(this.value)" /> <span
+					id="company-follower-value" class="slider-value">Moderately
+					Important</span>
+				
+				<hr class="space" />
+				<form action="companyRankingByFollowers" method="post">
+					<input type='hidden' id='comfollowersImpLevel' name='comfollowersImpLevel' value='3'/>
+					<input type="submit" value="Update">
+				</form>
+			</div>
 		</div>
-
-
 
 		<div class="span9">
 
@@ -238,7 +280,8 @@
 					<div class="pull-left search-content">
 						<div>
 							<h4 class="pull-left">
-								<a href=companyProfile?id=${company.id}><c:out value="${company.name}" /></a>
+								<a href=companyProfile?id=${company.id}><c:out
+										value="${company.name}" /></a>
 							</h4>
 						</div>
 						<div>
@@ -252,7 +295,6 @@
 							</c:forEach>
 						</div>
 					</div>
-
 
 					<div class="search-stats pull-right">
 						<div>
@@ -273,16 +315,7 @@
 			</c:forEach>
 		</div>
 
-
 	</div>
-
-
-
-
-
-
 </div>
-
-
 </body>
 </html>

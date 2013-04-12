@@ -28,6 +28,7 @@ public class Company{
 	private String company_url;
 	private String twitter_url;
 	private String blog_url;
+	private double fl_norm;
 	private List<String> markets = new ArrayList<String>();
 	private List<Investor> investor = new ArrayList<Investor>();
 	@Embedded
@@ -70,8 +71,6 @@ public class Company{
 				locations.add(location_i);
 			}
 		}
-		
-		
 	}
 		
 	public Integer getId() {
@@ -181,5 +180,13 @@ public class Company{
 
 	public void setBlog_url(String blog_url) {
 		this.blog_url = blog_url;
+	}
+
+	public double getFl_norm() {
+		return fl_norm;
+	}
+
+	public void setFl_norm(double fl_norm) {
+		this.fl_norm = fl_norm;
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.secondmarket.batch.CompanyService;
 import com.secondmarket.batch.InvestorService;
+import com.secondmarket.batch.RankCompany;
 import com.secondmarket.batch.RankInvestor;
 import com.secondmarket.domain.Company;
 import com.secondmarket.domain.Investor;
@@ -29,6 +30,8 @@ public class BaseController
 	private CompanyService companyService;
 	@Resource(name="rankingService")
 	private RankInvestor rankedInvestor;
+	@Resource(name="companyRankingService")
+	private RankCompany rankCompany;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) 
@@ -138,5 +141,16 @@ public class BaseController
 		Company company = companyService.get(id);
 		model.addAttribute("company", company);
     	return "companyProfile";
+	}
+	
+	@RequestMapping(value="/companyRankingByFollowers", method = RequestMethod.POST)
+	public String getCompanyRankedByFollowers(@RequestParam("comfollowersImpLevel") String comfollowersImpLevel, ModelMap model) 
+	{
+		logger.debug("Received request to rank company, weight on followers, value = " + comfollowersImpLevel);
+    	List<Company> companies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevel);
+    	logger.debug(companies.size());
+    	model.addAttribute("companies", companies);
+    	model.addAttribute("comfollowersImpLevel", comfollowersImpLevel);
+    	return "companyPage";
 	}
 }

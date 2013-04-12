@@ -27,7 +27,6 @@
 			document.getElementById("follower-value").innerHTML = "Very Important";
 			document.getElementById('followersImpLevel').value = 5;
 		}
-
 	}
 
 	function showValueCompany(newValue) {
@@ -47,7 +46,6 @@
 			document.getElementById("company-value").innerHTML = "Very Important";
 			document.getElementById('companyImpLevel').value = 5;
 		}
-
 	}
 </script>
 <div class="container">
@@ -141,14 +139,11 @@
 					<li class="mts"><input type="checkbox" checked="checked">&nbsp;London
 						<a class="small-text pull-right" href="#">only</a></li>
 				</ul>
-
 				<hr class="space" />
 				<a href="#" class="btn">Update</a>
 
 			</div>
-
 		</div>
-
 
 		<div class="span9">
 
