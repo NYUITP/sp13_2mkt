@@ -66,7 +66,6 @@ public class Company{
 		System.out.println(investorsArray);
 		for(int i = 0; i<investorsArray.length(); i++)
 		{
-			System.out.println("hi " + investorsArray.getInt(i));
 			investors.add(investorsArray.getInt(i));
 		}
 		
