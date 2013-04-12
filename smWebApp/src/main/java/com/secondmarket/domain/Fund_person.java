@@ -1,7 +1,5 @@
 package com.secondmarket.domain;
 
-import java.util.HashMap;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,13 +7,13 @@ import com.google.code.morphia.annotations.Embedded;
 import com.secondmarket.common.FundEnum;
 
 @Embedded
-public class fund_person {
+public class Fund_person {
 	public String first_name;
 	public String last_name;
 	public String permalink;
 	public String investor_id;
 	
-	public fund_person(JSONObject js)
+	public Fund_person(JSONObject js)
 	{
 		try {
 			first_name = js.getString(FundEnum.FIRST_NAME.getLabel().toString());

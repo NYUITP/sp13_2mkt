@@ -7,11 +7,11 @@ import com.google.code.morphia.annotations.Embedded;
 import com.secondmarket.common.FundEnum;
 
 @Embedded
-public class fund_company {
+public class Fund_financial_org {
 	public String name;
 	public String permalink;
 	
-	public fund_company(JSONObject js)
+	public Fund_financial_org(JSONObject js)
 	{
 		try {
 			name = js.getString(FundEnum.NAME.getLabel().toString());
