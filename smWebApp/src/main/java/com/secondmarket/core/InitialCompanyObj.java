@@ -47,6 +47,8 @@ public class InitialCompanyObj {
 				String slug = AngelCrunch.getCrunchSlug(jobj);
 
 				// Additional fields
+				List<Integer> investorsInvested = AngelCrunch.getInvestorsForCompany(key);//gets part and current investors for given company
+				
 				int follower_count = AngelCrunch.getIntCompanyField(jobj,
 						CompanyEnum.FOLLOWER_COUNT);
 				int quality = AngelCrunch.getIntCompanyField(jobj,
@@ -72,7 +74,8 @@ public class InitialCompanyObj {
 							LocationEnum.LOCATION.getLabel().toString());
 				}
 
-				if (!slug.isEmpty()) {
+				if (!slug.isEmpty()) 
+				{
 					String crunchCompany = AngelCrunch.getcrunchHTML(slug);
 					String total_funding = AngelCrunch
 							.getCrunchTotalFund(crunchCompany);
@@ -103,6 +106,8 @@ public class InitialCompanyObj {
 								.toString(), blog_url);
 						each_company.put(LocationEnum.LOCATION.getLabel()
 								.toString(), company_locations);
+						each_company.put(CompanyEnum.INVESTORS.getLabel()
+								.toString(), investorsInvested);
 						// Later: Process the total_funding amount using regular
 						// expression and parse it to double.
 						

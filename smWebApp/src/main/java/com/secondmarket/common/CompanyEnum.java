@@ -19,7 +19,8 @@ public enum CompanyEnum {
 	TWITTER_URL("twitter_url"),
 	BLOG_URL("blog_url"),
 	TOTAL_MONEY_RAISED("total_money_raised"),
-	NORMALIZED_FOLLOWER_SCORE("fl_norm"),;
+	NORMALIZED_FOLLOWER_SCORE("fl_norm"),
+	INVESTORS("investors");
 	
     private String label;
  

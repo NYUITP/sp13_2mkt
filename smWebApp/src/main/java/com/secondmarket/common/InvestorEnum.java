@@ -11,6 +11,7 @@ public enum InvestorEnum {
 	COMPANY_IDS("company_id"),
 	STARTUP_INVESTED("startup_invested"),
 	STARTUP_ROLES("startup_roles"),
+	ROLE("role"),
 	STARTUP("startup"),
 	INVESTOR_INFO("Investor_information"),
 	NORMALIZED_FOLLOWER_SCORE("fl_norm"),

@@ -3,9 +3,7 @@ package com.secondmarket.core;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,7 +62,6 @@ public class InitialInvestorObj
 					// parse investor_name into first name and last name
 					Pattern p = Pattern.compile("(\\S+)\\s(\\S+)",Pattern.DOTALL);
 					Matcher m = p.matcher(investor_name);
-					@SuppressWarnings("unused")
 					String fn = "";
 					String ln = "";
 					if (m.matches()){
