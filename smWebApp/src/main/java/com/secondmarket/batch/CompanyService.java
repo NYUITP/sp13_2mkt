@@ -20,6 +20,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.FundEnum;
 import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MapUtil;
 import com.secondmarket.common.MongoDBFactory;
@@ -87,59 +88,55 @@ public class CompanyService {
 	public List<Company> companyRankingByFundTime(String periodPast)
 	{
 		logger.debug("Retrieving companies ranking by fund time");
+		
+		//Bring user's choice in as a parameter
 		int period=0;
-		if(periodPast.equals("1"))
-		{
-			period=3;
-		}
-		else if(periodPast.equals("2"))
-		{
-			period=6;
-		}
-		else if(periodPast.equals("3"))
-		{
-			period=12;
-		}
-		else if(periodPast.equals("4"))
-		{
-			period=24;
-		}
-		else
-		{
-			period=36;
+		switch (Integer.valueOf(periodPast)){
+		case 1: 
+			period = 3;	break;
+		case 2:
+			period = 6;	break;
+		case 3:
+			period = 12; break;
+		case 4:
+			period = 24; break;
+		default:
+			period = 36;
 		}
 		
+		//Get the start date of funding
 		Date current = new Date();  
-		//System.out.println(current);  
 		Calendar cal = Calendar.getInstance();  
 		cal.setTime(current);  
 		cal.set(Calendar.MONTH, (cal.get(Calendar.MONTH)-period));  
 		current = cal.getTime();  
-		//System.out.println(current);  
 		
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(), CommonStrings.COMPANY_COLL.getLabel().toString());
 		DBCursor cur = coll.find();// Retrieve cursor for iterating records
 		List<Company> items = new ArrayList<Company>(); // Create new list
+		
 		//a hashmap for company and fund_p for sorting
 		HashMap<Integer, Double> CompanyFund = new HashMap<Integer, Double>();
 		HashMap<Integer, Company> companyId = new HashMap<Integer, Company>();
 		
 		while (cur.hasNext()) {
 			DBObject dbObject = cur.next(); // Map DBOject to company
-			Company company = getCompanyObject(dbObject);
+			Company company = getCompanyObject(dbObject); // bug
 			companyId.put(company.getId(), company);
 			double fund_p = 0.0;
 			
-			List<Fund> all_fund = company.getFund_info();
+			List<Fund> all_fund = company.getFund_info(); 
 			for (Fund each_fund: all_fund){
 				@SuppressWarnings("deprecation")
-				Date f_date = new Date(each_fund.getFunded_year(), each_fund.getFunded_month(), each_fund.getFunded_day());
+				Date f_date = new Date(each_fund.getFunded_year().intValue()-1900, each_fund.getFunded_month().intValue(), each_fund.getFunded_day().intValue());
+	
 				//if in period, add to fund_p
 				if(f_date.after(current)){
-					fund_p += each_fund.getAmount();
+					fund_p += each_fund.getRaised_amount();					
 				}
 			}
 			//insert fund_p and company pair to hashmap
+			//System.out.println(company.getName()+": total funding - "+company.getTotal_funding()+", in funding period - "+fund_p);
 			CompanyFund.put(company.getId(), fund_p);
 		}
 		
@@ -253,6 +250,23 @@ public class CompanyService {
 		company.setBlog_url(dbObject.get(CompanyEnum.BLOG_URL.getLabel()).toString());
 		company.setHigh_concept(dbObject.get(CompanyEnum.HIGH_CONCEPT.getLabel()).toString());
 		company.setAngellist_url(dbObject.get(CompanyEnum.ANGLELIST_URL.getLabel()).toString());
+		
+		List<BasicDBObject> fundObjects = (List<BasicDBObject>) dbObject.get(FundEnum.FUND_INFO.getLabel());
+		List<Fund> fund_info = new ArrayList<Fund>();
+		if (fundObjects != null) {
+			for (BasicDBObject fund : fundObjects) {
+				try {
+					JSONObject fObj = new JSONObject(fund.toString());
+					Fund fd = new Fund(fObj);
+					fund_info.add(fd);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		company.setFund_info(fund_info);
+
+		
 		List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel());
 		List<Location> locations = new ArrayList<Location>();
 		if (locationObjects != null) {

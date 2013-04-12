@@ -13,33 +13,14 @@ import com.secondmarket.common.FundEnum;
 @Embedded
 public class Fund
 {
-	private String round;
-	private Double amount;
+	private String round_code;
+	private Double raised_amount;
 	private Integer funded_year;
 	private Integer funded_month;
 	private Integer funded_day;
 	@Embedded 
 	private List<Fund_company> Fund_company = new ArrayList<Fund_company>();
-	public String getRound() {
-		return round;
-	}
-
-
-	public void setRound(String round) {
-		this.round = round;
-	}
-
-
-	public Double getAmount() {
-		return amount;
-	}
-
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-
-
+	
 	public Integer getFunded_year() {
 		return funded_year;
 	}
@@ -108,8 +89,8 @@ public class Fund
 	
 	public Fund(JSONObject js) throws JSONException
 	{
-		round = js.getString(FundEnum.ROUND_CODE.getLabel().toString());
-		amount = js.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+		round_code = js.getString(FundEnum.ROUND_CODE.getLabel().toString());
+		raised_amount = js.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
 		funded_year = js.getInt(FundEnum.YEAR.getLabel().toString());
 		funded_month = js.getInt(FundEnum.MONTH.getLabel().toString());
 		funded_day = js.getInt(FundEnum.DAY.getLabel().toString());
@@ -154,6 +135,26 @@ public class Fund
 			
 		
 			
+	}
+
+
+	public String getRound_code() {
+		return round_code;
+	}
+
+
+	public void setRound_code(String round_code) {
+		this.round_code = round_code;
+	}
+
+
+	public Double getRaised_amount() {
+		return raised_amount;
+	}
+
+
+	public void setRaised_amount(Double raised_amount) {
+		this.raised_amount = raised_amount;
 	}
 }
 	
