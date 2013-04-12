@@ -55,9 +55,12 @@ public class InitialInvestorObj
 					String investor_info = AngelCrunch.searchAngelInvestor(slug);
 					cc += 1;
 					counter.put("count", cc);
-					Investor user = createInvestorObject(id_list, investors, invest,
-							counter, personPermalink, investor_info);
-					ds.save(user);
+					if(investor_info !=null && !investor_info.equals("") &&!investor_info.isEmpty())
+					{
+						Investor user = createInvestorObject(id_list, investors, invest,
+								personPermalink, investor_info);
+						ds.save(user);
+					}
 				}
 			}
 		}
@@ -65,9 +68,8 @@ public class InitialInvestorObj
 		return true;
 	}
 
-	private static Investor createInvestorObject(HashMap<String, String> id_list, JSONObject investors,
-			JSONArray invest, HashMap<String, Integer> counter,
-			HashMap<String, String> personPermalink,
+	protected static Investor createInvestorObject(HashMap<String, String> id_list, JSONObject investors,
+			JSONArray invest, HashMap<String, String> personPermalink,
 			String investor_info) throws JSONException 
 			{
 		String investor_id = AngelCrunch.getInvestorfield(investor_info,InvestorEnum.ID.getLabel().toString());
@@ -122,9 +124,12 @@ public class InitialInvestorObj
 		
 		//Location not found, deal with such exceptions.
 		JSONObject invest_info = AngelCrunch.parseToJSON(investor_info);
-		JSONArray investor_locations = null;
-		if(invest_info.has(LocationEnum.LOCATION.getLabel().toString())){
-			investor_locations = AngelCrunch.getInvestorfield_ja(investor_info,LocationEnum.LOCATION.getLabel().toString());
+		JSONArray investor_locations = new JSONArray();
+		if(invest_info != null)
+		{
+			if(invest_info.has(LocationEnum.LOCATION.getLabel().toString())){
+				investor_locations = AngelCrunch.getInvestorfield_ja(investor_info,LocationEnum.LOCATION.getLabel().toString());
+			}
 		}
 		
 		System.out.println(start_up_role);
@@ -151,7 +156,7 @@ public class InitialInvestorObj
 		//Put put put! 
 		each_investor.put(InvestorEnum.COMPANY_COUNT.getLabel().toString(), company_count);
 		each_investor.put(InvestorEnum.STARTUP_INVESTED.getLabel().toString(),startup_invested);
-		each_investor.put(InvestorEnum.ID.getLabel().toString(), investor_id);
+		each_investor.put(InvestorEnum.ID.getLabel().toString(), Integer.valueOf(investor_id));
 		each_investor.put(InvestorEnum.NAME.getLabel().toString(),investor_name);
 		each_investor.put(InvestorEnum.BIO.getLabel().toString(), investor_bio);
 		each_investor.put(InvestorEnum.FOLLOWER_COUNT.getLabel().toString(), investor_follower_count);
