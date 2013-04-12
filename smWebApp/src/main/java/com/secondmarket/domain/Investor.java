@@ -39,6 +39,7 @@ public class Investor
 	private String born_year;
 	private String born_month;
 	private String born_day;
+	private double average_roi = 0.0;
 	
 	private List<Integer> company_id  = new ArrayList<Integer>();
 	@Embedded
@@ -258,6 +259,13 @@ public class Investor
 
 	public List<Location> getLocations() {
 		return locations;
+	}
+	public double getAverage_roi() {
+		return average_roi;
+	}
+
+	public void setAverage_roi(double average_roi) {
+		this.average_roi = average_roi;
 	}
 
 	public void setLocations(List<Location> locations) {

@@ -178,6 +178,10 @@
 							<span class="large-number"><c:out
 									value="${investor.company_count}" /></span> Companies Invested in
 						</div>
+						<div>
+							<span class="large-number"><c:out
+									value="${investor.average_roi}" /></span> Average ROI
+						</div>
 					</div>
 
 					<div class="clearfix"></div>
