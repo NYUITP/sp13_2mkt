@@ -19,10 +19,11 @@ public class RankInvestor
 	private HashMap<Integer, Investor> investorIdObjectMap = new HashMap<Integer, Investor>();
 	private double weight_for_follower_count = 0.0;
 	private double weight_for_company_count = 0.0;
+	private double weight_for_roi_avg = 0.0;
 	
-	public List<Investor> getSortedInvestorBasedOnFC_CC(String followersImpLevel, String companyImpLevel)
+	public List<Investor> getSortedInvestorBasedOnFC_CC(String followersImpLevel, String companyImpLevel, String roiImpLevel)
 	{
-		calculateWeights(followersImpLevel, companyImpLevel);
+		calculateWeights(followersImpLevel, companyImpLevel, roiImpLevel);
 		
 		List<Investor> investors = investorService.getAll();
 		for(Investor investor : investors)
@@ -46,16 +47,18 @@ public class RankInvestor
 		int id = investor.getId();
 		double followerCount = investor.getFl_norm();
 		double companyCount = investor.getCc_norm();
-		double score = (followerCount*weight_for_follower_count) + (companyCount*weight_for_company_count);
+		double roiAvg = investor.getAverage_roi();
+		double score = (followerCount*weight_for_follower_count) + (companyCount*weight_for_company_count) + (roiAvg*weight_for_roi_avg);
 		score = score*100.0000;
 		investorsScores.put(id, score);
 		investorIdObjectMap.put(id, investor);
 	}
 
-	private void calculateWeights(String followersImpLevel, String companyImpLevel) 
+	private void calculateWeights(String followersImpLevel, String companyImpLevel, String roiImpLevel) 
 	{
 		double weight_for_follower = 0.0;
 		double weight_for_company = 0.0;
+		double weight_for_roi = 0.0;
 		if(followersImpLevel.equals(ImportanceScale.Not_Important.getLabel().toString()))
 		{
 			weight_for_follower = 0.0;
@@ -98,15 +101,38 @@ public class RankInvestor
 			weight_for_company = 1.0;
 		}
 		
+		if(roiImpLevel.equals(ImportanceScale.Not_Important.getLabel().toString()))
+		{
+			weight_for_roi = 0.0;
+		}
+		else if(roiImpLevel.equals(ImportanceScale.A_Little_Important.getLabel().toString()))
+		{
+			weight_for_roi = 0.25;
+		}
+		else if(roiImpLevel.equals(ImportanceScale.Moderately_Important.getLabel().toString()))
+		{
+			weight_for_roi = 0.50;
+		}
+		else if(roiImpLevel.equals(ImportanceScale.Important.getLabel().toString()))
+		{
+			weight_for_roi = 0.75;
+		}
+		else
+		{
+			weight_for_roi = 1.0;
+		}		
+		
 		/**
 		 * Multi-dimension weights scale
 		 */
 		double x = weight_for_follower;
 		double y = weight_for_company;
-		double sum = x+y;
+		double z = weight_for_roi;
+		double sum = x+y+z;
 		
 		weight_for_follower_count = x/sum;
 		weight_for_company_count = y/sum;
+		weight_for_roi_avg = z/sum;
 		
 	}
 }

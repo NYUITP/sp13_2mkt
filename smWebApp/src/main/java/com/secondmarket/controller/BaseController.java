@@ -69,20 +69,23 @@ public class BaseController
     	model.addAttribute("investors", investors);
     	model.addAttribute("followerLevel", "3");
     	model.addAttribute("companyLevel", "3");
+    	model.addAttribute("roiLevel", "3");
     	return "investorsPage";
 	}
 	
 	@RequestMapping(value="/investorRanking", method = RequestMethod.POST)
-	public String getInvestorRanking(@RequestParam("followersImpLevel") String followersImpLevel, @RequestParam("companyImpLevel") String companyImpLevel, ModelMap model) 
+	public String getInvestorRanking(@RequestParam("followersImpLevel") String followersImpLevel, @RequestParam("companyImpLevel") String companyImpLevel, @RequestParam("roiImpLevel") String roiImpLevel, ModelMap model) 
 	{
 		logger.debug("Received request to rank investors, weight on followers, value = " + followersImpLevel);
 		logger.debug("Received request to rank investors, weight on companies invested in, value = " + companyImpLevel);
+		logger.debug("Received request to rank investors, weight on roi, value = " + roiImpLevel);
     	// Retrieve all Investor by delegating the call to InvestorService
-    	List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC(followersImpLevel, companyImpLevel);
+    	List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC(followersImpLevel, companyImpLevel, roiImpLevel);
     	logger.debug(investors.size());
     	model.addAttribute("investors", investors);
     	model.addAttribute("followerLevel", followersImpLevel);
     	model.addAttribute("companyLevel", companyImpLevel);
+    	model.addAttribute("roiLevel", roiImpLevel);
     	return "investorsPage";
 	}
 	

@@ -9,6 +9,7 @@
 	function load() {
 		showValueInvestor(document.getElementById("followerRange").value);
 		showValueCompany(document.getElementById("companyRange").value);
+		showValueROI(document.getElementById("roiRange").value);
 	}
 	function showValueInvestor(newValue) {
 		if (newValue == 1) {
@@ -47,6 +48,25 @@
 			document.getElementById('companyImpLevel').value = 5;
 		}
 	}
+	
+	function showValueROI(newValue) {
+		if (newValue == 1) {
+			document.getElementById("roi-value").innerHTML = "Not Important";
+			document.getElementById('roiImpLevel').value = 1;
+		} else if (newValue == 2) {
+			document.getElementById("roi-value").innerHTML = "A Little Important";
+			document.getElementById('roiImpLevel').value = 2;
+		} else if (newValue == 3) {
+			document.getElementById("roi-value").innerHTML = "Moderately Important";
+			document.getElementById('roiImpLevel').value = 3;
+		} else if (newValue == 4) {
+			document.getElementById("roi-value").innerHTML = "Important";
+			document.getElementById('roiImpLevel').value = 4;
+		} else if (newValue == 5) {
+			document.getElementById("roi-value").innerHTML = "Very Important";
+			document.getElementById('roiImpLevel').value = 5;
+		}
+	}	
 </script>
 <div class="container">
 	<hr class="space" />
@@ -85,11 +105,27 @@
 				
 			</div>
 			
+			<hr class="space" />
+
+			<div class="side-block hidden-phone">
+				<div>
+					<strong>Importance of ROI</strong>
+				</div>
+				<hr class="space" />
+
+				<input id="roiRange" type="range" min="1" max="5" step="1" value="${roiLevel}"
+					onchange="showValueROI(this.value)" />
+
+				<span id="roi-value" class="slider-value">Moderately Important</span>
+				
+			</div>
+			
 			
 			<hr class="space" />
 				<form action="investorRanking" method="post">
 					<input type='hidden' id='companyImpLevel' name='companyImpLevel' value='3'/>
 					<input type='hidden' id='followersImpLevel' name='followersImpLevel' value='3'/>
+					<input type='hidden' id='roiImpLevel' name='roiImpLevel' value='3'/>
 					<input type="submit" value="Update">
 				</form>
 			
