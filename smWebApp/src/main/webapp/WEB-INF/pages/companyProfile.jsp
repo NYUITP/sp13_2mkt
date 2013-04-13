@@ -75,7 +75,7 @@
 						<div class="pull-left">
 							<img class="img-rounded" src="${investor.image}" width="50"
 								height="50" /> <span class="pull-left "> <a
-								href=companyProfile?id=${company.id}><c:out
+								href=investorProfile?id=${investor.id}><c:out
 										value="${investor.name}" /></a>
 							</span>
 							<hr class="space" />
