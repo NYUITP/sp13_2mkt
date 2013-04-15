@@ -6,6 +6,7 @@
 
 <script type="text/javascript">
 
+
 	function load() {
 		showValueInvestor(document.getElementById("followerRange").value);
 		showValueCompany(document.getElementById("companyRange").value);
