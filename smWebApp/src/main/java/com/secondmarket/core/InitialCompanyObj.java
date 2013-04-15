@@ -50,7 +50,7 @@ public class InitialCompanyObj {
 					String slug = AngelCrunch.getCrunchSlug(jobj);
 	
 					// Additional fields
-					List<Integer> investorsInvested = AngelCrunch.getInvestorsForCompany(key);//gets part and current investors for given company
+					List<Integer> investorsInvested = AngelCrunch.getInvestorsForCompany(key);//gets past and current investors for given company
 					
 					int follower_count = AngelCrunch.getIntCompanyField(jobj,
 							CompanyEnum.FOLLOWER_COUNT);
@@ -145,7 +145,7 @@ public class InitialCompanyObj {
 							Company comp = new Company(each_company);
 							ds.save(comp);
 							
-							addAdditionalInvestors(comp.getInvestor(), ds);
+//							addAdditionalInvestors(comp.getInvestor(), ds);
 						}
 						else
 							continue;
@@ -158,7 +158,7 @@ public class InitialCompanyObj {
 	}
 
 	private static void addAdditionalInvestors(List<Integer> investors,
-			Datastore ds) throws JSONException 
+			Datastore ds) throws JSONException, NumberFormatException
 	{
 		HashMap<String, String> id_list = new HashMap<String, String>();	
 		HashMap<String,String> personPermalink = new HashMap<String, String>();
@@ -168,9 +168,12 @@ public class InitialCompanyObj {
 		for (Integer id : investors)
 		{
 			String investor_info = AngelCrunch.searchAngelInvestorGivenId(id);
-			if(investor_info !=null && !investor_info.equals(""))
+			System.out.println("id:" +id);
+			System.out.println(investor_info);
+			if(investor_info !=null && !investor_info.equals("") &&!investor_info.isEmpty())
 			{
-				Investor user = InitialInvestorObj.createInvestorObject(id_list, investor, invest, personPermalink, investor_info);
+				String type = "people";
+				Investor user = InitialInvestorObj.createInvestorObject(id_list, investor, invest, personPermalink, investor_info,type);
 				ds.save(user);
 			}
 		}

@@ -9,13 +9,25 @@ import com.secondmarket.common.FundEnum;
 @Embedded
 public class Fund_company {
 	public String name;
+	public String getInvestor_id() {
+		return investor_id;
+	}
+
+	public void setInvestor_id(String investor_id) {
+		this.investor_id = investor_id;
+	}
+
 	public String permalink;
+	public String investor_id;
 	
 	public Fund_company(JSONObject js)
 	{
 		try {
 			name = js.getString(FundEnum.NAME.getLabel().toString());
 			permalink = js.getString(FundEnum.PERMALINK.getLabel().toString());
+			if(js.has(FundEnum.INVESTOR_ID.getLabel().toString())){
+				investor_id = js.getString(FundEnum.INVESTOR_ID.getLabel().toString());
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

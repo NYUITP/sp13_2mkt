@@ -29,7 +29,17 @@ public enum InvestorEnum {
 	TWITTER_USERNAME("twitter_username"),
 	BORN_YEAR("born_year"),
 	BORN_MONTH("born_month"),
-	BORN_DAY("born_day");
+	BORN_DAY("born_day"),
+	LOGO_URL("logo_url"),
+	PHONE_NUMBER("phone_number"),
+	DESCRIPTION("description"),
+	EMAIL_ADDRESS("email_address"),
+	NUMBER_OF_EMPLOYEES("number_of_employees"),
+	FOUNDED_YEAR("founded_year"),
+	FOUNDED_MONTH("founded_month"),
+	FOUNDED_DAY("founded_day"),
+	OVERVIEW("overview"),
+	HOMEPAGE_URL("homepage_url");
 	
     private String label;
  
