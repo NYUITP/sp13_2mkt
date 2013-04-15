@@ -4,7 +4,8 @@ public enum LocationEnum {
 	LOCATION("locations"),
     LOCATION_ID("id"),
     LOCATION_NAME("name"),
-	LOCATION_ANGELLIST_URL("angellist_url");
+	LOCATION_ANGELLIST_URL("angellist_url"),
+	LOCATION_OFFICIES("officies");
 	
 	private String label;
 	 

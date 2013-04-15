@@ -56,6 +56,7 @@ public class Company{
 		blog_url = js.getString(CompanyEnum.BLOG_URL.getLabel().toString());
 		
 		JSONArray fund = js.getJSONArray(CompanyEnum.FUNDING_ROUNDS.getLabel().toString());
+		System.out.println(fund);
 		for(int i = 0; i<fund.length(); i++)
 		{
 			Fund fund_i = new Fund(fund.getJSONObject(i));
@@ -80,6 +81,14 @@ public class Company{
 		}
 	}
 		
+	public List<Integer> getInvestors() {
+		return investors;
+	}
+
+	public void setInvestors(List<Integer> investors) {
+		this.investors = investors;
+	}
+
 	public Integer getId() {
 		return id;
 	}
