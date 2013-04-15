@@ -23,7 +23,8 @@ public class ROI {
 		InvestorService is = new InvestorService();
 		for(Investor investor : is.getAll()){
 			System.out.println(investor.getName()+"'s roi : "+calculateROI(investor));
-			investor.setROI(calculateROI(investor));
+			double roi = calculateROI(investor);
+			investor.setROI(roi);
 			ds.save(investor);
 		}
 	}
@@ -39,16 +40,19 @@ public class ROI {
 		double average_roi = 0.0;
 		
 		for(int cid : investor.getCompany_id()){
+			
+			//for every company investor invested in
 			company = cs.get(cid);
 			String round_in = new String();
 			double fta = 0.0;
 			double roi = 0.0;
 			
 			for(Fund fund : company.getFund_info()){
-				
+				//for every fund the company get
 				for(Fund_person fp : fund.getFund_person()){
 					
 					if(fp.getInvestor_id().equals(investor.getId())){
+						//get the round code which investor start investing in
 						round_in = fund.getRound_code();
 						break;
 					}
@@ -68,7 +72,7 @@ public class ROI {
 				}
 			}
 			
-			roi += fta/company.getTotal_funding();
+			roi = fta/company.getTotal_funding();
 			all_roi.add(roi);
 		}
 		
