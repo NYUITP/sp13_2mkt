@@ -444,7 +444,7 @@ public class Investor {
 		return average_roi;
 	}
 
-	public void setAverage_roi(double average_roi) {
+	public void setAverage_roi(Double average_roi) {
 		this.average_roi = average_roi;
 	}
 

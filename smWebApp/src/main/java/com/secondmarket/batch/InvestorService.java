@@ -91,6 +91,7 @@ public class InvestorService
     	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
     	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
     	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
+    	investor.setAverage_roi(Double.valueOf(dbObject.get(InvestorEnum.AVERAGE_ROI.getLabel()).toString()));
     	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
     	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel()).toString()));
     	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel()).toString()));
@@ -99,7 +100,7 @@ public class InvestorService
     	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel()).toString());
     	investor.setFacebook_url(dbObject.get(InvestorEnum.FB_URL.getLabel()).toString());
     	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
-    	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
+     	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
     	List<Location> locations = new ArrayList<Location>();
     	if(locationObjects !=null)
     	{
@@ -116,9 +117,67 @@ public class InvestorService
         	}
     	}
     	investor.setLocations(locations);
+    	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel().toString()));
+  		return investor;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Investor getInvestorObjectBasic(DBObject dbObject) 
+	{
+		Investor investor = new Investor();
+    	investor.setId(Integer.valueOf(dbObject.get(InvestorEnum._ID.getLabel()).toString()));
+    	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
+//    	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
+//    	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
+//    	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
+//    	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
+//    	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel()).toString()));
+//    	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel()).toString()));
+//    	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel()).toString());
+//    	investor.setBlog_url(dbObject.get(InvestorEnum.BLOG_URL.getLabel()).toString());
+//    	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel()).toString());
+//    	investor.setFacebook_url(dbObject.get(InvestorEnum.FB_URL.getLabel()).toString());
+//    	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
+//    	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
+//    	List<Location> locations = new ArrayList<Location>();
+//    	if(locationObjects !=null)
+//    	{
+//        	for(BasicDBObject location : locationObjects)
+//        	{
+//        		try {
+//					JSONObject locObj = new JSONObject(location.toString());
+//					Location loc = new Location(locObj);
+//					locations.add(loc);
+//				} catch (JSONException e)
+//				{
+//					e.printStackTrace();
+//				}
+//        	}
+//    	}
+//    	investor.setLocations(locations);
     	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel().toString()));	
 		return investor;
 	}
+	
+	public List<Investor> getAllBasic() 
+	{
+		logger.debug("Retrieving all investors");
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
+    	DBCursor cur = coll.find(); // Retrieve cursor for iterating records
+		List<Investor> items = new ArrayList<Investor>(); // Create new list
+		
+		// Iterate cursor
+        while(cur.hasNext()) 
+        {
+        	DBObject dbObject = cur.next();// Map DBOject to investor
+        	Investor investor = getInvestorObjectBasic(dbObject);
+        	items.add(investor); // Add to new list
+        }
+		return items;  // Return list
+	}
+	
+	
+	
 	public Boolean add(Investor investor) 
 	{
 		logger.debug("Adding a new investor");	

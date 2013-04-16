@@ -47,8 +47,6 @@ public class Run
 		InitialCompanyObj.initialize(ds, funding, round, id_list,counter,PersonPermalink);
 		logger.debug(funding);
 		logger.debug(round);
-		
-		//ROI.initializeROI(ds);
 	}
 }
 

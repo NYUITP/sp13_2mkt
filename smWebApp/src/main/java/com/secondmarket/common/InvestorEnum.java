@@ -39,7 +39,8 @@ public enum InvestorEnum {
 	FOUNDED_MONTH("founded_month"),
 	FOUNDED_DAY("founded_day"),
 	OVERVIEW("overview"),
-	HOMEPAGE_URL("homepage_url");
+	HOMEPAGE_URL("homepage_url"),
+	AVERAGE_ROI("average_roi");
 	
     private String label;
  

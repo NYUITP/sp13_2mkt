@@ -48,6 +48,7 @@ public class RankInvestor
 		double followerCount = investor.getFl_norm();
 		double companyCount = investor.getCc_norm();
 		double roiAvg = investor.getAverage_roi();
+		
 		double score = (followerCount*weight_for_follower_count) + (companyCount*weight_for_company_count) + (roiAvg*weight_for_roi_avg);
 		score = score*100.0000;
 		investorsScores.put(id, score);

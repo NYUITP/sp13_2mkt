@@ -8,6 +8,6 @@ public class RankInvestorTest {
 	public void testInvestorRanking()
 	{
 		RankInvestor ranking = new RankInvestor();
-		ranking.getSortedInvestorBasedOnFC_CC("2", "2");
+		ranking.getSortedInvestorBasedOnFC_CC("2", "2","2");
 	}
 }
