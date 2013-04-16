@@ -39,6 +39,13 @@ public class ROI {
 		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
 		
 		DBCursor people_cur = people.find();
+		DBObject dbo = people_cur.curr();
+		Investor inv = getInvestorObjectBasic(dbo);
+        double avg_roi = calculateROI(inv);
+        System.out.println(inv.getName() + ": " + avg_roi);
+    	dbo.put(InvestorEnum.AVERAGE_ROI.getLabel().toString(), Double.valueOf(String.format("%.4f", avg_roi)));
+        people.save(dbo);	
+		
 		while(people_cur.hasNext())
 		{
 	        DBObject dbObject = people_cur.next();// Map DBOject to investor
