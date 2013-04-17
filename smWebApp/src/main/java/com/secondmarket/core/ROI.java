@@ -39,6 +39,7 @@ public class ROI {
 		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
 		
 		DBCursor people_cur = people.find();
+		
 		while(people_cur.hasNext())
 		{
 	        DBObject dbObject = people_cur.next();// Map DBOject to investor
@@ -73,29 +74,45 @@ public class ROI {
 		Company company = new Company();
 		List<Double> all_roi = new ArrayList<Double>();
 		double average_roi = 0.0;
+		System.out.println("Investor: " + investor.getName());
+		
 		try{
 		for(int cid : investor.getCompany_id()){
 			
 			//for every company investor invested in
-		
+
 			company = get(cid);
+			System.out.println("Company: " + company.getName());
+			
 			String round_in = new String();
 			double fta = 0.0;
 			double roi = 0.0;
 			
 			for(Fund fund : company.getFund_info()){
 				//for every fund the company get
+				System.out.println("Round code: " + fund.getRound_code());
+				if(fund.getFund_person() != null && !fund.getFund_person().isEmpty()){
+					System.out.println("Fund_person: " + fund.getFund_person());
+				}
+								
 				for(Fund_person fp : fund.getFund_person()){
+					
+					System.out.println("Each fund_person: " + fp.getInvestor_id() + ": " + fp.getFirst_name() + " " + fp.getLast_name());
 					
 					if(fp.getInvestor_id().equals(investor.getId())){
 						//get the round code which investor start investing in
 						round_in = fund.getRound_code();
+						System.out.println("Hit! " + round_in);
+						
 						break;
 					}
 				}
+				if(!round_in.equals("")){
+					break;
+				}
 			}
 			
-			if(round_in.equals(null))
+			if(round_in.equals(""))
 				continue;
 			else{
 				//calculate amount raised in this and after rounds
