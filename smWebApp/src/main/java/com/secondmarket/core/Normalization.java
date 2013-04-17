@@ -3,6 +3,7 @@ package com.secondmarket.core;
 import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -18,6 +19,8 @@ public class Normalization
 	protected static Logger logger = Logger.getLogger("core"); 
 	
 	public static void main(String args[]) throws UnknownHostException{
+		PropertyConfigurator.configure("log4j.properties");
+		
 		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
 		DBCollection company = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString()); // Retrieve collection
 		
