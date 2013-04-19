@@ -155,7 +155,7 @@ public class FinancialOrgService
 			{
 				finOrg.getTop_investments().add(funds.get(i));
 				i++;
-				if(i == 10)
+				if(i == 9)
 					break;
 			}
 			
