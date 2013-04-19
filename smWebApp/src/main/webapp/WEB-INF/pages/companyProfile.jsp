@@ -71,12 +71,14 @@
 				<h4>Funding</h4>
 					<span> 
 						<c:forEach items="${company.fund_info}" var="fund">
-						<div class="pull-left btn span3">
+						<div class="pull-left btn span10">
 							<span class="pull-left muted">Series  ${fund.round_code}</span> 
 							<span class="pull-right muted">${fund.funded_month}/${fund.funded_day}/${fund.funded_year} </span>
 							<br>
 							<hr class="space" />
 							<span class="pull-left large-number">$${fund.raised_amount_in_million}M</span>
+							<br>
+							<span class="pull-left"><small>${fund.allInvestorNames}</small></span>
 						</div>
 					</c:forEach>
 				</span>

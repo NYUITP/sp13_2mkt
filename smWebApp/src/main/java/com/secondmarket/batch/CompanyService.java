@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -25,7 +27,9 @@ import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MapUtil;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Company;
+import com.secondmarket.domain.Financial_Org;
 import com.secondmarket.domain.Fund;
+import com.secondmarket.domain.Investor;
 import com.secondmarket.domain.Location;
 
 @Service("companyService")
@@ -283,11 +287,45 @@ public class CompanyService
 			
 			List<BasicDBObject> fundObjects = (List<BasicDBObject>) dbObject.get(CompanyEnum.FUND_INFO.getLabel().toString());
 			List<Fund> funds = new ArrayList<Fund>();
+			Set<String> allInvestorNames = new HashSet<String>();
 			if (fundObjects != null) 
 			{
 				for (BasicDBObject fund : fundObjects) 
 				{
 					Fund fundInfo = new Fund(fund);
+					
+					List<Investor> inv = fundInfo.getInvestors();
+					if(!inv.isEmpty())
+					{
+						for(Investor in : inv)
+						{
+							allInvestorNames.add(in.getName());
+						}
+					}
+					
+					List<Financial_Org> finOrg = fundInfo.getFinacialOrgs();
+					if(!finOrg.isEmpty())
+					{
+						for(Financial_Org fin : finOrg)
+						{
+							allInvestorNames.add(fin.getName());
+						}
+					}
+					
+					List<Company> comp = fundInfo.getCompanies();
+					if(!comp.isEmpty())
+					{
+						for(Company com : comp)
+						{
+							allInvestorNames.add(com.getName());
+						}
+					}
+					String allUniqueNames = "";
+					for(String name : allInvestorNames)
+					{
+						allUniqueNames += name +", ";
+					}
+					fundInfo.setAllInvestorNames(allUniqueNames);
 					funds.add(fundInfo);
 				}
 			}
@@ -298,7 +336,8 @@ public class CompanyService
 			{
 				calculatedTotalAmount += fund.getRaised_amount();
 			}
-			company.setTotal_money_raised((calculatedTotalAmount/1000000.0));
+			double amount = Double.valueOf(String.format("%.2f", (calculatedTotalAmount/1000000.0)));
+			company.setTotal_money_raised(amount);
 			
 			List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
 			List<Location> locations = new ArrayList<Location>();

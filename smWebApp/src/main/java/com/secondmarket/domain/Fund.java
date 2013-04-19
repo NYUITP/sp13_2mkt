@@ -29,6 +29,7 @@ public class Fund
 	private Integer funded_year = 0;
 	private Integer funded_month = 0;
 	private Integer funded_day = 0;
+	private String allInvestorNames;
 	private Map<String, String> uniqueInvestors = new HashMap<String, String>();
 	
 	@Embedded
@@ -293,6 +294,14 @@ public class Fund
 
 	public void setRaised_amount_in_million(Double raised_amount_in_million) {
 		this.raised_amount_in_million = raised_amount_in_million;
+	}
+
+	public String getAllInvestorNames() {
+		return allInvestorNames;
+	}
+
+	public void setAllInvestorNames(String allInvestorNames) {
+		this.allInvestorNames = allInvestorNames;
 	}
 }
 	
