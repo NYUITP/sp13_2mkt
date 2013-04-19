@@ -113,7 +113,6 @@ public class ROI {
 						}
 						for(Fund fund : company.getFund_info())
 						{
-							
 							if(fund.getRound_code().equalsIgnoreCase(firstRound))
 							{
 								totalAmountInRound = fund.getRaised_amount();
@@ -128,7 +127,6 @@ public class ROI {
 							}
 						}
 					}
-					
 					roi = (totalAmountInRound/totalAmountAfter);
 					all_roi.add(roi);
 				}
@@ -158,71 +156,81 @@ public class ROI {
 		CompanyService companyService = new CompanyService();
 		List<Double> all_roi = new ArrayList<Double>();
 		double average_roi = 0.0;
-			
+		
 		logger.debug("Financial Org: " + financial_Org.getName());
-			
-			try
+		
+		try
+		{
+			for(String permalink : financial_Org.getCompaniesInvestedIn())
 			{
-				for(String permalink : financial_Org.getCompaniesInvestedIn())
+				Company company = companyService.get(permalink);
+				if(company != null && company.getPermalink() != null)
 				{
-					Company company = companyService.get(permalink);
-					if(company != null && company.getPermalink() != null)
+					List<String> allRoundsInvestedIn = new ArrayList<String>();
+					double totalAmountInRound = 0.0;
+					double totalAmountAfter = 0.0;
+					double roi = 0.0;
+					
+					for(Fund fund : company.getFund_info())
 					{
-						String round_in = null;
-						double roundTotalAmount = 0.0;
-						double roi = 0.0;
-						
+						if(fund.getFinacialOrgs() != null && !fund.getFinacialOrgs().isEmpty())
+						{
+							for(Financial_Org finOrg : fund.getFinacialOrgs())
+							{
+								if(finOrg.getPermalink().equals(financial_Org.getPermalink()))
+								{
+									allRoundsInvestedIn.add(fund.getRound_code());
+								}
+							}
+						}
+					}
+					
+					if(!allRoundsInvestedIn.isEmpty())
+					{
+						String firstRound = allRoundsInvestedIn.get(0);
+						Fund fundObj = new Fund();
+						for(String round : allRoundsInvestedIn)
+						{
+							int x = fundObj.round_order(firstRound);
+							int y = fundObj.round_order(round);
+							if(y<x)
+							{
+								firstRound = round;
+							}
+						}
 						for(Fund fund : company.getFund_info())
 						{
-							if(fund.getFinacialOrgs() != null && !fund.getFinacialOrgs().isEmpty())
+							if(fund.getRound_code().equalsIgnoreCase(firstRound))
 							{
-								for(Financial_Org finOrg : fund.getFinacialOrgs())
-								{
-									if(finOrg.getPermalink().equals(financial_Org.getPermalink()))
-									{
-										round_in = fund.getRound_code();
-										break;
-									}
-								}
-								if(round_in != null && !round_in.equals(""))
-								{
-									break;
-								}
+								totalAmountInRound = fund.getRaised_amount();
+							}
+							if(fund.round_before(firstRound))
+							{
+								continue;
+							}
+							else
+							{
+								totalAmountAfter += fund.getRaised_amount();
 							}
 						}
-						
-						if(round_in != null && !round_in.equals(""))
-						{
-							for(Fund fund : company.getFund_info())
-							{
-								if(fund.round_before(round_in))
-								{
-									continue;
-								}
-								else
-								{
-									roundTotalAmount += fund.getRaised_amount();
-								}
-							}
-						}
-						
-						roi = (roundTotalAmount/(company.getTotal_money_raised()*1000000.00));
-						all_roi.add(roi);
 					}
+					roi = (totalAmountInRound/totalAmountAfter);
+					all_roi.add(roi);
 				}
-				
-				double count = 0.0;
-				double total = 0.0;
-				for(double each : all_roi)
-				{
-					total += each;
-					count++;
-				}
-				if(count != 0.0)
-				{
-					average_roi = (total / count);
-				}
-				logger.debug("Average ROI for - " + financial_Org.getName() + " is - " + average_roi);
+			}
+			
+			double count = 0.0;
+			double total = 0.0;
+			for(double each : all_roi)
+			{
+				total += each;
+				count++;
+			}
+			if(count != 0.0)
+			{
+				average_roi = (total / count);
+			}
+			logger.debug("Average ROI for - " + financial_Org.getName() + " is - " + average_roi);
 				
 			}catch(Exception e){
 				logger.warn("Error while calculating ROI for - " + financial_Org.getPermalink());
