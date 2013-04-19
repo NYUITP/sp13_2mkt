@@ -124,8 +124,23 @@ public class InvestorService
 	    		investor.setImage("resources/img/user-icon.png");
 	    	}
 	    	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel().toString()).toString());
-	    	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel().toString()).toString());
-	    	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel().toString()).toString());
+	    	if(!dbObject.get(InvestorEnum.TWITTER_URL.getLabel().toString()).toString().equals(""))
+	    	{
+	    		investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel().toString()).toString());
+	    	}
+	    	else
+	    	{
+	    		investor.setTwitter_url("https://twitter.com/");
+	    	}
+	    	if(!dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel().toString()).toString().equals(""))
+	    	{
+	    		investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel().toString()).toString());
+	    	}
+	    	else
+	    	{
+	    		investor.setLinkedin_url("http://www.linkedin.com/");
+	    	}
+	    
 	    	investor.setCrunchbase_url(dbObject.get(InvestorEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
 	    	
 	    	String overview = dbObject.get(InvestorEnum.OVERVIEW.getLabel().toString()).toString();
@@ -155,8 +170,6 @@ public class InvestorService
 			{
 				investor.getTop_investments().add(funds.get(i));
 				i++;
-				if(i == 9)
-					break;
 			}
 			
 	     	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());

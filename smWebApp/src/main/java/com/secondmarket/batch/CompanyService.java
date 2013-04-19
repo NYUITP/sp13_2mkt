@@ -271,7 +271,14 @@ public class CompanyService
 			company.setProduct_desc(dbObject.get(CompanyEnum.PROD_DESC.getLabel().toString()).toString());
 			company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel().toString()).toString()));
 			company.setCompany_url(dbObject.get(CompanyEnum.COMPANY_URL.getLabel().toString()).toString());
-			company.setTwitter_url(dbObject.get(CompanyEnum.TWITTER_URL.getLabel().toString()).toString());
+			if(!dbObject.get(CompanyEnum.TWITTER_URL.getLabel().toString()).toString().equals(""))
+			{
+				company.setTwitter_url(dbObject.get(CompanyEnum.TWITTER_URL.getLabel().toString()).toString());
+			}
+			else
+			{
+				company.setTwitter_url("https://twitter.com/");
+			}
 			company.setBlog_url(dbObject.get(CompanyEnum.BLOG_URL.getLabel().toString()).toString());
 			company.setCrunchbase_url(dbObject.get(CompanyEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
 			

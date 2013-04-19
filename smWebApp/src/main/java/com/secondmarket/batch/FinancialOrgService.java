@@ -115,7 +115,14 @@ public class FinancialOrgService
 			finOrg.setName(dbObject.get(Financial_OrgEnum.NAME.getLabel().toString()).toString());
 			finOrg.setCrunchbase_url(dbObject.get(Financial_OrgEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
 			finOrg.setCompany_url(dbObject.get(Financial_OrgEnum.COMPANY_URL.getLabel().toString()).toString());
-			finOrg.setTwitter_url(dbObject.get(Financial_OrgEnum.TWITTER_URL.getLabel().toString()).toString());
+			if(!dbObject.get(Financial_OrgEnum.TWITTER_URL.getLabel().toString()).toString().equals(""))
+			{
+				finOrg.setTwitter_url(dbObject.get(Financial_OrgEnum.TWITTER_URL.getLabel().toString()).toString());
+			}
+			else
+			{
+				finOrg.setTwitter_url("https://twitter.com/");
+			}
 			finOrg.setFollower_count(Integer.valueOf(dbObject.get(Financial_OrgEnum.FOLLOWER_COUNT.getLabel().toString()).toString()));
 			finOrg.setAngellist_url(dbObject.get(Financial_OrgEnum.ANGLELIST_URL.getLabel().toString()).toString());
 			if(!dbObject.get(Financial_OrgEnum.LOGO_URL.getLabel().toString()).toString().equals(""))
