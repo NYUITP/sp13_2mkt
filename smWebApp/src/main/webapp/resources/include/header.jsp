@@ -12,7 +12,9 @@
 				<li class="divider-vertical"></li>
 				<li><a href="companies">Companies</a></li>
 				<li class="divider-vertical"></li>
-				<li><a href="investors">Investors</a></li>
+				<li><a href="investors">Individual Investors</a></li>
+				<li class="divider-vertical"></li>
+				<li><a href="financialOrg">Financial Organizations</a></li>
 			</ul>
 		</div>
 	</div>

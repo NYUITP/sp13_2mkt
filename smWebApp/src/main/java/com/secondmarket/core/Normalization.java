@@ -1,9 +1,6 @@
 package com.secondmarket.core;
 
-import java.net.UnknownHostException;
-
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -11,6 +8,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.Financial_OrgEnum;
 import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.MongoDBFactory;
 
@@ -18,90 +16,72 @@ public class Normalization
 {	
 	protected static Logger logger = Logger.getLogger("core"); 
 	
-	public static void main(String args[]) throws UnknownHostException{
-		PropertyConfigurator.configure("log4j.properties");
+	public static void cacluclateNormalizedScoreForData()
+	{
+		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
+		DBCollection company = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.COMPANY_COLL.getLabel().toString()); 
+		DBCollection finOrg = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.FINANCIAL_ORG.getLabel().toString()); 
 		
-		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
-		DBCollection company = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString()); // Retrieve collection
-		
-		double investor_highest_follower_count = maxFcPeople(people);
-		double investor_highest_company_count = maxCompInv(people);
-		double company_highest_follower_count = maxFcCompany(company);
+		double investor_highest_follower_count = getMaxValueOfGivenFieldInGivenCollection(people, InvestorEnum.FOLLOWER_COUNT.getLabel().toString());
+		double investor_highest_company_count = getMaxValueOfGivenFieldInGivenCollection(people, InvestorEnum.COMPANY_COUNT.getLabel().toString());
+		double company_highest_follower_count = getMaxValueOfGivenFieldInGivenCollection(company, CompanyEnum.FOLLOWER_COUNT.getLabel().toString());
+		double finOrg_highest_follower_count = getMaxValueOfGivenFieldInGivenCollection(finOrg, Financial_OrgEnum.FOLLOWER_COUNT.getLabel().toString());
+		double finOrg_highest_company_count = getMaxValueOfGivenFieldInGivenCollection(finOrg, Financial_OrgEnum.COMPANY_COUNT.getLabel().toString());
 		
 		DBCursor people_cur = people.find();
 		while(people_cur.hasNext())
 		{
-	        DBObject dbObject = people_cur.next();// Map DBOject to investor
-	        normalizePeopleData(dbObject, investor_highest_follower_count, investor_highest_company_count);
+	        DBObject dbObject = people_cur.next();
+	        normalizeField(dbObject, investor_highest_follower_count, InvestorEnum.FOLLOWER_COUNT.getLabel().toString(), 
+	        		InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString());
+	        normalizeField(dbObject, investor_highest_company_count, InvestorEnum.COMPANY_COUNT.getLabel().toString(), 
+	        		InvestorEnum.NORMALIZED_COMPANY_SCORE.getLabel().toString());
 	        people.save(dbObject);
 		}
 		
 		DBCursor company_cur = company.find();
 		while(company_cur.hasNext())
 		{
-	        DBObject dbObject = company_cur.next();// Map DBOject to company
-	        normalizeCompanyData(dbObject, company_highest_follower_count);
+	        DBObject dbObject = company_cur.next();
+	        normalizeField(dbObject, company_highest_follower_count, CompanyEnum.FOLLOWER_COUNT.getLabel().toString(), 
+	        		CompanyEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString());
 	        company.save(dbObject);
 		}
-		logger.debug("Normalization completed and persisted");
+		
+		DBCursor finOrg_cur = finOrg.find();
+		while(finOrg_cur.hasNext())
+		{
+	        DBObject dbObject = finOrg_cur.next();
+	        normalizeField(dbObject, finOrg_highest_follower_count, Financial_OrgEnum.FOLLOWER_COUNT.getLabel().toString(), 
+	        		Financial_OrgEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString());
+	        normalizeField(dbObject, finOrg_highest_company_count, Financial_OrgEnum.COMPANY_COUNT.getLabel().toString(), 
+	        		Financial_OrgEnum.NORMALIZED_COMPANY_SCORE.getLabel().toString());
+	        finOrg.save(dbObject);
+		}
 	}
 
-	protected static double maxFcPeople(DBCollection people)
+	protected static double getMaxValueOfGivenFieldInGivenCollection(DBCollection collection, String field)
 	{
-		DBCursor cur = people.find().sort( new BasicDBObject( InvestorEnum.FOLLOWER_COUNT.getLabel().toString() , -1 ));
+		DBCursor cur = collection.find().sort( new BasicDBObject( field , -1 ));
 		DBObject dbObject = cur.next();
-		double highest_follower_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString());
-		return highest_follower_count;
-	}
-
-	protected static double maxCompInv(DBCollection people)
-	{
-		DBCursor cur = people.find().sort( new BasicDBObject( InvestorEnum.COMPANY_COUNT.getLabel().toString() , -1 ));
-		DBObject dbObject = cur.next();
-		double highest_company_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString());
-		return highest_company_count;
+		double highest_count = (double)Integer.valueOf(dbObject.get(field).toString());
+		return highest_count;
 	}
 	
-	protected static double maxFcCompany(DBCollection company)
+	protected static void normalizeField(DBObject dbObject, double highest_count, String field, String fieldToUpdate)
 	{
-		DBCursor cur = company.find().sort( new BasicDBObject( CompanyEnum.FOLLOWER_COUNT.getLabel().toString() , -1 ));
-		DBObject dbObject = cur.next();
-		double highest_follower_count = (double)Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString());
-		return highest_follower_count;
-	}
-	
-	protected static void normalizePeopleData(DBObject dbObject, double highest_follower_count, double highest_company_count){
-		double follower_count = 0.0;
-		double company_count = 0.0;
-		if(!dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString().equalsIgnoreCase(""))
+		double count_from_collection = 0.0;
+		if(!dbObject.get(field).toString().equalsIgnoreCase(""))
 		{
-			follower_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString());
-		}
-		if(!dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString().equalsIgnoreCase(""))
-		{
-			company_count = (double)Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString());
+			count_from_collection = (double)Integer.valueOf(dbObject.get(field).toString());
 		}
 		
-		double follower_count_norm = follower_count/highest_follower_count;
-		double company_count_norm = company_count/highest_company_count;
+		double count_norm = (count_from_collection/highest_count);
 		
-		logger.debug(String.format("%.4f", follower_count_norm));
-		logger.debug(String.format("%.4f", company_count_norm));
-		
-		dbObject.put(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString(), Double.valueOf(String.format("%.4f", follower_count_norm)));
-		dbObject.put(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel().toString(), Double.valueOf(String.format("%.4f", company_count_norm)));
-	}
-	
-	protected static void normalizeCompanyData(DBObject dbObject, double highest_follower_count){
-		double follower_count = 0.0;
-		if(!dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString().equalsIgnoreCase(""))
-		{
-			follower_count = (double)Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel()).toString());
-		}
-		
-		double follower_count_norm = follower_count/highest_follower_count;
-		
-		logger.debug(String.format("%.4f", follower_count_norm));
-		dbObject.put(CompanyEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString(), Double.valueOf(String.format("%.4f", follower_count_norm)));
+		logger.debug(String.format("%.4f", count_norm));
+		dbObject.put(fieldToUpdate, Double.valueOf(String.format("%.4f", count_norm)));
 	}
 }

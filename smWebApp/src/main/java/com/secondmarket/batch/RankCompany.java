@@ -15,8 +15,8 @@ public class RankCompany
 {
 	protected static Logger logger = Logger.getLogger("batch");
 	private CompanyService companyService = new CompanyService();
-	private HashMap<Integer, Double> companyScores = new HashMap<Integer, Double>();
-	private HashMap<Integer, Company> companyIdObjectMap = new HashMap<Integer, Company>();
+	private HashMap<String, Double> companyScores = new HashMap<String, Double>();
+	private HashMap<String, Company> companyIdObjectMap = new HashMap<String, Company>();
 	private double weight_for_follower_count = 0.0;
 	
 	public List<Company> getSortedCompanyBasedOnFC(String comfollowersImpLevel)
@@ -28,12 +28,12 @@ public class RankCompany
 		{
 			caculateCompanyScore(company);
 		}
-		HashMap<Integer, Double> sortedMap = MapUtil.sortHashMap(companyScores);
+		HashMap<String, Double> sortedMap = MapUtil.sortHashMapOfString(companyScores);
 		List<Company> sortedCompanySet= new LinkedList<Company>();
 		
-		for(Entry<Integer, Double> entry : sortedMap.entrySet())
+		for(Entry<String, Double> entry : sortedMap.entrySet())
 		{
-			logger.debug("Id is - " + entry.getKey() + " and score is - " + entry.getValue());
+			logger.debug("Permalink is - " + entry.getKey() + " and score is - " + entry.getValue());
 			sortedCompanySet.add(companyIdObjectMap.get(entry.getKey()));
 		}
 		return sortedCompanySet;
@@ -41,11 +41,11 @@ public class RankCompany
 
 	private void caculateCompanyScore(Company company) 
 	{
-		int id = company.getId();
+		String permalink = company.getPermalink();
 		double followerCount = company.getFollower_count();
 		double score = (followerCount*weight_for_follower_count);
-		companyScores.put(id, score);
-		companyIdObjectMap.put(id, company);
+		companyScores.put(permalink, score);
+		companyIdObjectMap.put(permalink, company);
 	}
 
 	private void calculateWeights(String comfollowersImpLevel) 

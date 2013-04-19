@@ -3,24 +3,29 @@ package com.secondmarket.common;
 public enum CompanyEnum {
 	ID("id"),
 	_ID("_id"),
+	PERMALINK("permalink"),
 	NAME("name"),
 	FOLLOWER_COUNT("follower_count"),
-	TOTAL_FUNDING("total_funding"),
+	TOTAL_MONEY_RAISED("total_money_raised"),
+	OVERVIEW("overview"),
 	ANGLELIST_URL("angellist_url"),
-	QUALITY("quality"),
-	PRODUCT_DESC("product_desc"),
+	CRUNCHBASE_URL("crunchbase_url"),
 	MARKETS("markets"),
 	LOCATIONS("locations"),
-	CRUNCHBASE_URL("crunchbase_url"),
-	FUNDING_ROUNDS("funding_rounds"),
-	HIGH_CONCEPT("high_concept"),
+	FUND_INFO("fund_info"),
 	LOGO_URL("logo_url"),
 	COMPANY_URL("company_url"),
 	TWITTER_URL("twitter_url"),
+	TWITTER_USERNAME("twitter_username"),
 	BLOG_URL("blog_url"),
-	TOTAL_MONEY_RAISED("total_money_raised"),
 	NORMALIZED_FOLLOWER_SCORE("fl_norm"),
-	INVESTORS("investors");
+	HOME_PAGE_URL("homepage_url"),
+	CEO("ceo"),
+	OFFICES("offices"),
+	INVESTOR_COUNT("investorCount"),
+	ALL_INVESTOR("investorPermalinks"),
+	FUNDING_ROUNDS("funding_rounds"),
+	PROD_DESC("product_desc");
 	
     private String label;
  

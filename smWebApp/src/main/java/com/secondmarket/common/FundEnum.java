@@ -1,27 +1,21 @@
 package com.secondmarket.common;
 
 public enum FundEnum {
-	FUND_INFO("fund_info"),
-	ROUND("round"),
-	AMOUNT("amount"),
+	ROUND_CODE("round_code"),
+	RAISED_AMOUNT("raised_amount"),
 	YEAR("funded_year"),
 	MONTH("funded_month"),
 	DAY("funded_day"),
-	ROUND_CODE("round_code"),
-	RAISED_AMOUNT("raised_amount"),
 	INVESTMENTS("investments"),
-	COMPANY("Fund_company"),
-	FINANCIAL_ORG("Fund_financial_org"),
-	PERSON("Fund_person"),
-	FIRST_NAME("first_name"),
-	LAST_NAME("last_name"),
-	NAME("name"),
-	PERMALINK("permalink"),
-	INVESTOR_ID("investor_id");
+	COMPANIES("companies"),
+	INVESTORS("investors"),
+	FINANCIALORGS("finacialOrgs"),
+	PERSON("person"),
+	COMPANY("company"),
+	FINANCIAL_ORG("financial_org");
 	
-	
-    private String label;
- 
+	private String label;
+	 
     private FundEnum(String label) {
         this.label = label;
     }

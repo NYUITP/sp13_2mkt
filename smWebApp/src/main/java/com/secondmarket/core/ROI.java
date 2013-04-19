@@ -1,198 +1,232 @@
 package com.secondmarket.core;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.NamingException;
-
 import org.apache.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.batch.CompanyService;
+import com.secondmarket.batch.FinancialOrgService;
 import com.secondmarket.batch.InvestorService;
 import com.secondmarket.common.CommonStrings;
-import com.secondmarket.common.CompanyEnum;
-import com.secondmarket.common.FundEnum;
+import com.secondmarket.common.Financial_OrgEnum;
 import com.secondmarket.common.InvestorEnum;
-import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Company;
+import com.secondmarket.domain.Financial_Org;
 import com.secondmarket.domain.Fund;
-import com.secondmarket.domain.Fund_person;
 import com.secondmarket.domain.Investor;
-import com.secondmarket.domain.Location;
-
-import com.google.code.morphia.Datastore;
 
 public class ROI {
 	
 	protected static Logger logger = Logger.getLogger("core"); 
 	
-	public static void main(String args[]) throws UnknownHostException{
-
-		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
+	public static void cacluclateROIForInvestors()
+	{
+		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
 		
-		DBCursor people_cur = people.find();
+		InvestorService investorService = new InvestorService();
+		List<Investor> investors = investorService.getAll();
 		
-		while(people_cur.hasNext())
+		for(Investor investor : investors)
 		{
-	        DBObject dbObject = people_cur.next();// Map DBOject to investor
-	        Investor investor = getInvestorObjectBasic(dbObject);
-	        double average_roi = calculateROI(investor);
-	        System.out.println(investor.getName() + ": " + average_roi);
-	    	dbObject.put(InvestorEnum.AVERAGE_ROI.getLabel().toString(), Double.valueOf(String.format("%.4f", average_roi)));
-	        people.save(dbObject);
+	        double average_roi = calculateROIForIndividualInvestor(investor);
+	        logger.debug(investor.getName() + ": " + average_roi);
+	        
+	        DBObject dbObject = investorService.getdbObject(investor.getPermalink());
+	        if(dbObject != null)
+	        {
+	        	dbObject.put(InvestorEnum.AVERAGE_ROI.getLabel().toString(), Double.valueOf(String.format("%.4f", average_roi)));
+	        	people.save(dbObject);
+	        }
 		}
 		
-	}
-	/**
-	 * A method to calculate ROI for all investors in Investor collection.
-	 * Run after Investor and Company collection completed.
-	 */
-	
-	public static void initializeROI(Datastore ds){
-		InvestorService is = new InvestorService();
-		for(Investor investor : is.getAllBasic()){
-			System.out.println(investor.getName()+"'s roi : "+calculateROI(investor));
-			double roi = calculateROI(investor);
-			investor.setROI(roi);
-			ds.save(investor);
+		DBCollection finOrg = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.FINANCIAL_ORG.getLabel().toString()); 
+		
+		FinancialOrgService financialOrgService = new FinancialOrgService();
+		List<Financial_Org> financial_Orgs = financialOrgService.getAll();
+		
+		for(Financial_Org financial_Org : financial_Orgs)
+		{
+	        double average_roi = calculateROIForFinancialOrgs(financial_Org);
+	        logger.debug(financial_Org.getName() + ": " + average_roi);
+	        
+	        DBObject dbObject = financialOrgService.getdbObject(financial_Org.getPermalink());
+	        if(dbObject != null)
+	        {
+	        	dbObject.put(Financial_OrgEnum.AVERAGE_ROI.getLabel().toString(), Double.valueOf(String.format("%.4f", average_roi)));
+	        	finOrg.save(dbObject);
+	        }
 		}
 	}
 		
-	/**
-	 * A method to calculate ROI for each investor.
-	 */
-	static private double calculateROI(Investor investor){
+	 private static double calculateROIForIndividualInvestor(Investor investor){
 		
-		Company company = new Company();
+		CompanyService companyService = new CompanyService();
 		List<Double> all_roi = new ArrayList<Double>();
 		double average_roi = 0.0;
-		System.out.println("Investor: " + investor.getName());
 		
-		try{
-		for(int cid : investor.getCompany_id()){
-			
-			//for every company investor invested in
-
-			company = get(cid);
-			System.out.println("Company: " + company.getName());
-			
-			String round_in = new String();
-			double fta = 0.0;
-			double roi = 0.0;
-			
-			for(Fund fund : company.getFund_info()){
-				//for every fund the company get
-				System.out.println("Round code: " + fund.getRound_code());
-				if(fund.getFund_person() != null && !fund.getFund_person().isEmpty()){
-					System.out.println("Fund_person: " + fund.getFund_person());
-				}
-								
-				for(Fund_person fp : fund.getFund_person()){
+		logger.debug("Investor: " + investor.getName());
+		
+		try
+		{
+			for(String permalink : investor.getCompaniesInvestedIn())
+			{
+				Company company = companyService.get(permalink);
+				if(company != null && company.getPermalink() != null)
+				{
+					List<String> allRoundsInvestedIn = new ArrayList<String>();
+					double totalAmountInRound = 0.0;
+					double totalAmountAfter = 0.0;
+					double roi = 0.0;
 					
-					System.out.println("Each fund_person: " + fp.getInvestor_id() + ": " + fp.getFirst_name() + " " + fp.getLast_name());
-					
-					if(fp.getInvestor_id().equals(investor.getId())){
-						//get the round code which investor start investing in
-						round_in = fund.getRound_code();
-						System.out.println("Hit! " + round_in);
-						
-						break;
+					for(Fund fund : company.getFund_info())
+					{
+						if(fund.getInvestors() != null && !fund.getInvestors().isEmpty())
+						{
+							for(Investor inv : fund.getInvestors())
+							{
+								if(inv.getPermalink().equals(investor.getPermalink()))
+								{
+									allRoundsInvestedIn.add(fund.getRound_code());
+								}
+							}
+						}
 					}
-				}
-				if(!round_in.equals("")){
-					break;
+					
+					if(!allRoundsInvestedIn.isEmpty())
+					{
+						String firstRound = allRoundsInvestedIn.get(0);
+						Fund fundObj = new Fund();
+						for(String round : allRoundsInvestedIn)
+						{
+							int x = fundObj.round_order(firstRound);
+							int y = fundObj.round_order(round);
+							if(y<x)
+							{
+								firstRound = round;
+							}
+						}
+						for(Fund fund : company.getFund_info())
+						{
+							
+							if(fund.getRound_code().equalsIgnoreCase(firstRound))
+							{
+								totalAmountInRound = fund.getRaised_amount();
+							}
+							if(fund.round_before(firstRound))
+							{
+								continue;
+							}
+							else
+							{
+								totalAmountAfter += fund.getRaised_amount();
+							}
+						}
+					}
+					
+					roi = (totalAmountInRound/totalAmountAfter);
+					all_roi.add(roi);
 				}
 			}
 			
-			if(round_in.equals(""))
-				continue;
-			else{
-				//calculate amount raised in this and after rounds
-				for(Fund fund : company.getFund_info()){
-					if(fund.round_before(round_in))
-						continue;
-					else{
-						fta += fund.getRaised_amount();
-					}
-				}
+			double count = 0.0;
+			double total = 0.0;
+			for(double each : all_roi)
+			{
+				total += each;
+				count++;
 			}
+			if(count != 0.0)
+			{
+				average_roi = (total / count);
+			}
+			logger.debug("Average ROI for - " + investor.getName() + " is - " + average_roi);
 			
-			roi = fta/company.getTotal_funding();
-			all_roi.add(roi);
-		}
-		}catch(Exception e){}
-			
-		
-		int count = 0;
-		double total = 0.0;
-		for(double each : all_roi){
-			total += each;
-			count++;
-		}
-		if(count == 0){
-			count++;
-		}
-		average_roi = total / count;
-		if(Double.isNaN(average_roi)){
-			average_roi = 0.0;
+		}catch(Exception e){
+			logger.warn("Error while calculating ROI for - " + investor.getPermalink());
 		}
 		return average_roi;
 	}
-	
-	@SuppressWarnings("unchecked")
-	private static Investor getInvestorObjectBasic(DBObject dbObject) 
+	 
+	private static double calculateROIForFinancialOrgs(Financial_Org financial_Org)
 	{
-		Investor investor = new Investor();
-    	investor.setId(Integer.valueOf(dbObject.get(InvestorEnum._ID.getLabel()).toString()));
-    	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
-    	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel().toString()));	
-		return investor;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static Company getCompanyObjectBasic(DBObject dbObject) 
-	{
-		Company company = new Company();
-		company.setId(Integer.valueOf(dbObject.get(CompanyEnum._ID.getLabel()).toString()));
-		company.setName(dbObject.get(CompanyEnum.NAME.getLabel()).toString());
-		company.setTotal_funding(Double.valueOf(dbObject.get(CompanyEnum.TOTAL_FUNDING.getLabel()).toString()));
-		company.setInvestor((ArrayList<Integer>)dbObject.get(CompanyEnum.INVESTORS.getLabel().toString()));	
-		
-		List<BasicDBObject> fundObjects = (List<BasicDBObject>) dbObject.get(FundEnum.FUND_INFO.getLabel());
-		List<Fund> fund_info = new ArrayList<Fund>();
-		if (fundObjects != null) {
-			for (BasicDBObject fund : fundObjects) {
-				try {
-					JSONObject fObj = new JSONObject(fund.toString());
-					Fund fd = new Fund(fObj);
-					fund_info.add(fd);
-				} catch (JSONException e) {
-					e.printStackTrace();
+		CompanyService companyService = new CompanyService();
+		List<Double> all_roi = new ArrayList<Double>();
+		double average_roi = 0.0;
+			
+		logger.debug("Financial Org: " + financial_Org.getName());
+			
+			try
+			{
+				for(String permalink : financial_Org.getCompaniesInvestedIn())
+				{
+					Company company = companyService.get(permalink);
+					if(company != null && company.getPermalink() != null)
+					{
+						String round_in = null;
+						double roundTotalAmount = 0.0;
+						double roi = 0.0;
+						
+						for(Fund fund : company.getFund_info())
+						{
+							if(fund.getFinacialOrgs() != null && !fund.getFinacialOrgs().isEmpty())
+							{
+								for(Financial_Org finOrg : fund.getFinacialOrgs())
+								{
+									if(finOrg.getPermalink().equals(financial_Org.getPermalink()))
+									{
+										round_in = fund.getRound_code();
+										break;
+									}
+								}
+								if(round_in != null && !round_in.equals(""))
+								{
+									break;
+								}
+							}
+						}
+						
+						if(round_in != null && !round_in.equals(""))
+						{
+							for(Fund fund : company.getFund_info())
+							{
+								if(fund.round_before(round_in))
+								{
+									continue;
+								}
+								else
+								{
+									roundTotalAmount += fund.getRaised_amount();
+								}
+							}
+						}
+						
+						roi = (roundTotalAmount/(company.getTotal_money_raised()*1000000.00));
+						all_roi.add(roi);
+					}
 				}
+				
+				double count = 0.0;
+				double total = 0.0;
+				for(double each : all_roi)
+				{
+					total += each;
+					count++;
+				}
+				if(count != 0.0)
+				{
+					average_roi = (total / count);
+				}
+				logger.debug("Average ROI for - " + financial_Org.getName() + " is - " + average_roi);
+				
+			}catch(Exception e){
+				logger.warn("Error while calculating ROI for - " + financial_Org.getPermalink());
 			}
+			return average_roi;
 		}
-		company.setFund_info(fund_info);		
-		return company;
-	}
-	
-	public static Company get(Integer id) 
-	{
-		logger.debug("Retrieving an existing Company");
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve
-		DBObject doc = new BasicDBObject(); // Create a new object
-		doc.put(CompanyEnum._ID.getLabel().toString(), id); // Put id to search
-		DBObject dbObject = coll.findOne(doc); // Find and return the Company
-		Company company = getCompanyObjectBasic(dbObject);	
-		return company; // Return company
-	}
-
-
 }

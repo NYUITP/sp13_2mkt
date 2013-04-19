@@ -58,7 +58,7 @@
 		<div class="row">
 			<div class="span11">
 				<h4>About</h4>
-				<span><c:out value="${investor.bio}" /></span>
+				<span><c:out value="${investor.overview}" /></span>
 			</div>
 		</div>
 	</div>
@@ -71,7 +71,7 @@
 						<div class="pull-left">
 							<img class="img-rounded" src="${company.logo_url}" width="50"
 								height="50" /> <span class="pull-left "> <a
-								href=companyProfile?id=${company.id}><c:out
+								href=companyProfile?permalink=${company.permalink}><c:out
 										value="${company.name}" /></a>
 							</span>
 							<hr class="space" />
@@ -82,9 +82,6 @@
 			</div>
 		</div>
 	</div>
-
 </div>
-
-
 </body>
 </html>

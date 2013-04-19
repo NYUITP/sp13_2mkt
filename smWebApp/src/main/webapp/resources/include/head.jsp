@@ -11,9 +11,7 @@
 
     <title>Second Market</title>
 
-    <!-- C:/Users/Deepa/Dropbox/Git-Repo/sp13_2mkt/smWebApp/src/main/webapp/WEB-INF/ -->
     <link href="resources/css/bootstrap.css" rel="stylesheet">
-    <!-- <link href="css/bootstrap-responsive.css" rel="stylesheet"> -->
     <link href="resources/css/new.css" rel="stylesheet">
 
     <!-- include js -->

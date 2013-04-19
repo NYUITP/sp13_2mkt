@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.secondmarket.common.MapUtil;
+import com.secondmarket.domain.Financial_Org;
 import com.secondmarket.domain.Investor;
 
 @Service("rankingService")
@@ -15,44 +16,72 @@ public class RankInvestor
 {
 	protected static Logger logger = Logger.getLogger("batch");
 	private InvestorService investorService = new InvestorService();
-	private HashMap<Integer, Double> investorsScores = new HashMap<Integer, Double>();
-	private HashMap<Integer, Investor> investorIdObjectMap = new HashMap<Integer, Investor>();
+	private FinancialOrgService financialOrgService = new FinancialOrgService();
+	private HashMap<String, Double> investorsScores = new HashMap<String, Double>();
+	private HashMap<String, Investor> investorObjectMap = new HashMap<String, Investor>();
+	private HashMap<String, Double> finOrgScores = new HashMap<String, Double>();
+	private HashMap<String, Financial_Org> finOrgObjectMap = new HashMap<String, Financial_Org>();
 	private double weight_for_follower_count = 0.0;
 	private double weight_for_company_count = 0.0;
 	private double weight_for_roi_avg = 0.0;
 	
-	public List<Investor> getSortedInvestorBasedOnFC_CC(String followersImpLevel, String companyImpLevel, String roiImpLevel)
+	public List<Investor> getSortedInvestorBasedOnFC_CC_ROI(String followersImpLevel, String companyImpLevel, String roiImpLevel)
 	{
 		calculateWeights(followersImpLevel, companyImpLevel, roiImpLevel);
 		
 		List<Investor> investors = investorService.getAll();
 		for(Investor investor : investors)
 		{
-			caculateInvestorsScore(investor);
+			String permalink = investor.getPermalink();
+			double followerCount = investor.getFl_norm();
+			double companyCount = investor.getCc_norm();
+			double roiAvg = investor.getAverage_roi();
+			double score = caculateEntityScore(permalink, followerCount, companyCount, roiAvg);
+			investorObjectMap.put(permalink, investor);
+			investorsScores.put(permalink, score);
 		}
-		HashMap<Integer, Double> sortedMap = MapUtil.sortHashMap(investorsScores);
+		HashMap<String, Double> sortedMap = MapUtil.sortHashMapOfString(investorsScores);
 		List<Investor> sortedInvestorSet= new LinkedList<Investor>();
 		
-		for(Entry<Integer, Double> entry : sortedMap.entrySet())
+		for(Entry<String, Double> entry : sortedMap.entrySet())
 		{
-			logger.debug("Id is - " + entry.getKey() + " and score is - " + entry.getValue());
-			sortedInvestorSet.add(investorIdObjectMap.get(entry.getKey()));
+			logger.debug("Permalink is - " + entry.getKey() + " and score is - " + entry.getValue());
+			sortedInvestorSet.add(investorObjectMap.get(entry.getKey()));
 		}
-	
 		return sortedInvestorSet;
 	}
-
-	private void caculateInvestorsScore(Investor investor) 
+	
+	public List<Financial_Org> getSortedFinanciaOrgBasedOnFC_CC_ROI(String followersImpLevel, String companyImpLevel, String roiImpLevel)
 	{
-		int id = investor.getId();
-		double followerCount = investor.getFl_norm();
-		double companyCount = investor.getCc_norm();
-		double roiAvg = investor.getAverage_roi();
+		calculateWeights(followersImpLevel, companyImpLevel, roiImpLevel);
 		
+		List<Financial_Org> financial_Orgs = financialOrgService.getAll();
+		for(Financial_Org financial_Org : financial_Orgs)
+		{
+			String permalink = financial_Org.getPermalink();
+			double followerCount = financial_Org.getFl_norm();
+			double companyCount = financial_Org.getCc_norm();
+			double roiAvg = financial_Org.getAverage_roi();
+			double score = caculateEntityScore(permalink, followerCount, companyCount, roiAvg);
+			finOrgObjectMap.put(permalink, financial_Org);
+			finOrgScores.put(permalink, score);
+		}
+		HashMap<String, Double> sortedMap = MapUtil.sortHashMapOfString(finOrgScores);
+		List<Financial_Org> sortedFinancialOrgSet= new LinkedList<Financial_Org>();
+		
+		for(Entry<String, Double> entry : sortedMap.entrySet())
+		{
+			logger.debug("Permalink is - " + entry.getKey() + " and score is - " + entry.getValue());
+			sortedFinancialOrgSet.add(finOrgObjectMap.get(entry.getKey()));
+		}
+		return sortedFinancialOrgSet;
+	}
+
+	private double caculateEntityScore(String permalink, double followerCount, double companyCount, double roiAvg) 
+	{
 		double score = (followerCount*weight_for_follower_count) + (companyCount*weight_for_company_count) + (roiAvg*weight_for_roi_avg);
 		score = score*100.0000;
-		investorsScores.put(id, score);
-		investorIdObjectMap.put(id, investor);
+		return score;
 	}
 
 	private void calculateWeights(String followersImpLevel, String companyImpLevel, String roiImpLevel) 

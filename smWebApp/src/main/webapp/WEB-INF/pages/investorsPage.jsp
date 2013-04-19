@@ -123,7 +123,7 @@
 			
 			
 			<hr class="space" />
-				<form action="investorRanking" method="post">
+				<form action="investorRankingByFC_CC_ROI" method="post">
 					<input type='hidden' id='companyImpLevel' name='companyImpLevel' value='3'/>
 					<input type='hidden' id='followersImpLevel' name='followersImpLevel' value='3'/>
 					<input type='hidden' id='roiImpLevel' name='roiImpLevel' value='3'/>
@@ -184,7 +184,7 @@
 
 		<div class="span9">
 
-			<h1>Investors</h1>
+			<h2>Investors</h2>
 			<hr>
 			<c:forEach items="${investors}" var="investor">
 				<div class="search-result">
@@ -195,7 +195,7 @@
 					<div class="pull-left search-content">
 						<div>
 							<h4 class="pull-left">
-								<a href=investorProfile?id=${investor.id}><c:out value="${investor.name}" /></a>
+								<a href=investorProfile?permalink=${investor.permalink}><c:out value="${investor.name}" /></a>
 							</h4>
 							
 						</div>

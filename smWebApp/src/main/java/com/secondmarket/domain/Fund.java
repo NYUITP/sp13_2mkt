@@ -1,160 +1,179 @@
 package com.secondmarket.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.code.morphia.annotations.Embedded;
+import com.mongodb.BasicDBObject;
+import com.secondmarket.common.CompanyEnum;
+import com.secondmarket.common.CrunchbaseNamespace;
+import com.secondmarket.common.Financial_OrgEnum;
 import com.secondmarket.common.FundEnum;
+import com.secondmarket.common.InvestorEnum;
 
 @Embedded
 public class Fund
 {
+	protected static Logger logger = Logger.getLogger("domain");
+	
 	private String round_code;
-	private Double raised_amount;
-	private Integer funded_year;
-	private Integer funded_month;
-	private Integer funded_day;
-	@Embedded 
-	private List<Fund_company> Fund_company = new ArrayList<Fund_company>();
+	private Double raised_amount = 0.0;
+	private Integer funded_year = 0;
+	private Integer funded_month = 0;
+	private Integer funded_day = 0;
+	private Map<String, String> uniqueInvestors = new HashMap<String, String>();
 	
-	public Integer getFunded_year() {
-		return funded_year;
-	}
-
-
-	public void setFunded_year(Integer funded_year) {
-		this.funded_year = funded_year;
-	}
-
-
-	public Integer getFunded_month() {
-		return funded_month;
-	}
-
-
-	public void setFunded_month(Integer funded_month) {
-		this.funded_month = funded_month;
-	}
-
-
-	public Integer getFunded_day() {
-		return funded_day;
-	}
-
-
-	public void setFunded_day(Integer funded_day) {
-		this.funded_day = funded_day;
-	}
-
-
-	public List<Fund_company> getFund_company() {
-		return Fund_company;
-	}
-
-
-	public void setFund_company(List<Fund_company> Fund_company) {
-		this.Fund_company = Fund_company;
-	}
-
-
-	public List<Fund_financial_org> getFund_financial_org() {
-		return Fund_financial_org;
-	}
-
-
-	public void setFund_financial_org(List<Fund_financial_org> Fund_financial_org) {
-		this.Fund_financial_org = Fund_financial_org;
-	}
-
-
-	public List<Fund_person> getFund_person() {
-		return Fund_person;
-	}
-
-
-	public void setFund_person(List<Fund_person> Fund_person) {
-		this.Fund_person = Fund_person;
-	}
-
-
 	@Embedded
-	private List<Fund_financial_org> Fund_financial_org = new ArrayList<Fund_financial_org>();
+	private List<Investor> investors = new ArrayList<Investor>();
 	@Embedded
-	private List<Fund_person> Fund_person = new ArrayList<Fund_person>();
+	private List<Company> companies = new ArrayList<Company>();
+	@Embedded
+	private List<Financial_Org> finacialOrgs = new ArrayList<Financial_Org>();
 	
+	public Fund(){}
 	
 	public Fund(JSONObject js) throws JSONException
 	{
-		round_code = js.getString(FundEnum.ROUND_CODE.getLabel().toString());
-		raised_amount = js.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
-		funded_year = js.getInt(FundEnum.YEAR.getLabel().toString());
-		funded_month = js.getInt(FundEnum.MONTH.getLabel().toString());
-		funded_day = js.getInt(FundEnum.DAY.getLabel().toString());
-		JSONArray company = null;
-		JSONArray financial_org = null;
-		JSONArray person = null;
+		if(!js.get(FundEnum.ROUND_CODE.getLabel().toString()).toString().equals("null"))
+		{
+			round_code = js.get(FundEnum.ROUND_CODE.getLabel().toString()).toString();
+		}
+		if(!js.get(FundEnum.RAISED_AMOUNT.getLabel().toString()).toString().equals("null"))
+		{
+			raised_amount = js.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+		}
+		if(!js.get(FundEnum.YEAR.getLabel().toString()).toString().equals("null"))
+		{
+			funded_year = js.getInt(FundEnum.YEAR.getLabel().toString());
+		}
+		if(!js.get(FundEnum.MONTH.getLabel().toString()).toString().equals("null"))
+		{
+			funded_month = js.getInt(FundEnum.MONTH.getLabel().toString());
+		}
+		if(!js.get(FundEnum.DAY.getLabel().toString()).toString().equals("null"))
+		{
+			funded_day = js.getInt(FundEnum.DAY.getLabel().toString());
+		}
 		
-		if(js.has(FundEnum.COMPANY.getLabel().toString())){
-			company = js.getJSONArray(FundEnum.COMPANY.getLabel().toString());
-			if(!company.isNull(0)){
-				for(int j = 0; j<company.length();j++){
-				JSONObject each_company = company.getJSONObject(j);
-				Fund_company Fund_company_i = new Fund_company(each_company);
-				Fund_company.add(Fund_company_i);
+		JSONArray investments = js.getJSONArray(FundEnum.INVESTMENTS.getLabel().toString());
+		for(int index = 0; index < investments.length() ; index++)
+		{
+			JSONObject investment = investments.getJSONObject(index);
+			JSONObject companyObj = null;
+			JSONObject financialOrgObj = null;
+			JSONObject personObj = null;
+			
+			if(!investment.get(FundEnum.FINANCIAL_ORG.toString()).toString().equals("null"))
+			{
+				financialOrgObj = investment.getJSONObject(FundEnum.FINANCIAL_ORG.getLabel().toString());
+			}
+			
+			if(!investment.get(FundEnum.PERSON.toString()).toString().equals("null"))
+			{
+				personObj = investment.getJSONObject(FundEnum.PERSON.getLabel().toString());
+			}
+			
+			if(!investment.get(FundEnum.COMPANY.toString()).toString().equals("null"))
+			{
+				companyObj = investment.getJSONObject(FundEnum.COMPANY.getLabel().toString());
+			}
+			if(companyObj !=null)
+			{
+				Company company = new Company();
+				company.setName(companyObj.get(CompanyEnum.NAME.getLabel().toString()).toString());
+				company.setPermalink(companyObj.get(CompanyEnum.PERMALINK.getLabel().toString()).toString());
+				companies.add(company);
+				uniqueInvestors.put(companyObj.get(CompanyEnum.PERMALINK.getLabel().toString()).toString(),
+						CrunchbaseNamespace.COMPANY.getLabel().toString());
+			}
+			
+			if(financialOrgObj !=null)
+			{
+				Financial_Org financial_Org = new Financial_Org();
+				financial_Org.setName(financialOrgObj.get(Financial_OrgEnum.NAME.getLabel().toString()).toString());
+				financial_Org.setPermalink(financialOrgObj.get(Financial_OrgEnum.PERMALINK.getLabel().toString()).toString());
+				finacialOrgs.add(financial_Org);
+				uniqueInvestors.put(financialOrgObj.get(Financial_OrgEnum.PERMALINK.getLabel().toString()).toString(), 
+						CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString());
+			}
+			
+			if(personObj !=null)
+			{
+				Investor investor = new Investor();
+				String name = personObj.get(InvestorEnum.FIRST_NAME.getLabel().toString()).toString() + " " + 
+						personObj.get(InvestorEnum.LAST_NAME.getLabel().toString()).toString();
+				investor.setName(name);
+				investor.setPermalink(personObj.get(InvestorEnum.PERMALINK.getLabel().toString()).toString());
+				investors.add(investor);
+				uniqueInvestors.put(personObj.get(InvestorEnum.PERMALINK.getLabel().toString()).toString(), 
+						CrunchbaseNamespace.PERSON.getLabel().toString());
+			}
+		}
+	}
+	
+	public Fund(BasicDBObject fund)
+	{
+		try 
+		{
+			JSONObject fundObj = new JSONObject(fund.toString());
+			round_code = fundObj.get(FundEnum.ROUND_CODE.getLabel().toString()).toString();
+			raised_amount = fundObj.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+			funded_year = fundObj.getInt(FundEnum.YEAR.getLabel().toString());	
+			funded_month = fundObj.getInt(FundEnum.MONTH.getLabel().toString());
+			funded_day = fundObj.getInt(FundEnum.DAY.getLabel().toString());
+			
+			JSONArray personArray = null;
+			JSONArray companyArray = null;
+			JSONArray finOrgArray = null;
+			
+			if(fundObj.has(FundEnum.INVESTORS.getLabel().toString()))
+			{
+				personArray = fundObj.getJSONArray(FundEnum.INVESTORS.getLabel().toString());
+			}
+			if(fundObj.has(FundEnum.COMPANIES.getLabel().toString()))
+			{
+				companyArray = fundObj.getJSONArray(FundEnum.COMPANIES.getLabel().toString());
+			}
+			if(fundObj.has(FundEnum.FINANCIALORGS.getLabel().toString()))
+			{
+				finOrgArray = fundObj.getJSONArray(FundEnum.FINANCIALORGS.getLabel().toString());
+			}
+			
+			if(personArray != null)
+			{
+				for(int index = 0; index < personArray.length() ; index++)
+				{
+					Investor investor = new Investor(personArray.getJSONObject(index));
+					investors.add(investor);
+				}
+			}
+			if(companyArray != null)
+			{
+				for(int index = 0; index < companyArray.length() ; index++)
+				{
+					Company company = new Company(companyArray.getJSONObject(index));
+					companies.add(company);
+				}
+			}
+			if(finOrgArray != null)
+			{
+				for(int index = 0; index < finOrgArray.length() ; index++)
+				{
+					Financial_Org finOrg = new Financial_Org(finOrgArray.getJSONObject(index));
+					finacialOrgs.add(finOrg);
 				}
 			}
 			
+		} catch (JSONException e) {
+			logger.warn("Failed to form fun object from BasicDBObject");
 		}
-			
-		if(js.has(FundEnum.FINANCIAL_ORG.getLabel().toString()) ){
-			financial_org = js.getJSONArray(FundEnum.FINANCIAL_ORG.getLabel().toString());
-			if (!financial_org.isNull(0)){
-				for (int j = 0; j<financial_org.length();j++){
-				JSONObject each_financial_org = financial_org.getJSONObject(j);
-				Fund_financial_org Fund_financial_org_i = new Fund_financial_org(each_financial_org);
-				Fund_financial_org.add(Fund_financial_org_i);
-				}
-			}
-			
-		}
-		if(js.has(FundEnum.PERSON.getLabel().toString())){
-			person = js.getJSONArray(FundEnum.PERSON.getLabel().toString());
-			if(!person.isNull(0)){
-				for(int j = 0; j<person.length();j++){
-				JSONObject each_person = person.getJSONObject(j);
-				Fund_person Fund_person_i = new Fund_person(each_person);
-				Fund_person.add(Fund_person_i);
-				}
-			}
-			
-		}
-			
-		
-			
-	}
-
-
-	public String getRound_code() {
-		return round_code;
-	}
-
-
-	public void setRound_code(String round_code) {
-		this.round_code = round_code;
-	}
-
-
-	public Double getRaised_amount() {
-		return raised_amount;
-	}
-
-
-	public void setRaised_amount(Double raised_amount) {
-		this.raised_amount = raised_amount;
 	}
 	
 	/**
@@ -186,6 +205,83 @@ public class Fund
 		else if (round_code.equals("e"))
 			return 6;
 		else return 7;
+	}
+
+	public String getRound_code() {
+		return round_code;
+	}
+
+	public void setRound_code(String round_code) {
+		this.round_code = round_code;
+	}
+
+	public Double getRaised_amount() {
+		return raised_amount;
+	}
+
+	public void setRaised_amount(Double raised_amount) {
+		this.raised_amount = raised_amount;
+	}
+
+	public Integer getFunded_year() {
+		return funded_year;
+	}
+
+	public void setFunded_year(Integer funded_year) {
+		this.funded_year = funded_year;
+	}
+
+	public Integer getFunded_month() {
+		return funded_month;
+	}
+
+	public void setFunded_month(Integer funded_month) {
+		this.funded_month = funded_month;
+	}
+
+	public Integer getFunded_day() {
+		return funded_day;
+	}
+
+	public void setFunded_day(Integer funded_day) {
+		this.funded_day = funded_day;
+	}
+
+	public List<Investor> getInvestors() {
+		return investors;
+	}
+
+	public void setInvestors(List<Investor> investors) {
+		this.investors = investors;
+	}
+
+	public List<Company> getCompanies() {
+		return companies;
+	}
+
+	public void setCompanies(List<Company> companies) {
+		this.companies = companies;
+	}
+
+	public List<Financial_Org> getFinacialOrgs() {
+		return finacialOrgs;
+	}
+
+	public void setFinacialOrgs(List<Financial_Org> finacialOrgs) {
+		this.finacialOrgs = finacialOrgs;
+	}
+
+	public Map<String, String> getUniqueInvestors() {
+		return uniqueInvestors;
+	}
+
+	public void setUniqueInvestors(Map<String, String> uniqueInvestors) {
+		this.uniqueInvestors = uniqueInvestors;
+	}
+	
+	public void addCompany(Company company)
+	{
+		this.getCompanies().add(company);
 	}
 }
 	

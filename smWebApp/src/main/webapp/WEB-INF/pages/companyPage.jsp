@@ -119,40 +119,52 @@
 
 	<%@include file="../../resources/include/header.jsp"%>
 	<hr class="space" />
-
 	<div class="row">
 
 		<div class="span3">
-			<!--  <div class="side-block hidden-phone">
+			<div class="side-block hidden-phone">
 				<div>
-					<strong>Followers</strong> <small class="pull-right"><a>Select
-							All</a> | <a href="#">None</a></small>
+					<strong>Rank Company by Fund raised in last</strong>
 				</div>
 				<hr class="space" />
-				<ul class="clear-ul">
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;0-50
-						<a class="small-text pull-right" href="#">only</a></li>
-
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;51-100
-						<a class="small-text pull-right" href="#">only</a></li>
-
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;101-150
-						<a class="small-text pull-right" href="#">only</a></li>
-
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;150+
-						<a class="small-text pull-right" href="#">only</a></li>
-				</ul>
+				<input id="timeRange" type="range" min="1" max="5" step="1"
+					value="${periods}" onchange="showTimeRange(this.value)" /> <span
+					id="fund-period" class="slider-value">1 year</span>
 
 				<hr class="space" />
-				<a href="#" class="btn">Update</a>
-
-			</div>-->
+				<form action="companyRankingByFundTime" method="post">
+					<input type='hidden' id='periodPast' name='periodPast' value='3' />
+					<input type="submit" value="Update">
+				</form>
+			</div>
 
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<form name="tform" method="POST" action="fundFilter">
+				<div>
+					<strong>Importance of Followers</strong>
+				</div>
+				<hr class="space" />
+
+				<input id="companyFollowerRange" type="range" min="1" max="5"
+					step="1" value="${companyfollowerLevel}"
+					onchange="showValueCompanyFollower(this.value)" /> <span
+					id="company-follower-value" class="slider-value">Moderately
+					Important</span>
+
+				<hr class="space" />
+				<form action="companyRankingByFollowers" method="post">
+					<input type='hidden' id='comfollowersImpLevel'
+						name='comfollowersImpLevel' value='3' /> <input type="submit"
+						value="Update">
+				</form>
+			</div>
+
+			<hr class="space" />
+
+			<div class="side-block hidden-phone">
+				<form name="tform" method="POST" action="companyFundFilter">
 					<div>
 						<strong>Total Fund Raised</strong> <small class="pull-right"><a
 							href="javascript:selectToggle(true, 'tform');">Select All</a> | <a
@@ -195,7 +207,7 @@
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<form name="tform2" method="POST" action="locationFilter">
+				<form name="tform2" method="POST" action="companyLocationFilter">
 					<div>
 						<strong>Company Location</strong> <small class="pull-right"><a
 							href="javascript:selectToggle(true, 'tform2');">Select All</a> |
@@ -225,51 +237,11 @@
 					<input type="submit" value="Update">
 				</form>
 			</div>
-
-			<hr class="space" />
-
-			<div class="side-block hidden-phone">
-				<div>
-					<strong>Rank Company by Fund raised in last</strong>
-				</div>
-				<hr class="space" />
-
-				<input id="timeRange" type="range" min="1" max="5" step="1"
-					value="${periods}" onchange="showTimeRange(this.value)" /> <span
-					id="fund-period" class="slider-value">1 year</span>
-
-				<hr class="space" />
-				<form action="companyRankingByFundTime" method="post">
-					<input type='hidden' id='periodPast' name='periodPast' value='3' />
-					<input type="submit" value="Update">
-				</form>
-			</div>
-
-			<hr class="space" />
-
-			<div class="side-block hidden-phone">
-				<div>
-					<strong>Importance of Followers</strong>
-				</div>
-				<hr class="space" />
-
-				<input id="companyFollowerRange" type="range" min="1" max="5" step="1"
-					value="${companyfollowerLevel}"
-					onchange="showValueCompanyFollower(this.value)" /> <span
-					id="company-follower-value" class="slider-value">Moderately
-					Important</span>
-				
-				<hr class="space" />
-				<form action="companyRankingByFollowers" method="post">
-					<input type='hidden' id='comfollowersImpLevel' name='comfollowersImpLevel' value='3'/>
-					<input type="submit" value="Update">
-				</form>
-			</div>
 		</div>
+		<hr class="space" />
 
 		<div class="span9">
-
-			<h1>Companies</h1>
+			<h2>Companies</h2>
 			<hr>
 			<c:forEach items="${companies}" var="company">
 				<div class="search-result">
@@ -280,13 +252,11 @@
 					<div class="pull-left search-content">
 						<div>
 							<h4 class="pull-left">
-								<a href=companyProfile?id=${company.id}><c:out
+								<a href=companyProfile?permalink=${company.permalink}><c:out
 										value="${company.name}" /></a>
 							</h4>
 						</div>
-						<div>
-							<span class="pull-left ">${company.high_concept}</span>
-						</div>
+						
 						<div>
 							<c:forEach items="${company.locations}" var="location">
 								<span class="pull-left muted"> <small>${location.name}
@@ -303,7 +273,7 @@
 						</div>
 						<div>
 							<span class="large-number"><c:out
-									value="$${company.total_funding}M" /></span> Total Funding
+									value="$${company.total_money_raised}M" /></span> Total Funding
 						</div>
 					</div>
 
@@ -315,7 +285,6 @@
 				<hr>
 			</c:forEach>
 		</div>
-
 	</div>
 </div>
 </body>

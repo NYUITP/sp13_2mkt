@@ -3,7 +3,8 @@ package com.secondmarket.common;
 public enum CommonStrings {
 	DATABASENAME("secondmarket"),
 	PEOPLE_COLL("Investor"),
-	COMPANY_COLL("Company");
+	COMPANY_COLL("Company"),
+	FINANCIAL_ORG("Financial_Org");
 	
     private String label;
  

@@ -18,11 +18,13 @@ import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MongoDBFactory;
+import com.secondmarket.domain.Fund;
 import com.secondmarket.domain.Investor;
 import com.secondmarket.domain.Location;
 
 @Service("investorService")
 @Transactional
+
 public class InvestorService 
 {
 	protected static Logger logger = Logger.getLogger("batch");
@@ -31,172 +33,129 @@ public class InvestorService
 	public List<Investor> getAll() 
 	{
 		logger.debug("Retrieving all investors");
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
-    	DBCursor cur = coll.find(); // Retrieve cursor for iterating records
-		List<Investor> items = new ArrayList<Investor>(); // Create new list
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
+    	DBCursor cur = coll.find(); 
+		List<Investor> items = new ArrayList<Investor>(); 
 		
-		// Iterate cursor
         while(cur.hasNext()) 
         {
-        	DBObject dbObject = cur.next();// Map DBOject to investor
+        	DBObject dbObject = cur.next();
         	Investor investor = getInvestorObject(dbObject);
-        	items.add(investor); // Add to new list
+        	items.add(investor); 
         }
-		return items;  // Return list
+		return items;  
 	}
 	
-	public List<Investor> get(List<Integer> ids) 
+	public List<Investor> get(List<String> permalinks) 
 	{
-		logger.debug("Retrieving all investors for a company");
+		logger.debug("Retrieving all investors for given permalink");
 		List<Investor> items = new ArrayList<Investor>(); // Create new list
 		BasicDBList docIds = new BasicDBList();
-		if(ids != null)
+		if(permalinks != null)
 		{
-			docIds.addAll(ids);
+			docIds.addAll(permalinks);
 			
 			DBObject inClause = new BasicDBObject("$in", docIds);
 	        DBObject query = new BasicDBObject(InvestorEnum._ID.getLabel().toString(), inClause);
-			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString());// Retrieve
+			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+					CommonStrings.PEOPLE_COLL.getLabel().toString());
 			DBCursor dbCursor = coll.find(query);
 	        if (dbCursor != null)
 	        {
 	            while (dbCursor.hasNext())
 	            {
-	            	DBObject dbObject = dbCursor.next(); // Map DBOject to investor
+	            	DBObject dbObject = dbCursor.next(); 
 	            	Investor investor = getInvestorObject(dbObject);
-	    			items.add(investor); // Add to new list
+	    			items.add(investor); 
 	            }
 	        }
 		}
-		return items; // Return investor
+		return items; 
 	}
 	
-	public Investor get( Integer id ) 
+	public Investor get( String permalink ) 
 	{
-		logger.debug("Retrieving an existing Investor");
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
-		DBObject doc = new BasicDBObject(); // Create a new object
-		doc.put(InvestorEnum._ID.getLabel().toString(), id); // Put id to search
-        DBObject dbObject = coll.findOne(doc);    // Find and return the investor with the given id
-        Investor investor = getInvestorObject(dbObject);
-		return investor;// Return investor
+		logger.debug("Retrieving an existing Investor given permalink - " + permalink);
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
+		DBObject doc = new BasicDBObject(); 
+		doc.put(InvestorEnum._ID.getLabel().toString(), permalink); 
+        DBObject dbObject = coll.findOne(doc);
+        Investor investor = new Investor();
+        if(dbObject != null)
+        {
+        	investor = getInvestorObject(dbObject);
+        }
+		return investor;
+	}
+	
+	public DBObject getdbObject( String permalink ) 
+	{
+		logger.debug("Retrieving an existing Investor given permalink - " + permalink);
+		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
+		DBObject doc = new BasicDBObject(); 
+		doc.put(InvestorEnum._ID.getLabel().toString(), permalink); 
+        DBObject dbObject = coll.findOne(doc);
+        return dbObject;
 	}
 
 	@SuppressWarnings("unchecked")
 	private Investor getInvestorObject(DBObject dbObject) 
 	{
 		Investor investor = new Investor();
-    	investor.setId(Integer.valueOf(dbObject.get(InvestorEnum._ID.getLabel()).toString()));
-    	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
-    	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
-    	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
-    	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
-    	investor.setAverage_roi(Double.valueOf(dbObject.get(InvestorEnum.AVERAGE_ROI.getLabel()).toString()));
-    	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
-    	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel()).toString()));
-    	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel()).toString()));
-    	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel()).toString());
-    	investor.setBlog_url(dbObject.get(InvestorEnum.BLOG_URL.getLabel()).toString());
-    	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel()).toString());
-    	investor.setFacebook_url(dbObject.get(InvestorEnum.FB_URL.getLabel()).toString());
-    	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
-     	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
-    	List<Location> locations = new ArrayList<Location>();
-    	if(locationObjects !=null)
-    	{
-        	for(BasicDBObject location : locationObjects)
-        	{
-        		try {
-					JSONObject locObj = new JSONObject(location.toString());
-					Location loc = new Location(locObj);
-					locations.add(loc);
-				} catch (JSONException e)
+		if(dbObject != null )
+		{
+			investor.setPermalink(dbObject.get(InvestorEnum._ID.getLabel().toString()).toString());
+	    	investor.setId(Integer.valueOf(dbObject.get(InvestorEnum.ID.getLabel()).toString()));
+	    	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel().toString()).toString());
+	    	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel().toString()).toString());
+	    	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel().toString()).toString()));
+	    	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel().toString()).toString()));
+	    	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel().toString()).toString());
+	    	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel().toString()).toString());
+	    	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel().toString()).toString());
+	    	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel().toString()).toString());
+	    	investor.setCrunchbase_url(dbObject.get(InvestorEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
+	    	investor.setOverview(dbObject.get(InvestorEnum.OVERVIEW.getLabel().toString()).toString());
+	    	
+	    	investor.setAverage_roi(Double.valueOf(dbObject.get(InvestorEnum.AVERAGE_ROI.getLabel().toString()).toString()));
+	    	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString()).toString()));
+	    	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMPANY_SCORE.getLabel().toString()).toString()));
+	    	
+	    	investor.setCompaniesInvestedIn((List<String>) dbObject.get(InvestorEnum.COMPANIES_INVESTED_IN.getLabel().toString()));
+	    	List<BasicDBObject> fundObjects = (List<BasicDBObject>) dbObject.get(InvestorEnum.FUND_INFO.getLabel().toString());
+			List<Fund> funds = new ArrayList<Fund>();
+			if (fundObjects != null) 
+			{
+				for (BasicDBObject fund : fundObjects) 
 				{
-					e.printStackTrace();
+					Fund fundInfo = new Fund(fund);
+					funds.add(fundInfo);
 				}
-        	}
-    	}
-    	investor.setLocations(locations);
-    	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel().toString()));
-  		return investor;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Investor getInvestorObjectBasic(DBObject dbObject) 
-	{
-		Investor investor = new Investor();
-    	investor.setId(Integer.valueOf(dbObject.get(InvestorEnum._ID.getLabel()).toString()));
-    	investor.setName(dbObject.get(InvestorEnum.NAME.getLabel()).toString());
-//    	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel()).toString());
-//    	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel()).toString()));
-//    	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel()).toString()));
-//    	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel()).toString());
-//    	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel()).toString()));
-//    	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMAPNY_SCORE.getLabel()).toString()));
-//    	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel()).toString());
-//    	investor.setBlog_url(dbObject.get(InvestorEnum.BLOG_URL.getLabel()).toString());
-//    	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel()).toString());
-//    	investor.setFacebook_url(dbObject.get(InvestorEnum.FB_URL.getLabel()).toString());
-//    	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel()).toString());
-//    	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
-//    	List<Location> locations = new ArrayList<Location>();
-//    	if(locationObjects !=null)
-//    	{
-//        	for(BasicDBObject location : locationObjects)
-//        	{
-//        		try {
-//					JSONObject locObj = new JSONObject(location.toString());
-//					Location loc = new Location(locObj);
-//					locations.add(loc);
-//				} catch (JSONException e)
-//				{
-//					e.printStackTrace();
-//				}
-//        	}
-//    	}
-//    	investor.setLocations(locations);
-    	investor.setCompany_id((ArrayList<Integer>)dbObject.get(InvestorEnum.COMPANY_IDS.getLabel().toString()));	
-		return investor;
-	}
-	
-	public List<Investor> getAllBasic() 
-	{
-		logger.debug("Retrieving all investors");
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
-    	DBCursor cur = coll.find(); // Retrieve cursor for iterating records
-		List<Investor> items = new ArrayList<Investor>(); // Create new list
-		
-		// Iterate cursor
-        while(cur.hasNext()) 
-        {
-        	DBObject dbObject = cur.next();// Map DBOject to investor
-        	Investor investor = getInvestorObjectBasic(dbObject);
-        	items.add(investor); // Add to new list
-        }
-		return items;  // Return list
-	}
-	
-	
-	
-	public Boolean add(Investor investor) 
-	{
-		logger.debug("Adding a new investor");	
-		try 
-		{			
-			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),CommonStrings.PEOPLE_COLL.getLabel().toString()); // Retrieve collection
-			BasicDBObject doc = new BasicDBObject(); // Create a new object
-	        doc.put(InvestorEnum._ID.getLabel(), investor.getId()); 
-	        doc.put(InvestorEnum.NAME.getLabel(), investor.getName());
-	        doc.put(InvestorEnum.BIO.getLabel(), investor.getBio());
-	        doc.put(InvestorEnum.FOLLOWER_COUNT.getLabel(), investor.getFollower_count());
-	        doc.put(InvestorEnum.COMPANY_COUNT.getLabel(), investor.getCompany_count());
-	        doc.put(InvestorEnum.COMPANY_IDS.getLabel(), investor.getCompany_id());
-	        coll.insert(doc); // Save new investor
-			return true;
+			}
+			investor.setFund_info(funds);
 			
-		} catch (Exception e) {
-			logger.error("An error has occurred while trying to add new investor", e);
-			return false;
+	     	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
+	    	List<Location> locations = new ArrayList<Location>();
+	    	if(locationObjects !=null)
+	    	{
+	        	for(BasicDBObject location : locationObjects)
+	        	{
+	        		try {
+						JSONObject locObj = new JSONObject(location.toString());
+						Location loc = new Location(locObj, LocationEnum.LOCATION_NAME.getLabel().toString());
+						locations.add(loc);
+					} catch (JSONException e)
+					{
+						logger.warn("Error while building investr's location object from database");
+					}
+	        	}
+	    	}
+	    	investor.setLocations(locations);
 		}
+    	
+  		return investor;
 	}
 }
