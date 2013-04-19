@@ -1,6 +1,7 @@
 package com.secondmarket.batch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,6 +17,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.Financial_OrgEnum;
+import com.secondmarket.common.FundComparator;
 import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MongoDBFactory;
 import com.secondmarket.domain.Financial_Org;
@@ -116,8 +118,19 @@ public class FinancialOrgService
 			finOrg.setTwitter_url(dbObject.get(Financial_OrgEnum.TWITTER_URL.getLabel().toString()).toString());
 			finOrg.setFollower_count(Integer.valueOf(dbObject.get(Financial_OrgEnum.FOLLOWER_COUNT.getLabel().toString()).toString()));
 			finOrg.setAngellist_url(dbObject.get(Financial_OrgEnum.ANGLELIST_URL.getLabel().toString()).toString());
-			finOrg.setLogo_url(dbObject.get(Financial_OrgEnum.LOGO_URL.getLabel().toString()).toString());
-			finOrg.setOverview(dbObject.get(Financial_OrgEnum.OVERVIEW.getLabel().toString()).toString());
+			if(!dbObject.get(Financial_OrgEnum.LOGO_URL.getLabel().toString()).toString().equals(""))
+			{
+				finOrg.setLogo_url(dbObject.get(Financial_OrgEnum.LOGO_URL.getLabel().toString()).toString());
+			}
+			else
+			{
+				finOrg.setLogo_url("resources/img/company-logo.png");
+			}
+			
+			String overview = dbObject.get(Financial_OrgEnum.OVERVIEW.getLabel().toString()).toString();
+			overview = overview.replaceAll("\\<.*?>","");
+			finOrg.setOverview(overview);
+			
 			finOrg.setCompany_count(Integer.valueOf(dbObject.get(Financial_OrgEnum.COMPANY_COUNT.getLabel().toString()).toString()));
 			
 			finOrg.setAverage_roi(Double.valueOf(dbObject.get(Financial_OrgEnum.AVERAGE_ROI.getLabel().toString()).toString()));
@@ -136,6 +149,15 @@ public class FinancialOrgService
 				}
 			}
 			finOrg.setFund_info(funds);
+			Collections.sort(funds, new FundComparator());
+			int i = 0;
+			while(i < funds.size())
+			{
+				finOrg.getTop_investments().add(funds.get(i));
+				i++;
+				if(i == 10)
+					break;
+			}
 			
 			List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
 			List<Location> locations = new ArrayList<Location>();

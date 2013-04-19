@@ -16,6 +16,7 @@
 
 	<div class="span11 well">
 		<div class="row">
+		<div class="span11">
 			<div class="pull-left">
 				<img class="img-rounded" src="${company.logo_url}" width="150"
 					height="150" />
@@ -49,7 +50,7 @@
 						src="resources/img/pro-anglelist-icon.png" width="100"
 						height="100"></a>
 				</div>
-
+			</div>
 			</div>
 		</div>
 	</div>
@@ -63,6 +64,25 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="span11 well">
+		<div class="row">
+			<div class="span11">
+				<h4>Funding</h4>
+					<span> 
+						<c:forEach items="${company.fund_info}" var="fund">
+						<div class="pull-left btn span3">
+							<span class="pull-left muted">Series  ${fund.round_code}</span> 
+							<span class="pull-right muted">${fund.funded_month}/${fund.funded_day}/${fund.funded_year} </span>
+							<br>
+							<hr class="space" />
+							<span class="pull-left large-number">$${fund.raised_amount_in_million}M</span>
+						</div>
+					</c:forEach>
+				</span>
+			</div>
+		</div>
+	</div>
 
 	<div class="span11 well">
 		<div class="row">
@@ -71,15 +91,11 @@
 				<hr>
 				<h5>Individual Investors</h5>
 				<span> <c:forEach items="${personInvested}" var="investor">
-						<div class="pull-left">
-							<img class="img-rounded" src="${investor.image}" width="50"
-								height="50" /> <span class="pull-left "> <a
-								href=investorProfile?permalink=${investor.permalink}><c:out
-										value="${investor.name}" /></a>
-							</span>
-							<hr class="space" />
-						</div>
-
+					<div class="pull-left">
+						<img class="img-rounded" src="${investor.image}" width="50" height="50" /> 
+						<span class="pull-left "><a href=investorProfile?permalink=${investor.permalink}><c:out value="${investor.name}" /></a></span>
+						<hr class="space" />
+					</div>
 					</c:forEach>
 				</span>
 				<hr class="space" />

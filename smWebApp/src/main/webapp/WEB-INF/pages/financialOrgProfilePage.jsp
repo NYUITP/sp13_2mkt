@@ -16,6 +16,7 @@
 
 	<div class="span11 well">
 		<div class="row">
+			<div class="span11">
 			<div class="pull-left">
 				<img class="img-rounded" src="${finOrg.logo_url}" width="150"
 					height="150" />
@@ -45,7 +46,7 @@
 						src="resources/img/pro-anglelist-icon.png" width="100"
 						height="100"></a>
 				</div>
-
+			</div>
 			</div>
 		</div>
 	</div>
@@ -60,6 +61,30 @@
 		</div>
 	</div>
 
+	<div class="span11 well">
+		<div class="row">
+			<div class="span11">
+				<h4>Top Investments</h4>
+				<hr class="space" />
+					<span> 
+						<c:forEach items="${finOrg.top_investments}" var="fund">
+						<div class="pull-left btn span3">
+							<span class="pull-left muted">Series  ${fund.round_code}</span> 
+							<span class="pull-right muted">${fund.funded_month}/${fund.funded_day}/${fund.funded_year} </span>
+							<br>
+							<c:forEach items="${fund.companies}" var="company">
+								<span class="pull-left">${company.name}</span>
+							</c:forEach>
+							<br>
+							<hr class="space" />
+							<span class="pull-left large-number">$${fund.raised_amount_in_million}M</span>
+						</div>
+					</c:forEach>
+				</span>
+			</div>
+		</div>
+	</div>
+	
 	<div class="span11 well">
 		<div class="row">
 			<div class="span11">

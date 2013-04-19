@@ -36,6 +36,7 @@ public class Investor
 	private boolean foundInCrunchbase = false;
 	private List<String> companiesInvestedIn = new ArrayList<String>();
 	private List<Company> ceo = new ArrayList<Company>();
+	private List<Fund> top_investments = new ArrayList<Fund>();	
 	@Embedded
 	private List<Location> locations = new ArrayList<Location>();
 	@Embedded
@@ -244,5 +245,13 @@ public class Investor
 
 	public void setCompaniesInvestedIn(List<String> companiesInvestedIn) {
 		this.companiesInvestedIn = companiesInvestedIn;
+	}
+
+	public List<Fund> getTop_investments() {
+		return top_investments;
+	}
+
+	public void setTop_investments(List<Fund> top_investments) {
+		this.top_investments = top_investments;
 	}
 }

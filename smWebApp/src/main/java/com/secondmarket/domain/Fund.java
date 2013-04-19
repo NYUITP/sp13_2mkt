@@ -25,6 +25,7 @@ public class Fund
 	
 	private String round_code;
 	private Double raised_amount = 0.0;
+	private Double raised_amount_in_million = 0.0;
 	private Integer funded_year = 0;
 	private Integer funded_month = 0;
 	private Integer funded_day = 0;
@@ -123,8 +124,10 @@ public class Fund
 		try 
 		{
 			JSONObject fundObj = new JSONObject(fund.toString());
-			round_code = fundObj.get(FundEnum.ROUND_CODE.getLabel().toString()).toString();
+			round_code = fundObj.get(FundEnum.ROUND_CODE.getLabel().toString()).toString().toUpperCase();
 			raised_amount = fundObj.getDouble(FundEnum.RAISED_AMOUNT.getLabel().toString());
+			raised_amount_in_million = (raised_amount/1000000.0);
+			raised_amount_in_million = Double.valueOf(Double.valueOf(String.format("%.2f", raised_amount_in_million)));
 			funded_year = fundObj.getInt(FundEnum.YEAR.getLabel().toString());	
 			funded_month = fundObj.getInt(FundEnum.MONTH.getLabel().toString());
 			funded_day = fundObj.getInt(FundEnum.DAY.getLabel().toString());
@@ -282,6 +285,14 @@ public class Fund
 	public void addCompany(Company company)
 	{
 		this.getCompanies().add(company);
+	}
+
+	public Double getRaised_amount_in_million() {
+		return raised_amount_in_million;
+	}
+
+	public void setRaised_amount_in_million(Double raised_amount_in_million) {
+		this.raised_amount_in_million = raised_amount_in_million;
 	}
 }
 	

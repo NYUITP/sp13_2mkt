@@ -1,6 +1,7 @@
 package com.secondmarket.batch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.secondmarket.common.CommonStrings;
+import com.secondmarket.common.FundComparator;
 import com.secondmarket.common.InvestorEnum;
 import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MongoDBFactory;
@@ -113,12 +115,22 @@ public class InvestorService
 	    	investor.setBio(dbObject.get(InvestorEnum.BIO.getLabel().toString()).toString());
 	    	investor.setFollower_count(Integer.valueOf(dbObject.get(InvestorEnum.FOLLOWER_COUNT.getLabel().toString()).toString()));
 	    	investor.setCompany_count(Integer.valueOf(dbObject.get(InvestorEnum.COMPANY_COUNT.getLabel().toString()).toString()));
-	    	investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel().toString()).toString());
+	    	if(!dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel().toString()).toString().equals(""))
+	    	{
+	    		investor.setImage(dbObject.get(InvestorEnum.INVESTOR_IMAGE.getLabel().toString()).toString());
+	    	}
+	    	else
+	    	{
+	    		investor.setImage("resources/img/user-icon.png");
+	    	}
 	    	investor.setAngellist_url(dbObject.get(InvestorEnum.ANGLELIST_URL.getLabel().toString()).toString());
 	    	investor.setTwitter_url(dbObject.get(InvestorEnum.TWITTER_URL.getLabel().toString()).toString());
 	    	investor.setLinkedin_url(dbObject.get(InvestorEnum.LINKEDIN_URL.getLabel().toString()).toString());
 	    	investor.setCrunchbase_url(dbObject.get(InvestorEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
-	    	investor.setOverview(dbObject.get(InvestorEnum.OVERVIEW.getLabel().toString()).toString());
+	    	
+	    	String overview = dbObject.get(InvestorEnum.OVERVIEW.getLabel().toString()).toString();
+	    	overview = overview.replaceAll("\\<.*?>","");
+	    	investor.setOverview(overview);
 	    	
 	    	investor.setAverage_roi(Double.valueOf(dbObject.get(InvestorEnum.AVERAGE_ROI.getLabel().toString()).toString()));
 	    	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString()).toString()));
@@ -136,6 +148,16 @@ public class InvestorService
 				}
 			}
 			investor.setFund_info(funds);
+			
+			Collections.sort(funds, new FundComparator());
+			int i = 0;
+			while(i < funds.size())
+			{
+				investor.getTop_investments().add(funds.get(i));
+				i++;
+				if(i == 10)
+					break;
+			}
 			
 	     	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
 	    	List<Location> locations = new ArrayList<Location>();

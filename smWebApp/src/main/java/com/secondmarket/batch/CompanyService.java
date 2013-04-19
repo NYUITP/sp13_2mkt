@@ -256,14 +256,25 @@ public class CompanyService
 			company.setId(Integer.valueOf(dbObject.get(CompanyEnum.ID.getLabel().toString()).toString()));
 			company.setName(dbObject.get(CompanyEnum.NAME.getLabel().toString()).toString());
 			company.setAngellist_url(dbObject.get(CompanyEnum.ANGLELIST_URL.getLabel().toString()).toString());
-			company.setLogo_url(dbObject.get(CompanyEnum.LOGO_URL.getLabel().toString()).toString());
+			if(!dbObject.get(CompanyEnum.LOGO_URL.getLabel().toString()).toString().equals(""))
+			{
+				company.setLogo_url(dbObject.get(CompanyEnum.LOGO_URL.getLabel().toString()).toString());
+			}
+			else
+			{
+				company.setLogo_url("resources/img/company-logo.png");
+			}
 			company.setProduct_desc(dbObject.get(CompanyEnum.PROD_DESC.getLabel().toString()).toString());
 			company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel().toString()).toString()));
 			company.setCompany_url(dbObject.get(CompanyEnum.COMPANY_URL.getLabel().toString()).toString());
 			company.setTwitter_url(dbObject.get(CompanyEnum.TWITTER_URL.getLabel().toString()).toString());
 			company.setBlog_url(dbObject.get(CompanyEnum.BLOG_URL.getLabel().toString()).toString());
 			company.setCrunchbase_url(dbObject.get(CompanyEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
-			company.setOverview(dbObject.get(CompanyEnum.OVERVIEW.getLabel().toString()).toString());
+			
+			String overview = dbObject.get(CompanyEnum.OVERVIEW.getLabel().toString()).toString();
+			overview = overview.replaceAll("\\<.*?>","");
+			company.setOverview(overview);
+			
 			double total_funds = Double.valueOf(dbObject.get(CompanyEnum.TOTAL_MONEY_RAISED.getLabel().toString()).toString());
 			double total_funds_in_millions = (total_funds / 1000000.0);
 			company.setTotal_money_raised(Double.valueOf(Double.valueOf(String.format("%.2f", total_funds_in_millions))));
