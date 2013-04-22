@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.secondmarket.batch.CompanyFilters;
 import com.secondmarket.batch.CompanyService;
 import com.secondmarket.batch.FinancialOrgService;
 import com.secondmarket.batch.InvestorService;
@@ -46,6 +47,9 @@ public class BaseController
 	
 	@Resource(name="companyRankingService")
 	private RankCompany rankCompany;
+	
+	@Resource(name="companyFilterService")
+	private CompanyFilters companyFilterService;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) 
@@ -146,7 +150,7 @@ public class BaseController
 	{
 		logger.debug("Received request to rank companies, by fund time, value = " + periodPast);
     	
-		List<Company> companies = companyService.companyRankingByFundTime(periodPast);
+		List<Company> companies = rankCompany.companyRankingByFundTime(periodPast);
     	
     	model.addAttribute("companies", companies);
     	model.addAttribute("periods", periodPast);
@@ -174,7 +178,7 @@ public class BaseController
 		logger.debug("Received request to filter company, by total funds raised, value = " + checkBoxVal);
 		
 		String[] parts = checkBoxVal.split(",");
-    	List<Company> companies = companyService.filterByFunds(parts);
+    	List<Company> companies = companyFilterService.filterByFunds(parts);
     	
     	model.addAttribute("companies", companies);
     	model.addAttribute("total_funding", checkBoxVal);
@@ -187,7 +191,7 @@ public class BaseController
 		
 		logger.debug("Received request to filter company, by location, value = " + checkBoxVal);
 		String[] parts = checkBoxVal.split(",");
-    	List<Company> companies = companyService.filterByLocation(parts);
+    	List<Company> companies = companyFilterService.filterByLocation(parts);
     	
     	model.addAttribute("companies", companies);
     	return "companyPage";

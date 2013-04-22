@@ -36,13 +36,11 @@ protected static Logger logger = Logger.getLogger("service");
 	
 	// Retrieve a db
 	public static DB getDB(String dbname) {
-		logger.debug("Retrieving db: " + dbname);
 		return getMongo().getDB(dbname);
 	}
 	
 	// Retrieve a collection
 	public static DBCollection getCollection(String dbname, String collection) {
-		logger.debug("Retrieving collection: " + collection);
 		return getDB(dbname).getCollection(collection);
 	}
 	
