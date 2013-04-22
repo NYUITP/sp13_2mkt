@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.secondmarket.batch.CompanyService;
 import com.secondmarket.common.CompanyEnum;
 
 @Entity
@@ -47,6 +48,9 @@ public class Company
 	{
 		name = js.get(CompanyEnum.NAME.getLabel().toString()).toString();
 		permalink = js.get(CompanyEnum._ID.getLabel().toString()).toString();
+		CompanyService cs = new CompanyService();
+		Company com = cs.get(permalink);
+		logo_url = com.getLogo_url();
 	}
 	
 	public Integer getId() {
