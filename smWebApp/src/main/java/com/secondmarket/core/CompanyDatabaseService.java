@@ -145,6 +145,11 @@ public class CompanyDatabaseService
 			company.setCrunchbase_url(companyObjectFromCrunch.get(CompanyEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
 			company.setOverview(companyObjectFromCrunch.get(CompanyEnum.OVERVIEW.getLabel().toString()).toString());
 			
+			if(companyObjectFromCrunch.get(CompanyEnum.IPO.getLabel().toString()).toString().equals("null")
+					|| companyObjectFromCrunch.get(CompanyEnum.IPO.getLabel().toString()).toString().equals(""))
+			{
+				company.setPrivate(true);
+			}
 			String money_raised = companyObjectFromCrunch.get(CompanyEnum.TOTAL_MONEY_RAISED.getLabel().toString()).toString();
 			if(money_raised !=null && !money_raised.equals(""))
 			{

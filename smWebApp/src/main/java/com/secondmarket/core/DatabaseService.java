@@ -20,7 +20,7 @@ import com.secondmarket.common.MongoDBFactory;
 public class DatabaseService 
 {
 	protected static Logger logger = Logger.getLogger("core"); 
-	private static String nonIpoCompanyFileName = "nonIpoCompanySlug.csv";
+	private static String companyFileName = "companySlug.csv";
 	
 	public static void main(String args[])
 	{
@@ -73,7 +73,7 @@ public class DatabaseService
 		
 		try 
 		{
-			reader = new CSVReader(new FileReader(nonIpoCompanyFileName));
+			reader = new CSVReader(new FileReader(companyFileName));
 			allCompanies = reader.readAll();
 			
 			for(String[] company : allCompanies)

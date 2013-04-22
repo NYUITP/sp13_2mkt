@@ -33,6 +33,7 @@ public class Company
 	private double fl_norm = 0.0;
 	private boolean foundInAngelList = false;
 	private boolean foundInCrunchbase = false;
+	private boolean isPrivate = false;
 	private int investorCount = 0;
 	private Map<String, String> investorPermalinks = new HashMap<String, String>();
 	private List<Investor> ceo = new ArrayList<Investor>();;
@@ -232,5 +233,13 @@ public class Company
 
 	public void setInvestorPermalinks(Map<String, String> investorPermalinks) {
 		this.investorPermalinks = investorPermalinks;
+	}
+
+	public boolean isPrivate() {
+		return isPrivate;
+	}
+
+	public void setPrivate(boolean isPrivate) {
+		this.isPrivate = isPrivate;
 	}
 }

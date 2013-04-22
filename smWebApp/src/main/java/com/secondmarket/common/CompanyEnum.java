@@ -25,7 +25,8 @@ public enum CompanyEnum {
 	INVESTOR_COUNT("investorCount"),
 	ALL_INVESTOR("investorPermalinks"),
 	FUNDING_ROUNDS("funding_rounds"),
-	PROD_DESC("product_desc");
+	PROD_DESC("product_desc"),
+	IPO("ipo");
 	
     private String label;
  
