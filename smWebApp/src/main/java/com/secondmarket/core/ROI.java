@@ -183,70 +183,115 @@ public class ROI {
 				Company company = companyService.get(permalink);
 				if(company != null && company.getPermalink() != null)
 				{
-					List<String> allRoundsInvestedIn = new ArrayList<String>();
-					double totalAmountInRound = 0.0;
-					double totalAmountAfter = 0.0;
+					Date date_in = null;
+					String round_in = new String();
+					double fta = 0.0;
 					double roi = 0.0;
-					
+//				
+//					List<String> allRoundsInvestedIn = new ArrayList<String>();
+//					double totalAmountInRound = 0.0;
+//					double totalAmountAfter = 0.0;
+//					double roi = 0.0;
+//					
 					for(Fund fund : company.getFund_info())
 					{
 						if(fund.getFinacialOrgs() != null && !fund.getFinacialOrgs().isEmpty())
 						{
-							for(Financial_Org finOrg : fund.getFinacialOrgs())
+							Date date_tmp = null;
+							String round_tmp = new String();
+							
+							for(Financial_Org fp : fund.getFinacialOrgs())
 							{
-								if(finOrg.getPermalink().equals(financial_Org.getPermalink()))
+								if(fp.getPermalink().equals(financial_Org.getPermalink()))
 								{
-									allRoundsInvestedIn.add(fund.getRound_code());
+									round_tmp = fund.getRound_code();
+									date_tmp = new Date(fund.getFunded_year().intValue() - 1900, fund.getFunded_month().intValue(), fund.getFunded_day().intValue());
+									break;
+//									allRoundsInvestedIn.add(fund.getRound_code());
+								}
+							}
+							
+							if(date_tmp == null){
+								continue;
+							}else if(date_in == null){
+								date_in = date_tmp;
+								round_in = round_tmp;
+							}else{
+								if(date_in.after(date_tmp)){
+									date_in = date_tmp;
+									round_in = round_tmp;
 								}
 							}
 						}
 					}
 					
-					if(!allRoundsInvestedIn.isEmpty())
-					{
-						String firstRound = allRoundsInvestedIn.get(0);
-						Fund fundObj = new Fund();
-						for(String round : allRoundsInvestedIn)
-						{
-							int x = fundObj.round_order(firstRound);
-							int y = fundObj.round_order(round);
-							if(y<x)
-							{
-								firstRound = round;
-							}
-						}
-						for(Fund fund : company.getFund_info())
-						{
-							if(fund.getRound_code().equalsIgnoreCase(firstRound))
-							{
-								totalAmountInRound = fund.getRaised_amount();
-							}
-							if(fund.round_before(firstRound))
-							{
-								continue;
-							}
-							else
-							{
-								totalAmountAfter += fund.getRaised_amount();
+					if(date_in == null){
+						continue;
+					}else{
+						if(round_in.equals("unattributed")){
+							for(Fund fund : company.getFund_info()){
+								if(fund.getRound_code().equals(round_in)){
+									fta += fund.getRaised_amount();
+								}else{
+									Date fund_date = new Date(fund.getFunded_year().intValue() - 1900, fund.getFunded_month().intValue(), fund.getFunded_day().intValue());
+									if(!fund_date.before(date_in)){
+										fta += fund.getRaised_amount();
+									}
+								}
 							}
 						}
 					}
-					roi = (totalAmountInRound/totalAmountAfter);
+					
+					roi = fta/company.getTotal_money_raised();
 					all_roi.add(roi);
+					
+//					if(!allRoundsInvestedIn.isEmpty())
+//					{
+//						String firstRound = allRoundsInvestedIn.get(0);
+//						Fund fundObj = new Fund();
+//						for(String round : allRoundsInvestedIn)
+//						{
+//							int x = fundObj.round_order(firstRound);
+//							int y = fundObj.round_order(round);
+//							if(y<x)
+//							{
+//								firstRound = round;
+//							}
+//						}
+//						for(Fund fund : company.getFund_info())
+//						{
+//							if(fund.getRound_code().equalsIgnoreCase(firstRound))
+//							{
+//								totalAmountInRound = fund.getRaised_amount();
+//							}
+//							if(fund.round_before(firstRound))
+//							{
+//								continue;
+//							}
+//							else
+//							{
+//								totalAmountAfter += fund.getRaised_amount();
+//							}
+//						}
+//					}
+//					roi = (totalAmountInRound/totalAmountAfter);
+//					all_roi.add(roi);
 				}
 			}
 			
-			double count = 0.0;
+			int count = 0;
 			double total = 0.0;
 			for(double each : all_roi)
 			{
 				total += each;
 				count++;
 			}
-			if(count != 0.0)
-			{
-				average_roi = (total / count);
+			
+			average_roi = total / count;
+			if(Double.isNaN((average_roi))){
+				average_roi = 0.0;
 			}
+
 			logger.debug("Average ROI for - " + financial_Org.getName() + " is - " + average_roi);
 				
 			}catch(Exception e){
