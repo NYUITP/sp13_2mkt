@@ -23,7 +23,10 @@ import com.secondmarket.domain.Investor;
 public class ROI {
 	
 	protected static Logger logger = Logger.getLogger("core"); 
-	
+
+	/**
+	 * A method to calculate ROI for all investors in Investor collection.
+	 */
 	public static void cacluclateROIForInvestors()
 	{
 		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
@@ -64,7 +67,16 @@ public class ROI {
 	        }
 		}
 	}
-		
+	
+	/**
+	 * A method to calculate ROI for each investor.
+	 * Round date is used to find the earliest point an investor invest in the company.
+	 * Get the round_code of that point and see if it's "unattributed",
+	 * if so, get amount raised in rounds not before that date as numerator,
+	 * else, get amount raised in rounds with same round_code and after that date as numerator.
+	 * Denominator are taken from company, total_funding. Take care of scaling.
+	 * Result is normalized within 0 - 1
+	 */
 	 private static double calculateROIForIndividualInvestor(Investor investor){
 		
 		CompanyService companyService = new CompanyService();
@@ -142,7 +154,7 @@ public class ROI {
 						}
 					}
 					
-					roi = fta/company.getTotal_money_raised();
+					roi = fta/company.getTotal_money_raised()/1000000;
 					all_roi.add(roi);
 				}
 			}
@@ -167,7 +179,16 @@ public class ROI {
 		}
 		return average_roi;
 	}
-	 
+	
+		/**
+		 * A method to calculate ROI for each institutional investor.
+		 * Round date is used to find the earliest point an investor invest in the company.
+		 * Get the round_code of that point and see if it's "unattributed",
+		 * if so, get amount raised in rounds not before that date as numerator,
+		 * else, get amount raised in rounds with same round_code and after that date as numerator.
+		 * Denominator are taken from company, total_funding.Take care of scaling.
+		 * Result is normalized within 0 - 1
+		 */	 
 	private static double calculateROIForFinancialOrgs(Financial_Org financial_Org)
 	{
 		CompanyService companyService = new CompanyService();
@@ -187,12 +208,7 @@ public class ROI {
 					String round_in = new String();
 					double fta = 0.0;
 					double roi = 0.0;
-//				
-//					List<String> allRoundsInvestedIn = new ArrayList<String>();
-//					double totalAmountInRound = 0.0;
-//					double totalAmountAfter = 0.0;
-//					double roi = 0.0;
-//					
+					
 					for(Fund fund : company.getFund_info())
 					{
 						if(fund.getFinacialOrgs() != null && !fund.getFinacialOrgs().isEmpty())
@@ -207,7 +223,6 @@ public class ROI {
 									round_tmp = fund.getRound_code();
 									date_tmp = new Date(fund.getFunded_year().intValue() - 1900, fund.getFunded_month().intValue(), fund.getFunded_day().intValue());
 									break;
-//									allRoundsInvestedIn.add(fund.getRound_code());
 								}
 							}
 							
@@ -244,38 +259,6 @@ public class ROI {
 					
 					roi = fta/company.getTotal_money_raised();
 					all_roi.add(roi);
-					
-//					if(!allRoundsInvestedIn.isEmpty())
-//					{
-//						String firstRound = allRoundsInvestedIn.get(0);
-//						Fund fundObj = new Fund();
-//						for(String round : allRoundsInvestedIn)
-//						{
-//							int x = fundObj.round_order(firstRound);
-//							int y = fundObj.round_order(round);
-//							if(y<x)
-//							{
-//								firstRound = round;
-//							}
-//						}
-//						for(Fund fund : company.getFund_info())
-//						{
-//							if(fund.getRound_code().equalsIgnoreCase(firstRound))
-//							{
-//								totalAmountInRound = fund.getRaised_amount();
-//							}
-//							if(fund.round_before(firstRound))
-//							{
-//								continue;
-//							}
-//							else
-//							{
-//								totalAmountAfter += fund.getRaised_amount();
-//							}
-//						}
-//					}
-//					roi = (totalAmountInRound/totalAmountAfter);
-//					all_roi.add(roi);
 				}
 			}
 			
