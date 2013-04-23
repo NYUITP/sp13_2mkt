@@ -154,17 +154,17 @@ public class CompanyDatabaseService
 			if(money_raised !=null && !money_raised.equals(""))
 			{
 				money_raised = money_raised.replace("$", "");
-				if(money_raised.contains("M"))
+				if(money_raised.contains("M") || money_raised.contains("m"))
 				{
-					money_raised = money_raised.replace("M", "");
+					money_raised = money_raised.replaceAll( "[^\\d.]", "" );
 					double amount = Double.valueOf(money_raised);
 					amount = amount * 1000000.00;
 					company.setTotal_money_raised(amount);
 					logger.debug("Amount is in millions");
 				}
-				else if(money_raised.contains("B"))
+				else if(money_raised.contains("B") || money_raised.contains("b"))
 				{
-					money_raised = money_raised.replace("B", "");
+					money_raised = money_raised.replaceAll( "[^\\d.]", "" );
 					double amount = Double.valueOf(money_raised);
 					amount = amount * 1000000000.00;
 					company.setTotal_money_raised(amount);
