@@ -13,10 +13,13 @@
 
     <link href="resources/css/bootstrap.css" rel="stylesheet">
     <link href="resources/css/new.css" rel="stylesheet">
+    <link href="resources/css/star.css" rel="stylesheet">
+
 
     <!-- include js -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="resources/js/bootstrap.js"></script>
+
 </head>
 
 <body onload="load()">

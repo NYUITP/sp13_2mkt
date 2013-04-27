@@ -1,0 +1,24 @@
+
+		span.stars, span.stars span {
+			display: block;
+			background: url('../img/stars.png') 0 -16px repeat-x;
+			width: 80px;
+			height: 16px;
+		}
+	
+		span.stars span {
+			background-position: 0 0;
+		}
+
+		
+		span.starf, span.starf span {
+			display: block;
+			background: url('../img/stars.png') 0 -16px repeat-x;
+			width: 80px;
+			height: 16px;
+		}
+	
+		span.starf span {
+			background-position: 0 0;
+		}
+		

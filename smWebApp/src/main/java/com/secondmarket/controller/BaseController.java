@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.secondmarket.batch.CompanyFilters;
 import com.secondmarket.batch.CompanyService;
 import com.secondmarket.batch.FinancialOrgService;
+import com.secondmarket.batch.InvestorFilters;
 import com.secondmarket.batch.InvestorService;
 import com.secondmarket.batch.RankCompany;
 import com.secondmarket.batch.RankInvestor;
@@ -50,6 +51,9 @@ public class BaseController
 	
 	@Resource(name="companyFilterService")
 	private CompanyFilters companyFilterService;
+	
+	@Resource(name="investorFilterService")
+	private InvestorFilters investorFilterService;
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) 
@@ -183,6 +187,17 @@ public class BaseController
     	model.addAttribute("companies", companies);
     	model.addAttribute("total_funding", checkBoxVal);
     	return "companyPage";
+	}
+		
+	@RequestMapping(value="/starsFilter",  method = RequestMethod.POST)
+	public String getInvestorByStar(@RequestParam("starLevel") String starLevel, ModelMap model) 
+	{
+		logger.debug("Received request to filter investor, by star, value = " + starLevel);
+		List<Investor> investors = investorFilterService.filterByStar(starLevel);
+    	
+    	model.addAttribute("investors", investors);
+    	model.addAttribute("starl", starLevel);
+    	return "investorsPage";
 	}
 	
 	@RequestMapping(value="/companyLocationFilter",  method = RequestMethod.POST)

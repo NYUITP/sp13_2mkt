@@ -34,4 +34,5 @@
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.7.2/slf4j-simple-1.7.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-validator-annotation-processor/4.1.0.Final/hibernate-validator-annotation-processor-4.1.0.Final.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-validator/4.1.0.Final/hibernate-validator-4.1.0.Final.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/sf/opencsv/opencsv/2.3/opencsv-2.3.jar"/>
 </classpath>

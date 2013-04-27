@@ -154,7 +154,7 @@ public class ROI {
 						}
 					}
 					
-					roi = fta/company.getTotal_money_raised()/1000000;
+					roi = fta/(company.getTotal_money_raised()*1000000);
 					all_roi.add(roi);
 				}
 			}
@@ -245,6 +245,13 @@ public class ROI {
 					}else{
 						if(round_in.equals("unattributed")){
 							for(Fund fund : company.getFund_info()){
+								Date fund_date = new Date(fund.getFunded_year().intValue() - 1900, fund.getFunded_month().intValue(), fund.getFunded_day().intValue());
+								if(!fund_date.before(date_in)){
+									fta += fund.getRaised_amount();
+								}
+							}
+						}else{
+							for(Fund fund : company.getFund_info()){
 								if(fund.getRound_code().equals(round_in)){
 									fta += fund.getRaised_amount();
 								}else{
@@ -257,7 +264,7 @@ public class ROI {
 						}
 					}
 					
-					roi = fta/company.getTotal_money_raised();
+					roi = fta/(company.getTotal_money_raised()*1000000);
 					all_roi.add(roi);
 				}
 			}

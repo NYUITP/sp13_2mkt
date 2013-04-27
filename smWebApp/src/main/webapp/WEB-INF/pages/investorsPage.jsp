@@ -4,13 +4,36 @@
 	
 <%@include file="../../resources/include/head.jsp"%>
 
+
 <script type="text/javascript">
 
+	$(document).ready(load);
+	
+	$(function() {  
+	    $('span.stars').stars();
+	});
+	
+	$.fn.stars = function() {
+	    return $(this).each(function() {
+	       $(this).html($('<span />').width(parseFloat($(this).html()) * 80));
+	    });
+	}
+	
+		
+	function RemoveContent(d) {
+		document.getElementById(d).style.visibility = "hidden";
+	}
+
+	function InsertContent(d) {
+		document.getElementById(d).style.visibility = "visible";
+	}
 
 	function load() {
 		showValueInvestor(document.getElementById("followerRange").value);
 		showValueCompany(document.getElementById("companyRange").value);
 		showValueROI(document.getElementById("roiRange").value);
+		showStarInvestor(document.getElementById("starFilter").value);
+
 	}
 	function showValueInvestor(newValue) {
 		if (newValue == 1) {
@@ -18,7 +41,7 @@
 			document.getElementById('followersImpLevel').value = 1;
 		} else if (newValue == 2) {
 			document.getElementById("follower-value").innerHTML = "A Little Important";
-			document.getElementById('followersImpLevel').value = 2;
+			document.getElementById('followersImp').value = 2;
 		} else if (newValue == 3) {
 			document.getElementById("follower-value").innerHTML = "Moderately Important";
 			document.getElementById('followersImpLevel').value = 3;
@@ -67,7 +90,32 @@
 			document.getElementById("roi-value").innerHTML = "Very Important";
 			document.getElementById('roiImpLevel').value = 5;
 		}
-	}	
+	}
+	
+	function showStarInvestor(newValue){
+		if (newValue == 1){
+			document.getElementById("star-value").innerHTML = "0.2";
+			document.getElementById("starLevel").value = 1;
+			$('span.starf').stars();
+		} else if (newValue == 2){
+			document.getElementById("star-value").innerHTML = "0.4";
+			document.getElementById("starLevel").value = 2;
+			$('span.starf').stars();
+		} else if (newValue == 3){
+			document.getElementById("star-value").innerHTML = "0.6";
+			document.getElementById("starLevel").value = 3;
+			$('span.starf').stars();
+		} else if (newValue == 4){
+			document.getElementById("star-value").innerHTML = "0.8";
+			document.getElementById("starLevel").value = 4;
+			$('span.starf').stars();
+		} else if (newValue == 5){
+			document.getElementById("star-value").innerHTML = "1.0";
+			document.getElementById("starLevel").value = 5;
+			$('span.starf').stars();
+		}
+	}
+
 </script>
 <div class="container">
 	<hr class="space" />
@@ -78,6 +126,28 @@
 	<div class="row">
 
 		<div class="span3">
+ 
+			<div class="side-block hidden-phone">
+				<div>
+					<strong>Star Investors</strong>
+				</div>
+				<hr class="space" />
+			
+				<input id="starFilter" type="range" min="1" max="5" step="1" value="${starl}"
+					onchange="showStarInvestor(this.value)" />
+					
+				<p><span id="star-value" class="starf">0.6</span></p>
+				
+				<hr class="space" />
+				<form action="starsFilter" method="post">
+					<input type='hidden' id='starLevel' name='starLevel' value='3'/>
+					<input type="submit" value="Update">
+				</form>
+				
+			</div>
+			
+			<hr class="space" />
+		
 			<div class="side-block hidden-phone">
 				<div>
 					<strong>Importance of Followers</strong>
@@ -214,13 +284,12 @@
 						<div>
 							<span class="large-number"><c:out
 									value="${investor.company_count}" /></span> Companies Invested in
-						</div>
+						</div> 						
 						<div>
-							<span class="large-number"><c:out
-									value="${investor.average_roi}" /></span> Average ROI
+							<p><span class="stars">${investor.average_roi}</span></p>
 						</div>
-					</div>
 
+					</div>
 					<div class="clearfix"></div>
 
 					<!-- <c:out value="${investor.bio}" /> -->
