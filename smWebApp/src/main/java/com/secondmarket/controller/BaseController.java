@@ -200,6 +200,17 @@ public class BaseController
     	return "investorsPage";
 	}
 	
+	@RequestMapping(value="/starsFilterFin",  method = RequestMethod.POST)
+	public String getFinByStar(@RequestParam("starLevel") String starLevel, ModelMap model) 
+	{
+		logger.debug("Received request to filter institution investor, by star, value = " + starLevel);
+		List<Financial_Org> financialOrg = investorFilterService.filterByStarFin(starLevel);
+    	
+    	model.addAttribute("finOrgs", financialOrg);
+    	model.addAttribute("starl", starLevel);
+    	return "financialOrgPage";
+	}
+	
 	@RequestMapping(value="/companyLocationFilter",  method = RequestMethod.POST)
 	public String filterCompanyByLocation(@RequestParam("location") String checkBoxVal, ModelMap model) 
 	{
