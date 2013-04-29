@@ -112,7 +112,7 @@ public class CompanyService
 			}
 			else
 			{
-				company.setLogo_url("resources/img/company-logo.png");
+				company.setLogo_url("https://angel.co/images/shared/nopic_startup.png");
 			}
 			company.setProduct_desc(dbObject.get(CompanyEnum.PROD_DESC.getLabel().toString()).toString());
 			company.setFollower_count(Integer.valueOf(dbObject.get(CompanyEnum.FOLLOWER_COUNT.getLabel().toString()).toString()));

@@ -131,7 +131,7 @@ public class FinancialOrgService
 			}
 			else
 			{
-				finOrg.setLogo_url("resources/img/company-logo.png");
+				finOrg.setLogo_url("https://angel.co/images/shared/nopic_startup.png");
 			}
 			
 			String overview = dbObject.get(Financial_OrgEnum.OVERVIEW.getLabel().toString()).toString();

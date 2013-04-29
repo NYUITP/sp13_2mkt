@@ -71,22 +71,21 @@
 				<hr class="space" />
 					<span> 
 						<c:forEach items="${investor.top_investments}" var="fund">
-						<div class="pull-left btn span3">
-							<span class="pull-left muted">Series  ${fund.round_code}</span> 
-							<span class="pull-right muted">${fund.funded_month}/${fund.funded_day}/${fund.funded_year} </span>
+						<div class="pull-left span3">
+						<c:forEach items="${fund.companies}" var="company">
+							<a class="pull-left btn span3" href=companyProfile?permalink=${company.permalink}>
+								<span class="pull-left muted">Series  ${fund.round_code}</span> 
+								<span class="pull-right muted">${fund.funded_month}/${fund.funded_day}/${fund.funded_year} </span>
 							<br>
-							<span class="pull-left large-number">$${fund.raised_amount_in_million}M</span>
+								<span class="pull-left large-number">$${fund.raised_amount_in_million}M</span>
 							<br>
 							<hr class="space" />
-							<c:forEach items="${fund.companies}" var="company">
 								<span class="pull-left">${company.name}</span>
-								<br>
-								<img class="img-rounded pull-left" src="${company.logo_url}" width="50"
-								height="50" />
-								<br>
-							</c:forEach>
 							<br>
-							<hr class="space" />
+								<img class="img-rounded pull-left" src="${company.logo_url}" width="40" height="40" />
+							<br>
+							</a>
+							</c:forEach>
 						</div>
 					</c:forEach>
 				</span>

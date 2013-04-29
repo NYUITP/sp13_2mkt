@@ -52,6 +52,14 @@ public class Company
 		CompanyService cs = new CompanyService();
 		Company com = cs.get(permalink);
 		logo_url = com.getLogo_url();
+		if(com != null && com.getLogo_url() != null && !com.getLogo_url().toString().equals(""))
+		{
+			logo_url = com.getLogo_url();
+		}
+		else
+		{
+			logo_url = "https://angel.co/images/shared/nopic_startup.png";
+		}
 	}
 	
 	public Integer getId() {
