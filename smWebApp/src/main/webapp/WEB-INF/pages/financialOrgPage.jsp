@@ -236,7 +236,7 @@
 		</div>
 
 		<div class="span9">
-			<h2>Financial Organizations</h2>
+			<h2>Institutional Investors</h2>
 			<hr>
 			<c:forEach items="${finOrgs}" var="finOrg">
 				<div class="search-result">

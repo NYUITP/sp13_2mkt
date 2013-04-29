@@ -16,7 +16,7 @@
 		<hr class="space"/>
 		<a href="investors.php" class="btn btn-large btn-primary btn-home">Find Individual Investors</a>
 		<hr class="space"/>
-		<a href="financialOrg.php" class="btn btn-large btn-primary btn-home">Find Financial Organization</a>
+		<a href="financialOrg.php" class="btn btn-large btn-primary btn-home">Find Institutional Investor</a>
 	</div>
 </div>
 </body>

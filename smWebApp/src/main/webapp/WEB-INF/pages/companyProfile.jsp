@@ -107,7 +107,7 @@
 			</div>
 
 			<div class="span11">
-				<h5>Financial Organizations</h5>
+				<h5>Institutional Investors</h5>
 				<span> <c:forEach items="${finOrgInvested}" var="finOrg">
 						<div class="pull-left">
 							<img class="img-rounded" src="${finOrg.logo_url}" width="50"
