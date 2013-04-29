@@ -271,10 +271,6 @@
 									value="${finOrg.company_count}" /></span> Companies Invested in
 						</div>
 						<div>
-							<span class="large-number"><c:out
-									value="${finOrg.average_roi}" /></span> Average ROI
-						</div>
-						<div>
 							<p><span class="stars">${finOrg.average_roi}</span></p>
 						</div>
 					</div>
