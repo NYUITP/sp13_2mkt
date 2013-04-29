@@ -41,7 +41,7 @@
 			document.getElementById('followersImpLevel').value = 1;
 		} else if (newValue == 2) {
 			document.getElementById("follower-value").innerHTML = "A Little Important";
-			document.getElementById('followersImp').value = 2;
+			document.getElementById('followersImpLevel').value = 2;
 		} else if (newValue == 3) {
 			document.getElementById("follower-value").innerHTML = "Moderately Important";
 			document.getElementById('followersImpLevel').value = 3;
