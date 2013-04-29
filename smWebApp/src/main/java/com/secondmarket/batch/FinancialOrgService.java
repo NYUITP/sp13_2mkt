@@ -136,6 +136,10 @@ public class FinancialOrgService
 			
 			String overview = dbObject.get(Financial_OrgEnum.OVERVIEW.getLabel().toString()).toString();
 			overview = overview.replaceAll("\\<.*?>","");
+	    	overview = overview.replace("&#8217;","'");
+	    	overview = overview.replaceAll("&#82..;","");
+	    	overview = overview.replaceAll("&nbsp;","");
+	    	overview = overview.replaceAll("&amp;","&");
 			finOrg.setOverview(overview);
 			
 			finOrg.setCompany_count(Integer.valueOf(dbObject.get(Financial_OrgEnum.COMPANY_COUNT.getLabel().toString()).toString()));

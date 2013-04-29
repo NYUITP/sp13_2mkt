@@ -130,6 +130,10 @@ public class CompanyService
 			
 			String overview = dbObject.get(CompanyEnum.OVERVIEW.getLabel().toString()).toString();
 			overview = overview.replaceAll("\\<.*?>","");
+	    	overview = overview.replace("&#8217;","'");
+	    	overview = overview.replaceAll("&#82..;","");
+	    	overview = overview.replaceAll("&nbsp;","");
+	    	overview = overview.replaceAll("&amp;","&");
 			company.setOverview(overview);
 			
 			double total_funds = Double.valueOf(dbObject.get(CompanyEnum.TOTAL_MONEY_RAISED.getLabel().toString()).toString());

@@ -145,6 +145,10 @@ public class InvestorService
 	    	
 	    	String overview = dbObject.get(InvestorEnum.OVERVIEW.getLabel().toString()).toString();
 	    	overview = overview.replaceAll("\\<.*?>","");
+	    	overview = overview.replace("&#8217;","'");
+	    	overview = overview.replaceAll("&#82..;","");
+	    	overview = overview.replaceAll("&nbsp;","");
+	    	overview = overview.replaceAll("&amp;","&");
 	    	investor.setOverview(overview);
 	    	
 	    	investor.setAverage_roi(Double.valueOf(dbObject.get(InvestorEnum.AVERAGE_ROI.getLabel().toString()).toString()));
