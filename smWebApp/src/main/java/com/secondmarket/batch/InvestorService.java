@@ -166,15 +166,8 @@ public class InvestorService
 					funds.add(fundInfo);
 				}
 			}
-			investor.setFund_info(funds);
-			
 			Collections.sort(funds, new FundComparator());
-			int i = 0;
-			while(i < funds.size())
-			{
-				investor.getTop_investments().add(funds.get(i));
-				i++;
-			}
+			investor.setFund_info(funds);
 			
 	     	List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
 	    	List<Location> locations = new ArrayList<Location>();

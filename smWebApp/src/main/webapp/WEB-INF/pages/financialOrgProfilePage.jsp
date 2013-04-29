@@ -68,21 +68,25 @@
 			<div class="span11">
 				<h4>Investments</h4>
 				<hr class="space" />
-					<span> 
-						<c:forEach items="${finOrg.top_investments}" var="fund">
-						<div class="pull-left btn span3">
+					<c:forEach items="${finOrg.fund_info}" var="fund">
+					<div>
+						<c:forEach items="${fund.companies}" var="company">
+						<a class="btn span3" href=companyProfile?permalink=${company.permalink}>
 							<span class="pull-left muted">Series  ${fund.round_code}</span> 
 							<span class="pull-right muted">${fund.funded_month}/${fund.funded_day}/${fund.funded_year} </span>
-							<br>
-							<c:forEach items="${fund.companies}" var="company">
-								<span class="pull-left">${company.name}</span>
-							</c:forEach>
-							<br>
-							<hr class="space" />
+						<br>
 							<span class="pull-left large-number">$${fund.raised_amount_in_million}M</span>
-						</div>
+						<br>
+						<hr class="space" />
+						<span class="pull-left">${company.name}</span>
+						<br>
+							<img class="img-rounded pull-left" src="${company.logo_url}" width="30" height="30" />
+						<br>
+						<br>
+						</a>
+						</c:forEach>
+					</div>
 					</c:forEach>
-				</span>
 			</div>
 		</div>
 	</div>
@@ -91,14 +95,15 @@
 		<div class="row">
 			<div class="span11">
 				<h4>Companies Invested In</h4>
-				<span> <c:forEach items="${companies}" var="company">
-						<div class="pull-left">
-							<img class="img-rounded" src="${company.logo_url}" width="50"
-								height="50" /> <span class="pull-left "> <a
-								href=companyProfile?permalink=${company.permalink}><c:out
-										value="${company.name}" /></a>
-							</span>
-							<hr class="space" />
+				<span> 
+					<c:forEach items="${companies}" var="company">
+						<div class="span2">
+							<span> <img class="pull-left img-rounded" src="${company.logo_url}" width="40" height="40" /> </span>
+							<br>
+							<br>
+							<span> <a class="pull-left" href=companyProfile?permalink=${company.permalink}><c:out value="${company.name}" /></a></span>
+							<hr class="space" /> 
+							<br>
 						</div>
 					</c:forEach>
 				</span>

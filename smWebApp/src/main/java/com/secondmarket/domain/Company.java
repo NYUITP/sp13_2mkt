@@ -51,7 +51,6 @@ public class Company
 		permalink = js.get(CompanyEnum._ID.getLabel().toString()).toString();
 		CompanyService cs = new CompanyService();
 		Company com = cs.get(permalink);
-		logo_url = com.getLogo_url();
 		if(com != null && com.getLogo_url() != null && !com.getLogo_url().toString().equals(""))
 		{
 			logo_url = com.getLogo_url();

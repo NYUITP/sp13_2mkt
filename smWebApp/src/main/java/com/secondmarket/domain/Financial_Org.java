@@ -34,7 +34,6 @@ public class Financial_Org
 	private boolean foundInCrunchbase = false;
 	private List<String> companiesInvestedIn = new ArrayList<String>();
 	private List<Investor> ceo = new ArrayList<Investor>();
-	private List<Fund> top_investments = new ArrayList<Fund>();	
 	@Embedded
 	private List<Location> locations = new ArrayList<Location>();
 	@Embedded
@@ -228,13 +227,5 @@ public class Financial_Org
 
 	public void setAverage_roi(double average_roi) {
 		this.average_roi = average_roi;
-	}
-
-	public List<Fund> getTop_investments() {
-		return top_investments;
-	}
-
-	public void setTop_investments(List<Fund> top_investments) {
-		this.top_investments = top_investments;
 	}
 }

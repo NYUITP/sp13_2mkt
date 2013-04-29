@@ -159,14 +159,8 @@ public class FinancialOrgService
 					funds.add(fundInfo);
 				}
 			}
-			finOrg.setFund_info(funds);
 			Collections.sort(funds, new FundComparator());
-			int i = 0;
-			while(i < funds.size())
-			{
-				finOrg.getTop_investments().add(funds.get(i));
-				i++;
-			}
+			finOrg.setFund_info(funds);
 			
 			List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
 			List<Location> locations = new ArrayList<Location>();

@@ -37,7 +37,7 @@ public class CompanyDatabaseService
 		return permalinkMap;
 	}
 
-	protected void populateSingleCompanyCollection(Datastore ds, String permalink)
+	public void populateSingleCompanyCollection(Datastore ds, String permalink)
 	{
 		boolean isCollectionExist = isCollectionExist(ds, permalink);
 		if(!isCollectionExist)

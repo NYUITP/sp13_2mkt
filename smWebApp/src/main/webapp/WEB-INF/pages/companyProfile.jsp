@@ -79,7 +79,7 @@
 							<span class="pull-left large-number">$${fund.raised_amount_in_million}M</span>
 							<br>
 							<span class="pull-left"><small>${fund.allInvestorNames}</small></span>
-							<hr class="space" />
+							<br>
 							<hr>
 						</div>
 					</c:forEach>
