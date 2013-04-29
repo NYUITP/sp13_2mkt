@@ -29,27 +29,28 @@
 				<br> <span><c:out
 						value="$${company.total_money_raised}M" /> Total Funding</span>
 				<hr class="space" />
-
-				<br> <span class="pull-left">Website: </span> <a
-					class="pull-left" href="${company.company_url}">${company.company_url}</a>
-
 				<hr class="space" />
 				<c:forEach items="${company.locations}" var="location">
 					<span class="pull-left muted"> <small>${location.name}
 					</small></span>
 				</c:forEach>
 				<br>
+			</div>
+			<div class="span3">
 				<hr class="space" />
-
-				<div>
-					<a id="profileTwitterIcon" target="_blank"
-						href="${company.twitter_url}"> <img class="img-rounded"
-						src="resources/img/pro-twitter-icon.png" width="30" height="30"></a>
-					<a id="profileAnglelistInIcon" target="_blank"
-						href="${company.angellist_url}"> <img class="img-rounded"
-						src="resources/img/pro-anglelist-icon.png" width="100"
-						height="100"></a>
-				</div>
+				<hr class="space" />
+				<span class="pull-left">Website: </span> <a
+					class="pull-left" href="${company.company_url}">${company.company_url}</a>
+				<hr class="space" />
+				<br>
+				<hr class="space" />
+				<a id="profileTwitterIcon" target="_blank"
+					href="${company.twitter_url}"> <img class="img-rounded"
+					src="resources/img/pro-twitter-icon.png" width="30" height="30"></a>
+				<a id="profileAnglelistInIcon" target="_blank"
+					href="${company.angellist_url}"> <img class="img-rounded"
+					src="resources/img/pro-anglelist-icon.png" width="100"
+					height="100"></a>
 			</div>
 			</div>
 		</div>

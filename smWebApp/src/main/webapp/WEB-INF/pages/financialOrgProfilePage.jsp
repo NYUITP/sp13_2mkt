@@ -66,7 +66,7 @@
 	<div class="span11 well">
 		<div class="row">
 			<div class="span11">
-				<h4>Top Investments</h4>
+				<h4>Investments</h4>
 				<hr class="space" />
 					<span> 
 						<c:forEach items="${finOrg.top_investments}" var="fund">
