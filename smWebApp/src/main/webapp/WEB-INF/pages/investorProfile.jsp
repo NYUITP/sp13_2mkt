@@ -18,16 +18,14 @@
 		<div class="row">
 			<div class="span11">
 			<div class="pull-left">
-				<img class="img-rounded" src="${investor.image}" width="150"
-					height="150" />
+				<img class="img-rounded" src="${investor.image}" width="150" height="150" />
 			</div>
 			<div class="span3">
 				<h3>
 					<c:out value="${investor.name}" />
 				</h3>
 				<span><c:out value="${investor.follower_count}" />
-					Followers </span> <br> <span> <c:out
-						value="${investor.company_count}" /> Companies Invested in
+					Followers </span> <br> <span> <c:out value="${investor.company_count}" /> Companies Invested in
 				</span>
 				<hr class="space" />
 				<c:forEach items="${investor.locations}" var="location">
@@ -36,8 +34,11 @@
 				</c:forEach>
 				<br>
 				<hr class="space" />
-
-				<div>
+			</div>
+			<div class="span3">
+				<hr class="space" />
+				<hr class="space" />
+				<hr class="space" />
 					<a id="profileLinkedInIcon" target="_blank"
 						href="${investor.linkedin_url}"> <img class="img-rounded"
 						src="resources/img/pro-linkedin-icon.png" width="30" height="30"></a>
@@ -51,7 +52,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<hr class="space" />
 

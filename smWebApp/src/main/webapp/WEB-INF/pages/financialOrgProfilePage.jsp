@@ -36,8 +36,11 @@
 				</c:forEach>
 				<br>
 				<hr class="space" />
-
-				<div>
+				</div>
+				<div class="span3">
+					<hr class="space" />
+					<hr class="space" />
+					<hr class="space" />
 					<a id="profileTwitterIcon" target="_blank"
 						href="${finOrg.twitter_url}"> <img class="img-rounded"
 						src="resources/img/pro-twitter-icon.png" width="30" height="30"></a>
@@ -46,7 +49,6 @@
 						src="resources/img/pro-anglelist-icon.png" width="100"
 						height="100"></a>
 				</div>
-			</div>
 			</div>
 		</div>
 	</div>
