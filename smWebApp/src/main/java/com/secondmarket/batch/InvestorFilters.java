@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.secondmarket.domain.Financial_Org;
 import com.secondmarket.domain.Investor;
+import com.secondmarket.domain.Location;
 
 @Service("investorFilterService")
 public class InvestorFilters {
@@ -96,6 +95,48 @@ public class InvestorFilters {
 		}
 		
 		return items;
+	}
+	
+	public List<Investor> filterByLocation(String[] loc) 
+	{
+		logger.debug("Retrieving all investor location filter");
+		List<Investor> items = new ArrayList<Investor>(); 
+
+		List<Investor> investors = investorService.getAll();
+		for(Investor investor : investors)
+		{
+			List<Location> all_locations = investor.getLocations();
+			done:for(Location each_location: all_locations)
+			{
+				String location_name = each_location.getName();
+				for (String each : loc) 
+				{
+					if (each.equals("1")){
+						if (location_name.equalsIgnoreCase("san francisco")){
+							items.add(investor);
+							break done;
+						}
+					} else if (each.equals("2")){
+						if (location_name.equalsIgnoreCase("new york, ny")){
+							items.add(investor);
+							break done;
+						}
+					} else if (each.equals("3")){
+						if (location_name.equalsIgnoreCase("san jose")){
+							items.add(investor);
+							break done;
+						}
+					} else if (each.equals("4")){
+						if (!location_name.equalsIgnoreCase("san francisco") &&
+								!location_name.equalsIgnoreCase("new york, ny") &&
+								!location_name.equalsIgnoreCase("san jose"))
+							items.add(investor);
+						break done;
+					}
+				}
+			}
+		}
+		return items; 
 	}
 
 }

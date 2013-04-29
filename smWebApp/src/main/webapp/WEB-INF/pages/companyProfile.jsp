@@ -32,6 +32,7 @@
 				<hr class="space" />
 				<c:forEach items="${company.locations}" var="location">
 					<span class="pull-left muted"> <small>${location.name}
+					<br>
 					</small></span>
 				</c:forEach>
 				<br>
@@ -94,11 +95,16 @@
 				<h4>Investors Invested</h4>
 				<hr>
 				<h5>Individual Investors</h5>
-				<span> <c:forEach items="${personInvested}" var="investor">
-					<div class="pull-left">
-						<img class="img-rounded" src="${investor.image}" width="50" height="50" /> 
-						<span class="pull-left "><a href=investorProfile?permalink=${investor.permalink}><c:out value="${investor.name}" /></a></span>
+				<span> 
+					<c:forEach items="${personInvested}" var="investor">
+					<div class="span2">
+						<span><img class="img-rounded" src="${investor.image}" width="40" height="40" /></span>
+						<br>
+						<br>
+						<span><a class="pull-left" href=investorProfile?permalink=${investor.permalink}>
+						<c:out value="${investor.name}" /></a></span>
 						<hr class="space" />
+						<br>
 					</div>
 					</c:forEach>
 				</span>
@@ -110,15 +116,16 @@
 			<div class="span11">
 				<h5>Institutional Investors</h5>
 				<span> <c:forEach items="${finOrgInvested}" var="finOrg">
-						<div class="pull-left">
-							<img class="img-rounded" src="${finOrg.logo_url}" width="50"
-								height="50" /> <span class="pull-left "> <a
-								href=financialOrgProfile?permalink=${finOrg.permalink}><c:out
-										value="${finOrg.name}" /></a>
-							</span>
+						<div class="span2">
+							<span><img class="img-rounded" src="${finOrg.logo_url}" width="40"
+								height="40" /> </span>
+								<br>
+								<br>
+								<span> <a class="pull-left" href=financialOrgProfile?permalink=${finOrg.permalink}>
+								<c:out value="${finOrg.name}" /></a></span>
 							<hr class="space" />
+							<br>
 						</div>
-
 					</c:forEach>
 				</span>
 				<hr class="space" />
@@ -129,15 +136,16 @@
 			<div class="span11">
 				<h5>Company Investors</h5>
 				<span> <c:forEach items="${companyInvested}" var="company">
-						<div class="pull-left">
-							<img class="img-rounded" src="${company.logo_url}" width="50"
-								height="50" /> <span class="pull-left "> <a
-								href=companyProfile?permalink=${company.permalink}><c:out
-										value="${company.name}" /></a>
-							</span>
+						<div class="span2">
+							<span><img class="img-rounded" src="${company.logo_url}" width="40"
+								height="40" /></span>
+							<br>
+							<br>
+							<span> <a class="pull-left" href=companyProfile?permalink=${company.permalink}>
+							<c:out value="${company.name}" /></a></span>
 							<hr class="space" />
+							<br>
 						</div>
-
 					</c:forEach>
 				</span>
 			</div>

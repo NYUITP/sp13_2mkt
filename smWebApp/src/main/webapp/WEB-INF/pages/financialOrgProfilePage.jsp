@@ -33,6 +33,7 @@
 				<c:forEach items="${finOrg.locations}" var="location">
 					<span class="pull-left muted"> <small>${location.name}
 					</small></span>
+					<br>
 				</c:forEach>
 				<br>
 				<hr class="space" />

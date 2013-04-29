@@ -223,6 +223,17 @@ public class BaseController
     	return "companyPage";
 	}
 	
+	@RequestMapping(value="/investorLocationFilter",  method = RequestMethod.POST)
+	public String filterInvestorByLocation(@RequestParam("location") String checkBoxVal, ModelMap model) 
+	{
+		logger.debug("Received request to filter investors, by location, value = " + checkBoxVal);
+		String[] parts = checkBoxVal.split(",");
+    	List<Investor> investors = investorFilterService.filterByLocation(parts);
+    	
+    	model.addAttribute("investors", investors);
+    	return "investorsPage";
+	}
+	
 	//*************************************** Detailed pages for COmpany, Investor and Fin Org ************************************************//
 	
 	@RequestMapping(value="/investorProfile", method = RequestMethod.GET)
