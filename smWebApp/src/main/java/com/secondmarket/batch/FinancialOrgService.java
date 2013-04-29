@@ -162,8 +162,6 @@ public class FinancialOrgService
 			{
 				finOrg.getTop_investments().add(funds.get(i));
 				i++;
-				if(i == 9)
-					break;
 			}
 			
 			List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
