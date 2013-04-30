@@ -42,8 +42,16 @@
 		showFundFilter();
 		showTimeRange(document.getElementById("timeRange").value);
 		showValueCompanyFollower(document.getElementById("companyFollowerRange").value);
+		setPublicPrivateCompanies(false);
 	}
-
+	
+	function setPublicPrivateCompanies(isPrivate) 
+	{
+		if(!isPrivate)
+		{
+			document.getElementById("privatePublic").setAttribute("myclass", "muted");
+		}
+	}
 	function showFundFilter() {
 		var checkedVal = [${total_funding}];
 		for (i in checkedVal) {
@@ -251,9 +259,10 @@
 
 					<div class="pull-left search-content">
 						<div>
+							<a class="myclass" id="privatePublic" href="javascript:setPublicPrivateCompanies(${company.isPrivate});"></a>
 							<h4 class="pull-left">
-								<a href=companyProfile?permalink=${company.permalink}><c:out
-										value="${company.name}" /></a>
+								<a href=companyProfile?permalink=${company.permalink}>
+								<c:out value="${company.name}" /></a>
 							</h4>
 						</div>
 						

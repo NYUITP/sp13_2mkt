@@ -242,7 +242,7 @@ public class Company
 		this.investorPermalinks = investorPermalinks;
 	}
 
-	public boolean isPrivate() {
+	public boolean getIsPrivate() {
 		return isPrivate;
 	}
 

@@ -26,7 +26,8 @@ public enum CompanyEnum {
 	ALL_INVESTOR("investorPermalinks"),
 	FUNDING_ROUNDS("funding_rounds"),
 	PROD_DESC("product_desc"),
-	IPO("ipo");
+	IPO("ipo"),
+	IS_PRIVATE("isPrivate");
 	
     private String label;
  
