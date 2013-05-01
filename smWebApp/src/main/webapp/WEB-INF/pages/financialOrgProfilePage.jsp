@@ -33,10 +33,7 @@
 				<c:forEach items="${finOrg.locations}" var="location">
 					<span class="pull-left muted"> <small>${location.name}
 					</small></span>
-					<br>
 				</c:forEach>
-				<br>
-				<hr class="space" />
 				</div>
 				<div class="span3">
 					<hr class="space" />
@@ -96,6 +93,7 @@
 		<div class="row">
 			<div class="span11">
 				<h4>Companies Invested In</h4>
+				<hr>
 				<span> 
 					<c:forEach items="${companies}" var="company">
 						<div class="span2">
@@ -104,6 +102,7 @@
 							<br>
 							<span> <a class="pull-left" href=companyProfile?permalink=${company.permalink}><c:out value="${company.name}" /></a></span>
 							<hr class="space" /> 
+							<br>
 							<br>
 						</div>
 					</c:forEach>

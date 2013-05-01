@@ -32,7 +32,6 @@
 				<hr class="space" />
 				<c:forEach items="${company.locations}" var="location">
 					<span class="pull-left muted"> <small>${location.name}
-					<br>
 					</small></span>
 				</c:forEach>
 				<br>
@@ -95,55 +94,57 @@
 				<h4>Investors Invested</h4>
 				<hr>
 				<h5>Individual Investors</h5>
+				<hr>
 				<span> 
 					<c:forEach items="${personInvested}" var="investor">
 					<div class="span2">
-						<span><img class="img-rounded" src="${investor.image}" width="40" height="40" /></span>
+						<span><img class="pull-left img-rounded" src="${investor.image}" width="40" height="40" /></span>
 						<br>
 						<br>
 						<span><a class="pull-left" href=investorProfile?permalink=${investor.permalink}>
 						<c:out value="${investor.name}" /></a></span>
 						<hr class="space" />
 						<br>
+						<br>
 					</div>
 					</c:forEach>
 				</span>
-				<hr class="space" />
-				<hr>
 				<hr class="space" />
 			</div>
 
 			<div class="span11">
 				<h5>Institutional Investors</h5>
+				<hr>
 				<span> <c:forEach items="${finOrgInvested}" var="finOrg">
 						<div class="span2">
-							<span><img class="img-rounded" src="${finOrg.logo_url}" width="40"
+							<span><img class="pull-left img-rounded" src="${finOrg.logo_url}" width="40"
 								height="40" /> </span>
 								<br>
 								<br>
 								<span> <a class="pull-left" href=financialOrgProfile?permalink=${finOrg.permalink}>
 								<c:out value="${finOrg.name}" /></a></span>
-							<hr class="space" />
-							<br>
+								<hr class="space" />
+								<br>
+								<br>
 						</div>
 					</c:forEach>
 				</span>
-				<hr class="space" />
-				<hr>
 				<hr class="space" />
 			</div>
 
 			<div class="span11">
 				<h5>Company Investors</h5>
+				<hr>
 				<span> <c:forEach items="${companyInvested}" var="company">
 						<div class="span2">
-							<span><img class="img-rounded" src="${company.logo_url}" width="40"
+							<span><img class="pull-left img-rounded" src="${company.logo_url}" width="40"
 								height="40" /></span>
 							<br>
 							<br>
 							<span> <a class="pull-left" href=companyProfile?permalink=${company.permalink}>
 							<c:out value="${company.name}" /></a></span>
 							<hr class="space" />
+							<br>
 							<br>
 						</div>
 					</c:forEach>

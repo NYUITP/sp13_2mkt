@@ -21,6 +21,7 @@ public class DatabaseService
 {
 	protected static Logger logger = Logger.getLogger("core"); 
 	private static String companyFileName = "companySlug.csv";
+	private static int angelListCallCounter = 0;
 	
 	public static void main(String args[])
 	{
@@ -62,7 +63,7 @@ public class DatabaseService
 		
 		logger.debug("Starting ROI calculation");
 		ROI.cacluclateROIForInvestors();
-		ROI.starRank();
+		
 		logger.debug("ROI calculation completed and persisted");
 	}
 
@@ -90,5 +91,18 @@ public class DatabaseService
 		}
 		logger.info("Number of permalinks are - " + companyPermalinks.size());
 		return companyPermalinks;
+	}
+
+	public static int getAngelListCallCounter() {
+		return angelListCallCounter;
+	}
+
+	public static void setAngelListCallCounter(int angelListCallCounter) {
+		DatabaseService.angelListCallCounter = angelListCallCounter;
+	}
+	
+	public static void increaseTheCounter()
+	{
+		angelListCallCounter = angelListCallCounter + 1;
 	}
 }

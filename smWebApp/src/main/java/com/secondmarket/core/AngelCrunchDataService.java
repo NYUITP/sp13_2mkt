@@ -91,7 +91,10 @@ public class AngelCrunchDataService
 		
 		if(type != null && !type.equals("") && name != null && !name.equals(""))
 		{
+			
 			try{
+				checkForRateLimitOfAngelList();
+				DatabaseService.increaseTheCounter();
 				url = new URL("https://api.angel.co/1/search?query="+name+"&type="+type);
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
@@ -123,6 +126,8 @@ public class AngelCrunchDataService
 		if(type != null && !type.equals("") && id != null && !id.equals(""))
 		{
 			try{
+				checkForRateLimitOfAngelList();
+				DatabaseService.increaseTheCounter();
 				url = new URL("https://api.angel.co/1/"+type+"/"+id);
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
@@ -137,5 +142,25 @@ public class AngelCrunchDataService
 			}
 		}
 		return result;
+	}
+	
+	private static void checkForRateLimitOfAngelList()
+	{
+		if(DatabaseService.getAngelListCallCounter() == 990)
+		{
+			try 
+			{
+				logger.debug("***********Thread is going to sleep for an hour as angel list rate limit has reached***********");
+				Thread.sleep(1000 * 60 * 61);
+				logger.debug("*********Thread is up and running again*************");
+				
+				logger.debug("*********Setting counter to zero again*********");
+				DatabaseService.setAngelListCallCounter(0);
+				
+			} catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 }
