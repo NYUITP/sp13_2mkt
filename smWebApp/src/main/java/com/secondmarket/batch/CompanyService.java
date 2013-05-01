@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.code.morphia.Datastore;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -21,6 +22,7 @@ import com.secondmarket.common.CommonStrings;
 import com.secondmarket.common.CompanyEnum;
 import com.secondmarket.common.LocationEnum;
 import com.secondmarket.common.MongoDBFactory;
+import com.secondmarket.core.CompanyDatabaseService;
 import com.secondmarket.domain.Company;
 import com.secondmarket.domain.Financial_Org;
 import com.secondmarket.domain.Fund;
@@ -33,7 +35,8 @@ import com.secondmarket.domain.Location;
 public class CompanyService 
 {
 	protected static Logger logger = Logger.getLogger("batch");
-
+	private static Datastore ds = MongoDBFactory.getDataStore();;
+	
 	public CompanyService() {}
 
 	public List<Company> getAll() 
@@ -82,7 +85,6 @@ public class CompanyService
 	
 	public Company get(String permalink) 
 	{
-		logger.debug("Retrieving an existing Company");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve
 		DBObject doc = new BasicDBObject(); 
@@ -93,6 +95,17 @@ public class CompanyService
 		{
 			company = getCompanyObject(dbObject);	
 		}
+		else
+		{
+			CompanyDatabaseService comDatabaseService = new CompanyDatabaseService();
+			comDatabaseService.populateSingleCompanyCollection(ds, permalink);
+			dbObject = coll.findOne(doc); 
+			if(dbObject != null)
+			{
+				System.out.println("I am here 2");
+				company = getCompanyObject(dbObject);	
+			}
+		}	
 		return company; 
 	}
 	
@@ -157,6 +170,7 @@ public class CompanyService
 			List<BasicDBObject> locationObjects = (List<BasicDBObject>) dbObject.get(LocationEnum.LOCATION.getLabel().toString());
 			List<Location> locations = getLocationInfo(locationObjects);
 			company.setLocations(locations);
+			company.setPrivate(Boolean.valueOf(dbObject.get(CompanyEnum.IS_PRIVATE.getLabel().toString()).toString()));
 		}
 		return company;
 	}
