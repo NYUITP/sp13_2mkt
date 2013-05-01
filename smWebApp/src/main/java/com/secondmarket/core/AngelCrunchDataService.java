@@ -151,7 +151,7 @@ public class AngelCrunchDataService
 			try 
 			{
 				logger.debug("***********Thread is going to sleep for an hour as angel list rate limit has reached***********");
-				Thread.sleep(1000 * 60 * 61);
+				Thread.sleep(1000 * 60 * 60);
 				logger.debug("*********Thread is up and running again*************");
 				
 				logger.debug("*********Setting counter to zero again*********");
