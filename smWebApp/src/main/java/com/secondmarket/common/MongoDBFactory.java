@@ -21,7 +21,6 @@ protected static Logger logger = Logger.getLogger("service");
 	
 	// Return an instance of Mongo
 	public static Mongo getMongo() {
-		logger.debug("Retrieving MongoDB");
 		if (m == null) {
 			try {
 				m = new Mongo( "localhost" , 27017 );

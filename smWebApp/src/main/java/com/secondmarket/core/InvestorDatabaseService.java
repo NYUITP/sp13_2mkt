@@ -35,7 +35,6 @@ public class InvestorDatabaseService
 		boolean isCollectionExist = isCollectionExist(ds, personPermalink);
 		if(!isCollectionExist)
 		{
-			logger.debug("Working on permalink - " + personPermalink);
 			String personDataFromCrunch = AngelCrunchDataService.getObjectFromCrunchbaseUsingPermalink
 					(CrunchbaseNamespace.PERSON.getLabel().toString(), personPermalink);
 			
@@ -276,7 +275,6 @@ public class InvestorDatabaseService
 	{	
 		boolean isCollectionExist = false;
 		
-		logger.debug("Retrieving an existing investor");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.PEOPLE_COLL.getLabel().toString());
 		DBObject doc = new BasicDBObject(); 

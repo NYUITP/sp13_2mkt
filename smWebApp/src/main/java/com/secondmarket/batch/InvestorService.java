@@ -78,7 +78,6 @@ public class InvestorService
 	
 	public Investor get( String permalink ) 
 	{
-		logger.debug("Retrieving an existing Investor given permalink - " + permalink);
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
 		DBObject doc = new BasicDBObject(); 
@@ -94,7 +93,6 @@ public class InvestorService
 	
 	public DBObject getdbObject( String permalink ) 
 	{
-		logger.debug("Retrieving an existing Investor given permalink - " + permalink);
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
 		DBObject doc = new BasicDBObject(); 

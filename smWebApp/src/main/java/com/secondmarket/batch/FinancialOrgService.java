@@ -79,7 +79,6 @@ public class FinancialOrgService
 	
 	public Financial_Org get(String permalink) 
 	{
-		logger.debug("Retrieving an existing Company");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.FINANCIAL_ORG.getLabel().toString());// Retrieve
 		DBObject doc = new BasicDBObject(); 
@@ -95,7 +94,6 @@ public class FinancialOrgService
 	
 	public DBObject getdbObject( String permalink ) 
 	{
-		logger.debug("Retrieving an existing fin org given permalink - " + permalink);
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.FINANCIAL_ORG.getLabel().toString()); 
 		DBObject doc = new BasicDBObject(); 

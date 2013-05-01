@@ -35,7 +35,6 @@ protected static Logger logger = Logger.getLogger("core");
 		boolean isCollectionExist = isCollectionExist(ds, financialOrgPermalink);
 		if(!isCollectionExist)
 		{
-			logger.debug("Working on permalink - " + financialOrgPermalink);
 			String finOrgDataFromCrunch = AngelCrunchDataService.getObjectFromCrunchbaseUsingPermalink
 					(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString(), financialOrgPermalink);
 			
@@ -266,7 +265,6 @@ protected static Logger logger = Logger.getLogger("core");
 	{	
 		boolean isCollectionExist = false;
 		
-		logger.debug("Retrieving an existing financial org");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.FINANCIAL_ORG.getLabel().toString());
 		DBObject doc = new BasicDBObject(); 

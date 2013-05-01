@@ -32,30 +32,30 @@ public class DatabaseService
 		
 		List<String> companyPermalinks = getCompanyPermlinks();
 		
-		logger.debug("Company collection persistence is started");
-		CompanyDatabaseService companyDatabaseService = new CompanyDatabaseService();
-		Map<String, String> all_investors_Permalink = companyDatabaseService.populateCompanyCollection(ds, companyPermalinks);
-		logger.debug("Company collection persistence is completed");
-		
-		CompanyDatabaseService companyDatabaseServiceAsInvestor = new CompanyDatabaseService();
-		
-		logger.debug("Investor collection persistence is Started");
-		for(Entry<String, String> singleInvestor : all_investors_Permalink.entrySet())
+		logger.debug("Collections persistence is Started");
+		for(String permalink : companyPermalinks)
 		{
-			if(singleInvestor.getValue().equals(CrunchbaseNamespace.PERSON.getLabel().toString()))
+			CompanyDatabaseService companyDatabaseService = new CompanyDatabaseService();
+			Map<String, String> all_investors_Permalink = companyDatabaseService.populateSingleCompanyCollection(ds, permalink);
+			
+			CompanyDatabaseService companyDatabaseServiceAsInvestor = new CompanyDatabaseService();
+			for(Entry<String, String> singleInvestor : all_investors_Permalink.entrySet())
 			{
-				InvestorDatabaseService.populateInvestorCollection(ds, singleInvestor.getKey());
+				if(singleInvestor.getValue().equals(CrunchbaseNamespace.PERSON.getLabel().toString()))
+				{
+					InvestorDatabaseService.populateInvestorCollection(ds, singleInvestor.getKey());
+				}
+				else if(singleInvestor.getValue().equals(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()))
+				{
+					FinancialOrgDatabaseService.populateFinancialOrgCollection(ds, singleInvestor.getKey());
+				}
+				else if(singleInvestor.getValue().equals(CrunchbaseNamespace.COMPANY.getLabel().toString()))
+				{
+					companyDatabaseServiceAsInvestor.populateSingleCompanyCollection(ds, singleInvestor.getKey());
+				}
 			}
-			else if(singleInvestor.getValue().equals(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()))
-			{
-				FinancialOrgDatabaseService.populateFinancialOrgCollection(ds, singleInvestor.getKey());
-			}
-			else if(singleInvestor.getValue().equals(CrunchbaseNamespace.COMPANY.getLabel().toString()))
-			{
-				companyDatabaseServiceAsInvestor.populateSingleCompanyCollection(ds, singleInvestor.getKey());
-			}
+			logger.debug("Persistence is completed for - " + permalink);
 		}
-		logger.debug("Investor collection persistence is completed");
 		
 		logger.debug("Starting normalization");
 		Normalization.cacluclateNormalizedScoreForData();
@@ -63,7 +63,7 @@ public class DatabaseService
 		
 		logger.debug("Starting ROI calculation");
 		ROI.cacluclateROIForInvestors();
-		
+		ROI.starRank();
 		logger.debug("ROI calculation completed and persisted");
 	}
 

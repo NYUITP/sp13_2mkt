@@ -28,21 +28,11 @@ public class CompanyDatabaseService
 	protected static Logger logger = Logger.getLogger("core");
 	private Map<String, String> permalinkMap = new HashMap<String, String>();
 	
-	public Map<String, String> populateCompanyCollection(Datastore ds, List<String> companyPermalinks)
-	{
-		for(String permalink : companyPermalinks)
-		{
-			populateSingleCompanyCollection(ds, permalink);
-		}
-		return permalinkMap;
-	}
-
-	public void populateSingleCompanyCollection(Datastore ds, String permalink)
+	public Map<String, String> populateSingleCompanyCollection(Datastore ds, String permalink)
 	{
 		boolean isCollectionExist = isCollectionExist(ds, permalink);
 		if(!isCollectionExist)
 		{
-			logger.debug("Working on permalink - " + permalink);
 			String companyDataFromCrunch = AngelCrunchDataService.getObjectFromCrunchbaseUsingPermalink
 					(CrunchbaseNamespace.COMPANY.getLabel().toString(), permalink);
 			
@@ -67,6 +57,7 @@ public class CompanyDatabaseService
 				}
 			}
 		}
+		return permalinkMap;
 	}
 	
 	private void createAndPersistCompanyObjects(Datastore ds, JSONObject companyObjectFromCrunch, 
@@ -160,7 +151,6 @@ public class CompanyDatabaseService
 					double amount = Double.valueOf(money_raised);
 					amount = amount * 1000000.00;
 					company.setTotal_money_raised(amount);
-					logger.debug("Amount is in millions");
 				}
 				else if(money_raised.contains("B") || money_raised.contains("b"))
 				{
@@ -168,7 +158,6 @@ public class CompanyDatabaseService
 					double amount = Double.valueOf(money_raised);
 					amount = amount * 1000000000.00;
 					company.setTotal_money_raised(amount);
-					logger.debug("Amount is in billions");
 				}
 			}
 			
@@ -192,10 +181,8 @@ public class CompanyDatabaseService
 				Fund fund = new Fund(fundingRounds.getJSONObject(index));
 				Map<String, String> allInvestors = fund.getUniqueInvestors();
 				allInvestorsFromAllRounds.putAll(allInvestors);
-				logger.debug("unique investor for this rounds are " + allInvestors.size());
 				funds.add(fund);
 			}
-			logger.debug("unique investor for all rounds are " + allInvestorsFromAllRounds.size());
 			
 			company.setInvestorPermalinks(allInvestorsFromAllRounds);
 			company.setInvestorCount(allInvestorsFromAllRounds.size());
@@ -309,7 +296,6 @@ public class CompanyDatabaseService
 	{	
 		boolean isCollectionExist = false;
 		
-		logger.debug("Retrieving an existing Company");
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.COMPANY_COLL.getLabel().toString());
 		DBObject doc = new BasicDBObject(); 
