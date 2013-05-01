@@ -62,6 +62,7 @@ public class DatabaseService
 		
 		logger.debug("Starting ROI calculation");
 		ROI.cacluclateROIForInvestors();
+		ROI.starRank();
 		logger.debug("ROI calculation completed and persisted");
 	}
 

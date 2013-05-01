@@ -16,6 +16,7 @@ public enum InvestorEnum {
     LINKEDIN_URL("linkedin_url"),
     CRUNCHBASE_URL("crunchbase_url"),
     TWITTER_USERNAME("twitter_username"),
+    STAR_SCORE("star_score"),
     AVERAGE_ROI("average_roi"),
 	NORMALIZED_COMPANY_SCORE("cc_norm"),
 	NORMALIZED_FOLLOWER_SCORE("fl_norm"),

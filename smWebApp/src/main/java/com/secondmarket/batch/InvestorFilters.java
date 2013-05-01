@@ -32,24 +32,24 @@ public class InvestorFilters {
 			break;
 		case 4 :
 			low = 0.6;
-			high = 0.8;
+			high = 1.0;
 			break;
 		case 3 :
 			low = 0.4;
-			high = 0.6;
+			high = 1.0;
 			break;
 		case 2 : 
 			low = 0.2;
-			high = 0.4;
+			high = 1.0;
 			break;
 		default :
 			low = 0.0;
-			high = 0.2;
+			high = 1.0;
 			break;
 		}
 		
 		for(Investor each : investors){
-			if(each.getAverage_roi() <= high && each.getAverage_roi() > low){
+			if(each.getStar_score() <= high && each.getStar_score() > low){
 				items.add(each);
 			}
 		}
@@ -72,24 +72,24 @@ public class InvestorFilters {
 			break;
 		case 4 :
 			low = 0.6;
-			high = 0.8;
+			high = 1.0;
 			break;
 		case 3 :
 			low = 0.4;
-			high = 0.6;
+			high = 1.0;
 			break;
 		case 2 : 
 			low = 0.2;
-			high = 0.4;
+			high = 1.0;
 			break;
 		default :
 			low = 0.0;
-			high = 0.2;
+			high = 1.0;
 			break;
 		}
 		
 		for(Financial_Org each : finOrg){
-			if(each.getAverage_roi() <= high && each.getAverage_roi() > low){
+			if(each.getStar_score() <= high && each.getStar_score() > low){
 				items.add(each);
 			}
 		}

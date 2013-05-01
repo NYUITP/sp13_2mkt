@@ -1,6 +1,7 @@
 package com.secondmarket.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,77 @@ import com.secondmarket.domain.Investor;
 public class ROI {
 	
 	protected static Logger logger = Logger.getLogger("core"); 
-
+	
+	public static void starRank(){
+		List<Double> rois = new ArrayList<Double>();
+		DBCollection people = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
+		
+		InvestorService investorService = new InvestorService();
+		List<Investor> investors = investorService.getAll();
+		
+		for(Investor investor : investors){
+			double roi = investor.getAverage_roi();
+			rois.add(roi);
+		}
+		
+		for(Investor investor : investors){
+			double star_score = ROI.percentage(investor.getAverage_roi(), rois);
+			logger.debug(investor.getName() + ": " + star_score);
+			
+	        DBObject dbObject = investorService.getdbObject(investor.getPermalink());
+	        if(dbObject != null)
+	        {
+	        	dbObject.put(InvestorEnum.STAR_SCORE.getLabel().toString(), Double.valueOf(String.format("%.4f", star_score)));
+	        	people.save(dbObject);
+	        }
+		}
+		
+		List<Double> rois_fin = new ArrayList<Double>();
+		DBCollection finOrg = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+				CommonStrings.FINANCIAL_ORG.getLabel().toString()); 
+		
+		FinancialOrgService financialOrgService = new FinancialOrgService();
+		List<Financial_Org> financial_Orgs = financialOrgService.getAll();
+		
+		for(Financial_Org financial_Org : financial_Orgs){
+			double roi = financial_Org.getAverage_roi();
+			rois_fin.add(roi);
+		}
+		
+		for(Financial_Org financial_Org : financial_Orgs)
+		{
+	        double star_score = ROI.percentage(financial_Org.getAverage_roi(), rois_fin);
+	        logger.debug(financial_Org.getName() + ": " + star_score);
+	        
+	        DBObject dbObject = financialOrgService.getdbObject(financial_Org.getPermalink());
+	        if(dbObject != null)
+	        {
+	        	dbObject.put(Financial_OrgEnum.STAR_SCORE.getLabel().toString(), Double.valueOf(String.format("%.4f", star_score)));
+	        	finOrg.save(dbObject);
+	        }
+		}
+		
+	}
+	
+	private static double percentage(double point, List<Double> list){
+		List<Double> sort = list;
+		Collections.sort(sort);
+		System.out.println(sort);
+		int n = list.size();
+		int count = 0;
+		for(double t : list){
+			if(point >= t){
+				count++;
+			}
+			else{
+				break;
+			}
+		}
+		double result = (double)count/(double)n;
+		return result;
+	}
+	
 	/**
 	 * A method to calculate ROI for all investors in Investor collection.
 	 */

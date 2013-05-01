@@ -30,6 +30,7 @@ public class Investor
 	private String crunchbase_url;
 	private String twitter_username;
 	private double average_roi = 0.0;
+	private double star_score = 0.0;
 	private double fl_norm = 0.0;
 	private double cc_norm = 0.0;
 	private boolean foundInAngelList = false;
@@ -244,5 +245,13 @@ public class Investor
 
 	public void setCompaniesInvestedIn(List<String> companiesInvestedIn) {
 		this.companiesInvestedIn = companiesInvestedIn;
+	}
+
+	public double getStar_score() {
+		return star_score;
+	}
+
+	public void setStar_score(double star_score) {
+		this.star_score = star_score;
 	}
 }

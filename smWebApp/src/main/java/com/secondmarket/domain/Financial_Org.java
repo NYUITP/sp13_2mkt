@@ -29,6 +29,7 @@ public class Financial_Org
 	private Integer company_count;
 	private double fl_norm = 0.0;
 	private double cc_norm = 0.0;
+	private double star_score = 0.0;
 	private double average_roi = 0.0;
 	private boolean foundInAngelList = false;
 	private boolean foundInCrunchbase = false;
@@ -227,5 +228,13 @@ public class Financial_Org
 
 	public void setAverage_roi(double average_roi) {
 		this.average_roi = average_roi;
+	}
+
+	public double getStar_score() {
+		return star_score;
+	}
+
+	public void setStar_score(double star_score) {
+		this.star_score = star_score;
 	}
 }

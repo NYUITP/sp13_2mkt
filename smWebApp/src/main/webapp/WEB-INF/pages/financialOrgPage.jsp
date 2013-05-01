@@ -272,7 +272,7 @@
 									value="${finOrg.company_count}" /></span> Companies Invested in
 						</div>
 						<div>
-							<p><span class="stars">${finOrg.average_roi}</span></p>
+							<p><span class="stars">${finOrg.star_score}</span></p>
 						</div>
 					</div>
 					<div class="clearfix"></div>

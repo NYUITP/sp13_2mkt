@@ -151,6 +151,7 @@ public class InvestorService
 	    	overview = overview.replaceAll("&amp;","&");
 	    	investor.setOverview(overview);
 	    	
+	    	investor.setStar_score(Double.valueOf(dbObject.get(InvestorEnum.STAR_SCORE.getLabel().toString()).toString()));
 	    	investor.setAverage_roi(Double.valueOf(dbObject.get(InvestorEnum.AVERAGE_ROI.getLabel().toString()).toString()));
 	    	investor.setFl_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString()).toString()));
 	    	investor.setCc_norm(Double.valueOf(dbObject.get(InvestorEnum.NORMALIZED_COMPANY_SCORE.getLabel().toString()).toString()));

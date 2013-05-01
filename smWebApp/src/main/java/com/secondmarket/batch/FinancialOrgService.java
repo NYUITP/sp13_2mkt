@@ -144,6 +144,7 @@ public class FinancialOrgService
 			
 			finOrg.setCompany_count(Integer.valueOf(dbObject.get(Financial_OrgEnum.COMPANY_COUNT.getLabel().toString()).toString()));
 			
+			finOrg.setStar_score(Double.valueOf(dbObject.get(Financial_OrgEnum.STAR_SCORE.getLabel().toString()).toString()));
 			finOrg.setAverage_roi(Double.valueOf(dbObject.get(Financial_OrgEnum.AVERAGE_ROI.getLabel().toString()).toString()));
 			finOrg.setFl_norm(Double.valueOf(dbObject.get(Financial_OrgEnum.NORMALIZED_FOLLOWER_SCORE.getLabel().toString()).toString()));
 			finOrg.setCc_norm(Double.valueOf(dbObject.get(Financial_OrgEnum.NORMALIZED_COMPANY_SCORE.getLabel().toString()).toString()));

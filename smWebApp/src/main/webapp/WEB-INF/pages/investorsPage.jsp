@@ -293,9 +293,9 @@
 						<div>
 							<span class="large-number"><c:out
 									value="${investor.company_count}" /></span> Companies Invested in
-						</div> 						
+						</div>					
 						<div>
-							<p><span class="stars">${investor.average_roi}</span></p>
+							<p><span class="stars">${investor.star_score}</span></p>
 						</div>
 
 					</div>

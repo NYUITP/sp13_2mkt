@@ -26,6 +26,7 @@ public enum Financial_OrgEnum
 	FUND_INFO("fund_info"),
 	HOME_PAGE_URL("homepage_url"),
 	COMPANIES_INVESTED_IN("companiesInvestedIn"),
+	STAR_SCORE("star_score"),
 	AVERAGE_ROI("average_roi"),
 	FUNDING_ROUNDS("fund_info");
 	
