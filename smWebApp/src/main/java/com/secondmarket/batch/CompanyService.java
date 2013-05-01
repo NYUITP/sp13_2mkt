@@ -102,7 +102,6 @@ public class CompanyService
 			dbObject = coll.findOne(doc); 
 			if(dbObject != null)
 			{
-				System.out.println("I am here 2");
 				company = getCompanyObject(dbObject);	
 			}
 		}	
