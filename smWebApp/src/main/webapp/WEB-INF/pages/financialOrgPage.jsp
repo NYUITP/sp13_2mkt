@@ -185,7 +185,7 @@
 					type="submit" value="Update">
 			</form>
 
-			<div class="side-block">
+			<!-- <div class="side-block">
 				<div>
 					<strong>Filter by Companies Invested In</strong>
 				</div>
@@ -207,31 +207,40 @@
 
 				<hr class="space" />
 				<a href="#" class="btn">Update</a>
-			</div>
+			</div> -->
 
 			<hr class="space" />
 
-			<div class="side-block">
-				<div>
-					<strong>Filter by Location</strong>
-				</div>
-				<hr class="space" />
-				<ul class="clear-ul">
+			<div class="side-block hidden-phone">
+				<form name="tform2" method="POST" action="finOrgLocationFilter">
+					<div>
+						<strong>Investor Location</strong> <small class="pull-right"><a
+							href="javascript:selectToggle(true, 'tform2');">Select All</a> |
+							<a href="javascript:selectToggle(false, 'tform2');">None</a></small>
+					</div>
+					<hr class="space" />
+					<ul class="clear-ul">
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;San
-						Francisco <a class="small-text pull-right" href="#">only</a></li>
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="location" value="1">&nbsp;San Francisco <a
+							class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;New
-						York <a class="small-text pull-right" href="#">only</a></li>
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="location" value="2">&nbsp;New York, NY <a
+							class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;Boston
-						<a class="small-text pull-right" href="#">only</a></li>
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="location" value="3">&nbsp;San Jose <a
+							class="small-text pull-right" href="#">only</a></li>
 
-					<li class="mts"><input type="checkbox" checked="checked">&nbsp;London
-						<a class="small-text pull-right" href="#">only</a></li>
-				</ul>
-				<hr class="space" />
-				<a href="#" class="btn">Update</a>
+						<li class="mts"><input type="checkbox" checked="checked"
+							name="location" value="4">&nbsp;All Other Places<a
+							class="small-text pull-right" href="#">only</a></li>
+					</ul>
+
+					<hr class="space" />
+					<input type="submit" value="Update">
+				</form>
 			</div>
 		</div>
 

@@ -228,10 +228,21 @@ public class BaseController
 	{
 		logger.debug("Received request to filter investors, by location, value = " + checkBoxVal);
 		String[] parts = checkBoxVal.split(",");
-    	List<Investor> investors = investorFilterService.filterByLocation(parts);
+    	List<Investor> investors = investorFilterService.filterIndividualInvstorsByLocation(parts);
     	
     	model.addAttribute("investors", investors);
     	return "investorsPage";
+	}
+	
+	@RequestMapping(value="/finOrgLocationFilter",  method = RequestMethod.POST)
+	public String filterFinancialOrgByLocation(@RequestParam("location") String checkBoxVal, ModelMap model) 
+	{
+		logger.debug("Received request to filter institutional investors, by location, value = " + checkBoxVal);
+		String[] parts = checkBoxVal.split(",");
+    	List<Financial_Org> finOrgs = investorFilterService.filterInstitutionalInvstorsByLocation(parts);
+    	
+    	model.addAttribute("finOrgs", finOrgs);
+    	return "financialOrgPage";
 	}
 	
 	//*************************************** Detailed pages for COmpany, Investor and Fin Org ************************************************//

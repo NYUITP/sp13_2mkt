@@ -97,7 +97,7 @@ public class InvestorFilters {
 		return items;
 	}
 	
-	public List<Investor> filterByLocation(String[] loc) 
+	public List<Investor> filterIndividualInvstorsByLocation(String[] loc) 
 	{
 		logger.debug("Retrieving all investor location filter");
 		List<Investor> items = new ArrayList<Investor>(); 
@@ -138,5 +138,46 @@ public class InvestorFilters {
 		}
 		return items; 
 	}
+	
+	public List<Financial_Org> filterInstitutionalInvstorsByLocation(String[] loc) 
+	{
+		logger.debug("Retrieving all investor location filter");
+		List<Financial_Org> items = new ArrayList<Financial_Org>(); 
 
+		List<Financial_Org> financialOrgs = financialOrgService.getAll();
+		for(Financial_Org financialOrg : financialOrgs)
+		{
+			List<Location> all_locations = financialOrg.getLocations();
+			done:for(Location each_location: all_locations)
+			{
+				String location_name = each_location.getName();
+				for (String each : loc) 
+				{
+					if (each.equals("1")){
+						if (location_name.equalsIgnoreCase("san francisco")){
+							items.add(financialOrg);
+							break done;
+						}
+					} else if (each.equals("2")){
+						if (location_name.equalsIgnoreCase("new york, ny")){
+							items.add(financialOrg);
+							break done;
+						}
+					} else if (each.equals("3")){
+						if (location_name.equalsIgnoreCase("san jose")){
+							items.add(financialOrg);
+							break done;
+						}
+					} else if (each.equals("4")){
+						if (!location_name.equalsIgnoreCase("san francisco") &&
+								!location_name.equalsIgnoreCase("new york, ny") &&
+								!location_name.equalsIgnoreCase("san jose"))
+							items.add(financialOrg);
+						break done;
+					}
+				}
+			}
+		}
+		return items; 
+	}
 }
