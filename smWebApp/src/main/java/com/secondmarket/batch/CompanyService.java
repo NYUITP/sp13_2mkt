@@ -95,7 +95,7 @@ public class CompanyService
 		{
 			company = getCompanyObject(dbObject);	
 		}
-		else
+		/*else
 		{
 			CompanyDatabaseService comDatabaseService = new CompanyDatabaseService();
 			comDatabaseService.populateSingleCompanyCollection(ds, permalink);
@@ -104,7 +104,7 @@ public class CompanyService
 			{
 				company = getCompanyObject(dbObject);	
 			}
-		}	
+		}	*/
 		return company; 
 	}
 	
