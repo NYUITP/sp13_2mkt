@@ -35,8 +35,8 @@ public class RankInvestor
 			String permalink = investor.getPermalink();
 			double followerCount = investor.getFl_norm();
 			double companyCount = investor.getCc_norm();
-			double roiAvg = investor.getAverage_roi();
-			double score = caculateEntityScore(permalink, followerCount, companyCount, roiAvg);
+			double starScore = investor.getStar_score();
+			double score = caculateEntityScore(permalink, followerCount, companyCount, starScore);
 			investorObjectMap.put(permalink, investor);
 			investorsScores.put(permalink, score);
 		}
@@ -61,8 +61,8 @@ public class RankInvestor
 			String permalink = financial_Org.getPermalink();
 			double followerCount = financial_Org.getFl_norm();
 			double companyCount = financial_Org.getCc_norm();
-			double roiAvg = financial_Org.getAverage_roi();
-			double score = caculateEntityScore(permalink, followerCount, companyCount, roiAvg);
+			double starScore = financial_Org.getStar_score();
+			double score = caculateEntityScore(permalink, followerCount, companyCount, starScore);
 			finOrgObjectMap.put(permalink, financial_Org);
 			finOrgScores.put(permalink, score);
 		}

@@ -22,7 +22,7 @@
 		showValueFollower(document.getElementById("followerRange").value);
 		showValueCompany(document.getElementById("companyRange").value);
 		showValueROI(document.getElementById("roiRange").value);
-		showStarInvestor(document.getElementById("starFilter").value);
+//		showStarInvestor(document.getElementById("starFilter").value);
 	}
 	function showValueFollower(newValue) {
 		if (newValue == 1) {
@@ -172,7 +172,7 @@
 	<div class="row">
 
 		<div class="span3">
-		
+<!-- 		
 			<div class="side-block hidden-phone">
 				<div>
 					<strong>Star Investors</strong>
@@ -192,6 +192,7 @@
 				
 			</div>
 			<hr class="space" />
+ -->		
 			<div class="side-block hidden-phone">
 				<div>
 					<strong>Importance of Followers</strong>
@@ -225,7 +226,7 @@
 
 			<div class="side-block hidden-phone">
 				<div>
-					<strong>Importance of ROI</strong>
+					<strong>Importance of Star Rating</strong>
 				</div>
 				<hr class="space" />
 
