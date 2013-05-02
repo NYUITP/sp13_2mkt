@@ -244,6 +244,7 @@ public class BaseController
     	List<Financial_Org> finOrgs = investorFilterService.filterInstitutionalInvstorsByLocation(parts);
     	
     	model.addAttribute("finOrgs", finOrgs);
+    	model.addAttribute("location", checkBoxVal);
     	return "financialOrgPage";
 	}
 	

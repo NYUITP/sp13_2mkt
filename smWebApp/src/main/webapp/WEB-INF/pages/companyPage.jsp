@@ -258,26 +258,7 @@
 							id="l4" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(4,'tform2');">only</a></li>
 					</ul>
-<!-- 				
-					<ul class="clear-ul">
-
-						<li class="mts" ><input type="checkbox" checked="checked"
-							name="location" value="1">&nbsp;San Francisco <a
-							class="small-text pull-right" href="#">only</a></li>
-
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="2">&nbsp;New York, NY <a
-							class="small-text pull-right" href="#">only</a></li>
-
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="3">&nbsp;San Jose <a
-							class="small-text pull-right" href="#">only</a></li>
-
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="4">&nbsp;All Other Places<a
-							class="small-text pull-right" href="#">only</a></li>
-					</ul>
- -->	
+	
 					<hr class="space" />
 					<input type="submit" value="Update" onClick="check('tform2','lct')">
 				</form>

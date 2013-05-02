@@ -18,6 +18,7 @@
 	}
 	
 	function load() {
+		showLocationFilter();
 		showValueFollower(document.getElementById("followerRange").value);
 		showValueCompany(document.getElementById("companyRange").value);
 		showValueROI(document.getElementById("roiRange").value);
@@ -103,6 +104,64 @@
 			$('span.starf').stars();
 		}
 	}
+	
+	function RemoveContent(d) {
+		document.getElementById(d).style.visibility = "hidden";
+	}
+
+	function InsertContent(d) {
+		document.getElementById(d).style.visibility = "visible";
+	}
+	
+	function selectToggle(toggle, form) {
+		var myForm = document.forms[form];
+		for ( var i = 0; i < myForm.length; i++) {
+			if (toggle) {
+				myForm.elements[i].checked = "checked";
+			} else {
+				myForm.elements[i].checked = "";
+			}
+		}
+	}
+	
+	function showLocationFilter() {
+		var checkedVal = [${location}];
+		for (i in checkedVal) {
+			checkbox_id = "lct" + checkedVal[i];
+			try {
+				document.getElementById(checkbox_id).checked="checked";	
+			} catch (err) {
+				alert(checkbox_id);
+			}
+		}
+	}
+	
+	function check(form,id){
+		var flag=false;
+		var myForm = document.forms[form];
+		for ( var i = 0; i < myForm.length-1; i++) {
+			if (myForm.elements[i].checked) {
+				flag=true;
+			} 
+		}
+		if(!flag){
+			alert("Please select at least one!");
+			for ( var i = 1; i < myForm.length; i++){
+				document.getElementById(id+i).checked="checked";
+			}
+		}
+	}
+	
+	function only(index,form){
+		var myForm = document.forms[form];
+		for ( var i = 0; i < myForm.length-1; i++){
+			if(i==index-1)
+				myForm.elements[i].checked="checked";
+			else
+				myForm.elements[i].checked="";
+		}
+	}
+
 </script>
 <div class="container">
 	<hr class="space" />
@@ -221,25 +280,30 @@
 					<hr class="space" />
 					<ul class="clear-ul">
 
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="1">&nbsp;San Francisco <a
-							class="small-text pull-right" href="#">only</a></li>
-
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="2">&nbsp;New York, NY <a
-							class="small-text pull-right" href="#">only</a></li>
-
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="3">&nbsp;San Jose <a
-							class="small-text pull-right" href="#">only</a></li>
-
-						<li class="mts"><input type="checkbox" checked="checked"
-							name="location" value="4">&nbsp;All Other Places<a
-							class="small-text pull-right" href="#">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l1')"
+							onMouseOut="RemoveContent('l1')"><input type="checkbox"
+							name="location" id="lct1" value="1">&nbsp;San Francisco<a
+							id="l1" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(1,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l2')"
+							onMouseOut="RemoveContent('l2')"><input type="checkbox"
+							name="location" id="lct2" value="2">&nbsp;New York, NY<a
+							id="l2" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(2,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l3')"
+							onMouseOut="RemoveContent('l3')"><input type="checkbox"
+							name="location" id="lct3" value="3">&nbsp;San Jose<a
+							id="l3" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(3,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l4')"
+							onMouseOut="RemoveContent('l4')"><input type="checkbox"
+							name="location" id="lct4" value="4">&nbsp;All Other Places<a
+							id="l4" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(4,'tform2');">only</a></li>
 					</ul>
 
 					<hr class="space" />
-					<input type="submit" value="Update">
+					<input type="submit" value="Update" onClick="check('tform2','lct')">
 				</form>
 			</div>
 		</div>
