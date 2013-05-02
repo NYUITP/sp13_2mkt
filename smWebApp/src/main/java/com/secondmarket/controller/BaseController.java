@@ -232,6 +232,7 @@ public class BaseController
     	List<Investor> investors = investorFilterService.filterIndividualInvstorsByLocation(parts);
     	
     	model.addAttribute("investors", investors);
+    	model.addAttribute("location", checkBoxVal);
     	return "investorsPage";
 	}
 	
