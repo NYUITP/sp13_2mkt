@@ -220,6 +220,7 @@ public class BaseController
     	List<Company> companies = companyFilterService.filterByLocation(parts);
     	
     	model.addAttribute("companies", companies);
+    	model.addAttribute("location", checkBoxVal);
     	return "companyPage";
 	}
 	

@@ -40,6 +40,7 @@
 	
 	function load(){
 		showFundFilter();
+		showLocationFilter();
 		showTimeRange(document.getElementById("timeRange").value);
 		showValueCompanyFollower(document.getElementById("companyFollowerRange").value);
 		setPublicPrivateCompanies(false);
@@ -56,6 +57,18 @@
 		var checkedVal = [${total_funding}];
 		for (i in checkedVal) {
 			checkbox_id = "tf" + checkedVal[i];
+			try {
+				document.getElementById(checkbox_id).checked="checked";	
+			} catch (err) {
+				alert(checkbox_id);
+			}
+		}
+	}
+	
+	function showLocationFilter() {
+		var checkedVal = [${location}];
+		for (i in checkedVal) {
+			checkbox_id = "lct" + checkedVal[i];
 			try {
 				document.getElementById(checkbox_id).checked="checked";	
 			} catch (err) {
@@ -224,7 +237,31 @@
 					<hr class="space" />
 					<ul class="clear-ul">
 
-						<li class="mts"><input type="checkbox" checked="checked"
+						<li class="mts" onMouseOver="InsertContent('l1')"
+							onMouseOut="RemoveContent('l1')"><input type="checkbox"
+							name="location" id="lct1" value="1">&nbsp;San Francisco<a
+							id="l1" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(1,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l2')"
+							onMouseOut="RemoveContent('l2')"><input type="checkbox"
+							name="location" id="lct2" value="2">&nbsp;New York, NY<a
+							id="l2" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(2,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l3')"
+							onMouseOut="RemoveContent('l3')"><input type="checkbox"
+							name="location" id="lct3" value="3">&nbsp;San Jose<a
+							id="l3" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(3,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l4')"
+							onMouseOut="RemoveContent('l4')"><input type="checkbox"
+							name="location" id="lct4" value="4">&nbsp;All Other Places<a
+							id="l4" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(4,'tform2');">only</a></li>
+					</ul>
+<!-- 				
+					<ul class="clear-ul">
+
+						<li class="mts" ><input type="checkbox" checked="checked"
 							name="location" value="1">&nbsp;San Francisco <a
 							class="small-text pull-right" href="#">only</a></li>
 
@@ -240,9 +277,9 @@
 							name="location" value="4">&nbsp;All Other Places<a
 							class="small-text pull-right" href="#">only</a></li>
 					</ul>
-
+ -->	
 					<hr class="space" />
-					<input type="submit" value="Update">
+					<input type="submit" value="Update" onClick="check('tform2','lct')">
 				</form>
 			</div>
 		</div>
