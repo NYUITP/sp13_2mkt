@@ -46,10 +46,9 @@ public class InvestorDatabaseService
 				{
 					try 
 					{
-						String name = personObjectFromCrunch.get(InvestorEnum.FIRST_NAME.getLabel().toString()).toString().trim() + " " +
-								personObjectFromCrunch.get(InvestorEnum.LAST_NAME.getLabel().toString()).toString().trim();
-						String nameForSearch = name.replace(" ", "+");
-						String personDataFromAngel = AngelCrunchDataService.getObjectFromAngelUsingSearchQuery("User", nameForSearch);
+						String perma = personObjectFromCrunch.get(InvestorEnum.PERMALINK.getLabel().toString()).toString().trim();
+						String permaForSearch = perma.replace("-", "+");
+						String personDataFromAngel = AngelCrunchDataService.getObjectFromAngelUsingSearchQuery("User", permaForSearch);
 						JSONArray personArrayFromAngel = AngelCrunchDataService.parseToJSONArray(personDataFromAngel);
 					
 						createAndPersistPersonObjects(ds, personObjectFromCrunch, personArrayFromAngel);

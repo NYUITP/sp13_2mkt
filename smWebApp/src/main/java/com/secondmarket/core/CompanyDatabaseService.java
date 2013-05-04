@@ -44,9 +44,9 @@ public class CompanyDatabaseService
 				{
 					try 
 					{
-						String name = companyObjectFromCrunch.get(CompanyEnum.NAME.getLabel().toString()).toString().trim();
-						String nameForSearch = name.replace(" ", "+");
-						String companyDataFromAngel = AngelCrunchDataService.getObjectFromAngelUsingSearchQuery("Startup", nameForSearch);
+						String perma = companyObjectFromCrunch.get(CompanyEnum.PERMALINK.getLabel().toString()).toString().trim();
+						String permalinkForSearch = perma.replace("-", "+");
+						String companyDataFromAngel = AngelCrunchDataService.getObjectFromAngelUsingSearchQuery("Startup", permalinkForSearch);
 						JSONArray companyArrayFromAngel = AngelCrunchDataService.parseToJSONArray(companyDataFromAngel);
 					
 						createAndPersistCompanyObjects(ds, companyObjectFromCrunch, companyArrayFromAngel);

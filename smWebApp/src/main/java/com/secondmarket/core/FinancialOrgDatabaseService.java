@@ -46,9 +46,9 @@ protected static Logger logger = Logger.getLogger("core");
 				{
 					try 
 					{
-						String name = finOrgObjectFromCrunch.get(Financial_OrgEnum.NAME.getLabel().toString()).toString().trim();
-						String nameForSearch = name.replace(" ", "+");
-						String finOrgDataFromAngel = AngelCrunchDataService.getObjectFromAngelUsingSearchQuery("Startup", nameForSearch);
+						String perma = finOrgObjectFromCrunch.get(Financial_OrgEnum.PERMALINK.getLabel().toString()).toString().trim();
+						String permalinkForSearch = perma.replace("-", "+");
+						String finOrgDataFromAngel = AngelCrunchDataService.getObjectFromAngelUsingSearchQuery("Startup", permalinkForSearch);
 						JSONArray finOrgArrayFromAngel = AngelCrunchDataService.parseToJSONArray(finOrgDataFromAngel);
 					
 						createAndPersistFinOrgObjects(ds, finOrgObjectFromCrunch, finOrgArrayFromAngel);
