@@ -133,6 +133,10 @@
 		}
 	}
 
+	 var pager = new Pager('companies', 3); 
+     pager.init(); 
+     pager.showPageNav('pager', 'pageNavPosition'); 
+     pager.showPage(1);
 </script>
 
 <div class="container">
@@ -326,6 +330,34 @@
 				<hr class="space" />
 				<hr>
 			</c:forEach>
+		</div>
+		<div class="pagination pagination-large pagination-centered">
+			<ul>
+				<c:if test="${currentPage != 1}">
+					<li><a href=companies?page=${currentPage-1}>&laquo;</a></li>
+				</c:if>
+				<c:if test="${currentPage == 1}">
+					<li class="disabled"><a href=#>&laquo;</a></li>
+				</c:if>
+
+				<c:forEach begin="1" end="${noOfPages}" var="i">
+					<c:choose>
+						<c:when test="${currentPage eq i}">
+							<li class="active"><a href=companies?page=${i}>${i}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href=companies?page=${i}>${i}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+
+				<c:if test="${currentPage lt noOfPages}">
+					<li><a href=companies?page=${currentPage+1}>&raquo;</a></li>
+				</c:if>
+				<c:if test="${currentPage == noOfPages}">
+					<li class="disabled"><a href=#>&raquo;</a></li>
+				</c:if>
+			</ul>
 		</div>
 	</div>
 </div>

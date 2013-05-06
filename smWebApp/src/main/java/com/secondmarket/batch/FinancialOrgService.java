@@ -30,27 +30,29 @@ import com.secondmarket.domain.Location;
 public class FinancialOrgService 
 {
 	protected static Logger logger = Logger.getLogger("batch");
-
+	private static List<Financial_Org> allFinancialOrgsInDatabase = new ArrayList<Financial_Org>(); 
 	public FinancialOrgService() {}
 
-	public List<Financial_Org> getAll() 
+	public List<Financial_Org> getAllFinancialOrgs() 
 	{
 		logger.debug("Retrieving all financial orgs");
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
-				CommonStrings.FINANCIAL_ORG.getLabel().toString());
-		DBCursor cur = coll.find();
-		List<Financial_Org> items = new ArrayList<Financial_Org>(); 
-
-		while (cur.hasNext()) 
+		if(allFinancialOrgsInDatabase.isEmpty())
 		{
-			DBObject dbObject = cur.next(); 
-			Financial_Org financial_Org = getFinancialOrgObject(dbObject);
-			items.add(financial_Org); 
+			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+					CommonStrings.FINANCIAL_ORG.getLabel().toString());
+			DBCursor cur = coll.find();
+	
+			while (cur.hasNext()) 
+			{
+				DBObject dbObject = cur.next(); 
+				Financial_Org financial_Org = getFinancialOrgObject(dbObject);
+				allFinancialOrgsInDatabase.add(financial_Org); 
+			}
 		}
-		return items; 
+		return allFinancialOrgsInDatabase; 
 	}
 
-	public List<Financial_Org> get(List<String> permalinks) 
+	public List<Financial_Org> getFinancialOrgsGivenPermalinks(List<String> permalinks) 
 	{
 		logger.debug("Retrieving all financial orgs for given permalinks");
 		List<Financial_Org> items = new ArrayList<Financial_Org>(); 
@@ -77,7 +79,7 @@ public class FinancialOrgService
 		return items; 
 	}
 	
-	public Financial_Org get(String permalink) 
+	public Financial_Org getFinancialOrg(String permalink) 
 	{
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.FINANCIAL_ORG.getLabel().toString());// Retrieve

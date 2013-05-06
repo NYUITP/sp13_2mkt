@@ -29,7 +29,7 @@ public class RankInvestor
 	{
 		calculateWeights(followersImpLevel, companyImpLevel, roiImpLevel);
 		
-		List<Investor> investors = investorService.getAll();
+		List<Investor> investors = investorService.getAllInvestors();
 		for(Investor investor : investors)
 		{
 			String permalink = investor.getPermalink();
@@ -55,7 +55,7 @@ public class RankInvestor
 	{
 		calculateWeights(followersImpLevel, companyImpLevel, roiImpLevel);
 		
-		List<Financial_Org> financial_Orgs = financialOrgService.getAll();
+		List<Financial_Org> financial_Orgs = financialOrgService.getAllFinancialOrgs();
 		for(Financial_Org financial_Org : financial_Orgs)
 		{
 			String permalink = financial_Org.getPermalink();

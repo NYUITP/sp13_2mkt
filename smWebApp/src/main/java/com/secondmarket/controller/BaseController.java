@@ -72,15 +72,22 @@ public class BaseController
 	//*************************************** Summary pages for Company, Investor and Fin Org ************************************************//
 	
 	@RequestMapping(value="/companies", method = RequestMethod.GET)
-	public String getCompanies(ModelMap model) 
+	public String getCompanies(@RequestParam("page") int page, ModelMap model) 
 	{
 		logger.debug("Received request to show all companies");
-    	
-		List<Company> companies = companyService.getAll();
-    	logger.debug("Totat companies are - " + companies.size());
-    	
-    	model.addAttribute("companies", companies);
-    	model.addAttribute("periods", "3");
+		int pageNumber = 1;
+        int recordsPerPage = 50;
+        pageNumber = page;
+		List<Company> companies = companyService.getAllCompanies();
+		int noOfRecords = companies.size();
+    	logger.debug("Total companies are - " + companies.size());
+    	int startIndex= (pageNumber-1)*recordsPerPage;
+    	List<Company> list = companies.subList(startIndex, ((noOfRecords - startIndex)>recordsPerPage)? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex));
+    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+    	model.addAttribute("companies", list);
+    	model.addAttribute("noOfPages", noOfPages);
+    	model.addAttribute("currentPage", page);
+      	model.addAttribute("periods", "3");
     	return "companyPage";
 	}
 	
@@ -89,7 +96,7 @@ public class BaseController
 	{
 		logger.debug("Received request to show all investors");	
     	
-		List<Investor> investors = investorService.getAll();
+		List<Investor> investors = investorService.getAllInvestors();
     	logger.debug("Totat individual investors are - " + investors.size());
     	
     	model.addAttribute("investors", investors);
@@ -104,7 +111,7 @@ public class BaseController
 	{
 		logger.debug("Received request to show all financial org");
     	
-		List<Financial_Org> finOrgs = financialOrgService.getAll();
+		List<Financial_Org> finOrgs = financialOrgService.getAllFinancialOrgs();
     	logger.debug("Totat financial orgs are - " + finOrgs.size());
     	
     	model.addAttribute("finOrgs", finOrgs);
@@ -255,8 +262,8 @@ public class BaseController
 	{
 		logger.debug("Received request to show investors detailed profile");
 		
-		Investor investor = investorService.get(permalink);
-		List<Company> companiesInvestedIn = companyService.get(investor.getCompaniesInvestedIn());
+		Investor investor = investorService.getInvestor(permalink);
+		List<Company> companiesInvestedIn = companyService.getCompaniesGivenPermalinks(investor.getCompaniesInvestedIn());
 		
 		model.addAttribute("investor", investor);
 		model.addAttribute("companies", companiesInvestedIn);
@@ -267,12 +274,12 @@ public class BaseController
 	public String getCompanyProfile(@RequestParam("permalink") String permalink, ModelMap model) 
 	{
 		logger.debug("Received request to show company detailed profile");
-		Company company = companyService.get(permalink);
+		Company company = companyService.getCompany(permalink);
 		
 		Map<String, List<String>> categorizedPermlinks = separateTypeOfInvestor(company.getInvestorPermalinks());
-		List<Investor> personInvested = investorService.get(categorizedPermlinks.get(CrunchbaseNamespace.PERSON.getLabel().toString()));
-		List<Company> companyInvested = companyService.get(categorizedPermlinks.get(CrunchbaseNamespace.COMPANY.getLabel().toString()));
-		List<Financial_Org> finOrgInvested = financialOrgService.get(categorizedPermlinks.get(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()));
+		List<Investor> personInvested = investorService.getInvestorsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.PERSON.getLabel().toString()));
+		List<Company> companyInvested = companyService.getCompaniesGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.COMPANY.getLabel().toString()));
+		List<Financial_Org> finOrgInvested = financialOrgService.getFinancialOrgsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()));
 		
 		model.addAttribute("company", company);
 		model.addAttribute("personInvested", personInvested);
@@ -286,8 +293,8 @@ public class BaseController
 	{
 		logger.debug("Received request to show financial orgs detailed profile");
 		
-		Financial_Org finOrg = financialOrgService.get(permalink);
-		List<Company> companiesInvestedIn = companyService.get(finOrg.getCompaniesInvestedIn());
+		Financial_Org finOrg = financialOrgService.getFinancialOrg(permalink);
+		List<Company> companiesInvestedIn = companyService.getCompaniesGivenPermalinks(finOrg.getCompaniesInvestedIn());
 		
 		model.addAttribute("finOrg", finOrg);
 		model.addAttribute("companies", companiesInvestedIn);

@@ -21,7 +21,7 @@ public class CompanyFilters
 		logger.debug("Retrieving all companies fund filter");
 		List<Company> items = new ArrayList<Company>(); 
 
-		List<Company> companies = companyService.getAll();
+		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			for (String each : fundRange) 
@@ -55,7 +55,7 @@ public class CompanyFilters
 		logger.debug("Retrieving all companies location filter");
 		List<Company> items = new ArrayList<Company>(); 
 
-		List<Company> companies = companyService.getAll();
+		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			List<Location> all_locations = company.getLocations();

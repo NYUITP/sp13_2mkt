@@ -12,11 +12,11 @@
 
 		<hr class="space"/>	
 		
-		<a href="companies.php" class="btn btn-large btn-primary btn-home">Find Companies</a>
+		<a href="companies?page=1" class="btn btn-large btn-primary btn-home">Find Companies</a>
 		<hr class="space"/>
-		<a href="investors.php" class="btn btn-large btn-primary btn-home">Find Individual Investors</a>
+		<a href="investors" class="btn btn-large btn-primary btn-home">Find Individual Investors</a>
 		<hr class="space"/>
-		<a href="financialOrg.php" class="btn btn-large btn-primary btn-home">Find Institutional Investor</a>
+		<a href="financialOrg" class="btn btn-large btn-primary btn-home">Find Institutional Investor</a>
 	</div>
 </div>
 </body>

@@ -21,7 +21,7 @@ public class InvestorFilters {
 		logger.debug("Retrieving all investors star filter");
 		List<Investor> items = new ArrayList<Investor>();
 		
-		List<Investor> investors = investorService.getAll();
+		List<Investor> investors = investorService.getAllInvestors();
 		int level = Integer.parseInt(starLevel);
 		double low = 0.0;
 		double high = 0.0;
@@ -61,7 +61,7 @@ public class InvestorFilters {
 		logger.debug("Retrieving all institution investors star filter");
 		List<Financial_Org> items = new ArrayList<Financial_Org>();
 		
-		List<Financial_Org> finOrg = financialOrgService.getAll();
+		List<Financial_Org> finOrg = financialOrgService.getAllFinancialOrgs();
 		int level = Integer.parseInt(starLevel);
 		double low = 0.0;
 		double high = 0.0;
@@ -102,7 +102,7 @@ public class InvestorFilters {
 		logger.debug("Retrieving all investor location filter");
 		List<Investor> items = new ArrayList<Investor>(); 
 
-		List<Investor> investors = investorService.getAll();
+		List<Investor> investors = investorService.getAllInvestors();
 		for(Investor investor : investors)
 		{
 			List<Location> all_locations = investor.getLocations();
@@ -171,7 +171,7 @@ public class InvestorFilters {
 		logger.debug("Retrieving all investor location filter");
 		List<Financial_Org> items = new ArrayList<Financial_Org>(); 
 
-		List<Financial_Org> financialOrgs = financialOrgService.getAll();
+		List<Financial_Org> financialOrgs = financialOrgService.getAllFinancialOrgs();
 		for(Financial_Org financialOrg : financialOrgs)
 		{
 			List<Location> all_locations = financialOrg.getLocations();

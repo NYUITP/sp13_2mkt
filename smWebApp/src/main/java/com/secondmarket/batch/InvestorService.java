@@ -30,26 +30,30 @@ import com.secondmarket.domain.Location;
 public class InvestorService 
 {
 	protected static Logger logger = Logger.getLogger("batch");
+	private static List<Investor> allInvestorsInDatabase = new ArrayList<Investor>(); 
+	
 	public InvestorService() {}
 
-	public List<Investor> getAll() 
+	public List<Investor> getAllInvestors() 
 	{
 		logger.debug("Retrieving all investors");
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
-				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
-    	DBCursor cur = coll.find(); 
-		List<Investor> items = new ArrayList<Investor>(); 
-		
-        while(cur.hasNext()) 
-        {
-        	DBObject dbObject = cur.next();
-        	Investor investor = getInvestorObject(dbObject);
-        	items.add(investor); 
-        }
-		return items;  
+		if(allInvestorsInDatabase.isEmpty())
+		{
+			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+					CommonStrings.PEOPLE_COLL.getLabel().toString()); 
+	    	DBCursor cur = coll.find(); 
+			
+	        while(cur.hasNext()) 
+	        {
+	        	DBObject dbObject = cur.next();
+	        	Investor investor = getInvestorObject(dbObject);
+	        	allInvestorsInDatabase.add(investor); 
+	        }
+		}
+		return allInvestorsInDatabase;  
 	}
 	
-	public List<Investor> get(List<String> permalinks) 
+	public List<Investor> getInvestorsGivenPermalinks(List<String> permalinks) 
 	{
 		logger.debug("Retrieving all investors for given permalink");
 		List<Investor> items = new ArrayList<Investor>(); // Create new list
@@ -76,7 +80,7 @@ public class InvestorService
 		return items; 
 	}
 	
-	public Investor get( String permalink ) 
+	public Investor getInvestor( String permalink ) 
 	{
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.PEOPLE_COLL.getLabel().toString()); 

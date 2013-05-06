@@ -35,28 +35,31 @@ import com.secondmarket.domain.Location;
 public class CompanyService 
 {
 	protected static Logger logger = Logger.getLogger("batch");
+	private static List<Company> allCompaniesInDatabase = new ArrayList<Company>(); 
 	private static Datastore ds = MongoDBFactory.getDataStore();;
 	
 	public CompanyService() {}
 
-	public List<Company> getAll() 
+	public List<Company> getAllCompanies() 
 	{
 		logger.debug("Retrieving all companies");
-		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
-				CommonStrings.COMPANY_COLL.getLabel().toString());
-		DBCursor cur = coll.find();
-		List<Company> items = new ArrayList<Company>(); 
-
-		while (cur.hasNext()) 
+		if(allCompaniesInDatabase.isEmpty())
 		{
-			DBObject dbObject = cur.next(); 
-			Company company = getCompanyObject(dbObject);
-			items.add(company); 
+			DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
+					CommonStrings.COMPANY_COLL.getLabel().toString());
+			DBCursor cur = coll.find();
+			
+			while (cur.hasNext()) 
+			{
+				DBObject dbObject = cur.next(); 
+				Company company = getCompanyObject(dbObject);
+				allCompaniesInDatabase.add(company); 
+			}
 		}
-		return items; 
+		return allCompaniesInDatabase; 
 	}
 
-	public List<Company> get(List<String> permalinks) 
+	public List<Company> getCompaniesGivenPermalinks(List<String> permalinks) 
 	{
 		logger.debug("Retrieving all companies for given permalink");
 		List<Company> items = new ArrayList<Company>(); 
@@ -83,7 +86,7 @@ public class CompanyService
 		return items; 
 	}
 	
-	public Company get(String permalink) 
+	public Company getCompany(String permalink) 
 	{
 		DBCollection coll = MongoDBFactory.getCollection(CommonStrings.DATABASENAME.getLabel().toString(),
 				CommonStrings.COMPANY_COLL.getLabel().toString());// Retrieve
@@ -95,16 +98,17 @@ public class CompanyService
 		{
 			company = getCompanyObject(dbObject);	
 		}
-		/*else
+		else
 		{
 			CompanyDatabaseService comDatabaseService = new CompanyDatabaseService();
 			comDatabaseService.populateSingleCompanyCollection(ds, permalink);
 			dbObject = coll.findOne(doc); 
 			if(dbObject != null)
 			{
-				company = getCompanyObject(dbObject);	
+				company = getCompanyObject(dbObject);
+				allCompaniesInDatabase.add(company);
 			}
-		}	*/
+		}	
 		return company; 
 	}
 	

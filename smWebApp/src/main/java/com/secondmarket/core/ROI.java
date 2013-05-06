@@ -31,7 +31,7 @@ public class ROI {
 				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
 		
 		InvestorService investorService = new InvestorService();
-		List<Investor> investors = investorService.getAll();
+		List<Investor> investors = investorService.getAllInvestors();
 		
 		for(Investor investor : investors){
 			double roi = investor.getAverage_roi();
@@ -55,7 +55,7 @@ public class ROI {
 				CommonStrings.FINANCIAL_ORG.getLabel().toString()); 
 		
 		FinancialOrgService financialOrgService = new FinancialOrgService();
-		List<Financial_Org> financial_Orgs = financialOrgService.getAll();
+		List<Financial_Org> financial_Orgs = financialOrgService.getAllFinancialOrgs();
 		
 		for(Financial_Org financial_Org : financial_Orgs){
 			double roi = financial_Org.getAverage_roi();
@@ -104,7 +104,7 @@ public class ROI {
 				CommonStrings.PEOPLE_COLL.getLabel().toString()); 
 		
 		InvestorService investorService = new InvestorService();
-		List<Investor> investors = investorService.getAll();
+		List<Investor> investors = investorService.getAllInvestors();
 		
 		for(Investor investor : investors)
 		{
@@ -123,7 +123,7 @@ public class ROI {
 				CommonStrings.FINANCIAL_ORG.getLabel().toString()); 
 		
 		FinancialOrgService financialOrgService = new FinancialOrgService();
-		List<Financial_Org> financial_Orgs = financialOrgService.getAll();
+		List<Financial_Org> financial_Orgs = financialOrgService.getAllFinancialOrgs();
 		
 		for(Financial_Org financial_Org : financial_Orgs)
 		{
@@ -160,7 +160,7 @@ public class ROI {
 		{
 			for(String permalink : investor.getCompaniesInvestedIn())
 			{				
-				Company company = companyService.get(permalink);
+				Company company = companyService.getCompany(permalink);
 				if(company != null && company.getPermalink() != null)
 				{
 					Date date_in = null;
@@ -272,7 +272,7 @@ public class ROI {
 		{
 			for(String permalink : financial_Org.getCompaniesInvestedIn())
 			{
-				Company company = companyService.get(permalink);
+				Company company = companyService.getCompany(permalink);
 				if(company != null && company.getPermalink() != null)
 				{
 					Date date_in = null;

@@ -26,7 +26,7 @@ public class RankCompany
 	{
 		calculateWeights(comfollowersImpLevel);
 		
-		List<Company> companies = companyService.getAll();
+		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			caculateCompanyScore(company);
@@ -106,7 +106,7 @@ public class RankCompany
 		HashMap<String, Company> companyPermalink = new HashMap<String, Company>();
 		List<Company> sortedCompanySet= new LinkedList<Company>();
 		
-		List<Company> companies = companyService.getAll();
+		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			double fund_p = 0.0;

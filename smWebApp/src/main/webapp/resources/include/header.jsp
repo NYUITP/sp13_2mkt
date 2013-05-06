@@ -10,7 +10,7 @@
 			<ul class="nav">
 				<li><a href="home">Home</a></li>
 				<li class="divider-vertical"></li>
-				<li><a href="companies">Companies</a></li>
+				<li><a href="companies?page=1">Companies</a></li>
 				<li class="divider-vertical"></li>
 				<li><a href="investors">Individual Investors</a></li>
 				<li class="divider-vertical"></li>
