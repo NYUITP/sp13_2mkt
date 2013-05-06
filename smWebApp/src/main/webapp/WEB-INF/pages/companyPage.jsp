@@ -52,6 +52,9 @@
 	
 	function showFundFilter() {
 		var checkedVal = [${total_funding}];
+		if(checkedVal == ""){
+			selectToggle(true, 'tform');
+		}
 		for (i in checkedVal) {
 			checkbox_id = "tf" + checkedVal[i];
 			try {
@@ -64,6 +67,9 @@
 	
 	function showLocationFilter() {
 		var checkedVal = [${location}];
+		if(checkedVal == ""){
+			selectToggle(true, 'tform2');
+		}
 		for (i in checkedVal) {
 			checkbox_id = "lct" + checkedVal[i];
 			try {

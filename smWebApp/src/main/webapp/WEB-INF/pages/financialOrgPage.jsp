@@ -126,6 +126,9 @@
 	
 	function showLocationFilter() {
 		var checkedVal = [${location}];
+		if(checkedVal == ""){
+			selectToggle(true, 'tform2');
+		}
 		for (i in checkedVal) {
 			checkbox_id = "lct" + checkedVal[i];
 			try {
