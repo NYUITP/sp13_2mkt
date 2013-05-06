@@ -31,7 +31,7 @@
 				<hr class="space" />
 				<hr class="space" />
 				<c:forEach items="${company.locations}" var="location">
-					<span class="pull-left muted"> <small>${location.name}
+					<span class="pull-left muted"> <small>${location.name}.
 					</small></span>
 				</c:forEach>
 				<br>

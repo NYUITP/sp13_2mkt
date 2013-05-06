@@ -305,8 +305,8 @@
 						
 						<div class="pull-left">
 							<c:forEach items="${company.locations}" var="location">
-								<div><span class="pull-left muted"> <small>${location.name}
-								</small></span></div>
+								<span class="muted"> <small>${location.name}
+								</small></span>
 								<br>
 							</c:forEach>
 						</div>
