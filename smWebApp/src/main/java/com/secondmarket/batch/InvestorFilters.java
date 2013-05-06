@@ -109,29 +109,56 @@ public class InvestorFilters {
 			done:for(Location each_location: all_locations)
 			{
 				String location_name = each_location.getName();
-				for (String each : loc) 
+				if(location_name != null)
 				{
-					if (each.equals("1")){
-						if (location_name.equalsIgnoreCase("san francisco")){
-							items.add(investor);
+					for (String each : loc) 
+					{
+						if (each.equals("1")){
+							if (location_name.equalsIgnoreCase("san francisco")){
+								items.add(investor);
+								break done;
+							}
+						} 
+						else if (each.equals("2")){
+							if (location_name.equalsIgnoreCase("new york, ny")){
+								items.add(investor);
+								break done;
+							}
+						}
+						else if (each.equals("3")){
+							if (location_name.equalsIgnoreCase("los Angeles")){
+								items.add(investor);
+								break done;
+							}
+						}
+						else if (each.equals("4")){
+							if (location_name.equalsIgnoreCase("Toronto")){
+								items.add(investor);
+								break done;
+							}
+						}
+						else if (each.equals("5")){
+							if (location_name.equalsIgnoreCase("London")){
+								items.add(investor);
+								break done;
+							}
+						}
+						else if (each.equals("6")){
+							if (location_name.equalsIgnoreCase("Tokyo")){
+								items.add(investor);
+								break done;
+							}
+						}
+						else if (each.equals("7")){
+							if (!location_name.equalsIgnoreCase("san francisco") &&
+									!location_name.equalsIgnoreCase("new york, ny") &&
+									!location_name.equalsIgnoreCase("los Angeles") &&
+									!location_name.equalsIgnoreCase("Toronto") &&
+									!location_name.equalsIgnoreCase("London")&&
+									!location_name.equalsIgnoreCase("Tokyo"))
+								items.add(investor);
 							break done;
 						}
-					} else if (each.equals("2")){
-						if (location_name.equalsIgnoreCase("new york, ny")){
-							items.add(investor);
-							break done;
-						}
-					} else if (each.equals("3")){
-						if (location_name.equalsIgnoreCase("san jose")){
-							items.add(investor);
-							break done;
-						}
-					} else if (each.equals("4")){
-						if (!location_name.equalsIgnoreCase("san francisco") &&
-								!location_name.equalsIgnoreCase("new york, ny") &&
-								!location_name.equalsIgnoreCase("san jose"))
-							items.add(investor);
-						break done;
 					}
 				}
 			}
@@ -151,29 +178,56 @@ public class InvestorFilters {
 			done:for(Location each_location: all_locations)
 			{
 				String location_name = each_location.getName();
-				for (String each : loc) 
+				if(location_name != null)
 				{
-					if (each.equals("1")){
-						if (location_name.equalsIgnoreCase("san francisco")){
-							items.add(financialOrg);
+					for (String each : loc) 
+					{
+						if (each.equals("1")){
+							if (location_name.equalsIgnoreCase("san francisco")){
+								items.add(financialOrg);
+								break done;
+							}
+						} 
+						else if (each.equals("2")){
+							if (location_name.equalsIgnoreCase("new york, ny")){
+								items.add(financialOrg);
+								break done;
+							}
+						}
+						else if (each.equals("3")){
+							if (location_name.equalsIgnoreCase("los Angeles")){
+								items.add(financialOrg);
+								break done;
+							}
+						}
+						else if (each.equals("4")){
+							if (location_name.equalsIgnoreCase("Toronto")){
+								items.add(financialOrg);
+								break done;
+							}
+						}
+						else if (each.equals("5")){
+							if (location_name.equalsIgnoreCase("London")){
+								items.add(financialOrg);
+								break done;
+							}
+						}
+						else if (each.equals("6")){
+							if (location_name.equalsIgnoreCase("Tokyo")){
+								items.add(financialOrg);
+								break done;
+							}
+						}
+						else if (each.equals("7")){
+							if (!location_name.equalsIgnoreCase("san francisco") &&
+									!location_name.equalsIgnoreCase("new york, ny") &&
+									!location_name.equalsIgnoreCase("los Angeles") &&
+									!location_name.equalsIgnoreCase("Toronto") &&
+									!location_name.equalsIgnoreCase("London")&&
+									!location_name.equalsIgnoreCase("Tokyo"))
+								items.add(financialOrg);
 							break done;
 						}
-					} else if (each.equals("2")){
-						if (location_name.equalsIgnoreCase("new york, ny")){
-							items.add(financialOrg);
-							break done;
-						}
-					} else if (each.equals("3")){
-						if (location_name.equalsIgnoreCase("san jose")){
-							items.add(financialOrg);
-							break done;
-						}
-					} else if (each.equals("4")){
-						if (!location_name.equalsIgnoreCase("san francisco") &&
-								!location_name.equalsIgnoreCase("new york, ny") &&
-								!location_name.equalsIgnoreCase("san jose"))
-							items.add(financialOrg);
-						break done;
 					}
 				}
 			}

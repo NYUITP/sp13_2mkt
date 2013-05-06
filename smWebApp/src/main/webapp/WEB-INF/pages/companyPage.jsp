@@ -249,14 +249,29 @@
 							class="small-text pull-right" href="javascript:only(2,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l3')"
 							onMouseOut="RemoveContent('l3')"><input type="checkbox"
-							name="location" id="lct3" value="3">&nbsp;San Jose<a
+							name="location" id="lct3" value="3">&nbsp;Los Angeles<a
 							id="l3" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(3,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l4')"
 							onMouseOut="RemoveContent('l4')"><input type="checkbox"
-							name="location" id="lct4" value="4">&nbsp;All Other Places<a
+							name="location" id="lct4" value="4">&nbsp;Toronto<a
 							id="l4" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(4,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l5')"
+							onMouseOut="RemoveContent('l5')"><input type="checkbox"
+							name="location" id="lct5" value="5">&nbsp;London<a
+							id="l5" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(5,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l6')"
+							onMouseOut="RemoveContent('l6')"><input type="checkbox"
+							name="location" id="lct6" value="6">&nbsp;Tokyo<a
+							id="l6" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(6,'tform2');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('l7')"
+							onMouseOut="RemoveContent('l7')"><input type="checkbox"
+							name="location" id="lct7" value="7">&nbsp;All Other Places<a
+							id="l7" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(7,'tform2');">only</a></li>
 					</ul>
 	
 					<hr class="space" />
@@ -284,11 +299,11 @@
 							</h4>
 						</div>
 						
-						<div>
+						<div class="pull-left">
 							<c:forEach items="${company.locations}" var="location">
-								<span class="pull-left muted"> <small>${location.name}
-								</small></span>
-								<hr class="space" />
+								<div><span class="pull-left muted"> <small>${location.name}
+								</small></span></div>
+								<br>
 							</c:forEach>
 						</div>
 					</div>

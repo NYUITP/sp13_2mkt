@@ -62,28 +62,56 @@ public class CompanyFilters
 			done:for(Location each_location: all_locations)
 			{
 				String location_name = each_location.getName();
-				for (String each : loc) {
-					if (each.equals("1")){
-						if (location_name.equalsIgnoreCase("san francisco")){
-							items.add(company);
+				if(location_name != null)
+				{
+					for (String each : loc) 
+					{
+						if (each.equals("1")){
+							if (location_name.equalsIgnoreCase("san francisco")){
+								items.add(company);
+								break done;
+							}
+						} 
+						else if (each.equals("2")){
+							if (location_name.equalsIgnoreCase("new york, ny")){
+								items.add(company);
+								break done;
+							}
+						}
+						else if (each.equals("3")){
+							if (location_name.equalsIgnoreCase("los Angeles")){
+								items.add(company);
+								break done;
+							}
+						}
+						else if (each.equals("4")){
+							if (location_name.equalsIgnoreCase("Toronto")){
+								items.add(company);
+								break done;
+							}
+						}
+						else if (each.equals("5")){
+							if (location_name.equalsIgnoreCase("London")){
+								items.add(company);
+								break done;
+							}
+						}
+						else if (each.equals("6")){
+							if (location_name.equalsIgnoreCase("Tokyo")){
+								items.add(company);
+								break done;
+							}
+						}
+						else if (each.equals("7")){
+							if (!location_name.equalsIgnoreCase("san francisco") &&
+									!location_name.equalsIgnoreCase("new york, ny") &&
+									!location_name.equalsIgnoreCase("los Angeles") &&
+									!location_name.equalsIgnoreCase("Toronto") &&
+									!location_name.equalsIgnoreCase("London")&&
+									!location_name.equalsIgnoreCase("Tokyo"))
+								items.add(company);
 							break done;
 						}
-					} else if (each.equals("2")){
-						if (location_name.equalsIgnoreCase("new york, ny")){
-							items.add(company);
-							break done;
-						}
-					} else if (each.equals("3")){
-						if (location_name.equalsIgnoreCase("san jose")){
-							items.add(company);
-							break done;
-						}
-					} else if (each.equals("4")){
-						if (!location_name.equalsIgnoreCase("san francisco") &&
-								!location_name.equalsIgnoreCase("new york, ny") &&
-								!location_name.equalsIgnoreCase("san jose"))
-							items.add(company);
-						break done;
 					}
 				}
 			}
