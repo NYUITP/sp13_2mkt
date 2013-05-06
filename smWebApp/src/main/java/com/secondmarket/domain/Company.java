@@ -49,7 +49,7 @@ public class Company
 	{
 		name = js.get(CompanyEnum.NAME.getLabel().toString()).toString();
 		permalink = js.get(CompanyEnum._ID.getLabel().toString()).toString();
-		CompanyService cs = new CompanyService();
+		/*CompanyService cs = new CompanyService();
 		Company com = cs.get(permalink);
 		if(com != null && com.getLogo_url() != null && !com.getLogo_url().toString().equals(""))
 		{
@@ -58,7 +58,7 @@ public class Company
 		else
 		{
 			logo_url = "https://angel.co/images/shared/nopic_startup.png";
-		}
+		}*/
 	}
 	
 	public Integer getId() {
