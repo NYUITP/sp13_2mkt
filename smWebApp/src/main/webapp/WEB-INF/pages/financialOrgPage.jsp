@@ -223,11 +223,11 @@
 				<span id="follower-value" class="slider-value">Moderately
 					Important</span>
 
-			</div>
+			<hr color=#DEDEDE size="3">
 
 			<hr class="space" />
 
-			<div class="side-block hidden-phone">
+			
 				<div>
 					<strong>Importance of Companies Invested In</strong>
 				</div>
@@ -238,11 +238,11 @@
 
 				<span id="company-value" class="slider-value">Moderately
 					Important</span>
-			</div>
+			<hr color=#DEDEDE size="3">
 
 			<hr class="space" />
 
-			<div class="side-block hidden-phone">
+			
 				<div>
 					<strong>Importance of Star Rating</strong>
 				</div>
@@ -251,7 +251,7 @@
 				<input id="roiRange" type="range" min="1" max="5" step="1"
 					value="${roiLevel}" onchange="showValueROI(this.value)" /> <span
 					id="roi-value" class="slider-value">Moderately Important</span>
-			</div>
+			
 
 			<hr class="space" />
 			
@@ -262,6 +262,7 @@
 					id='roiImpLevel' name='roiImpLevel' value='3' /> <input
 					type="submit" value="Update">
 			</form>
+			</div>
 
 			<!-- <div class="side-block">
 				<div>

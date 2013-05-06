@@ -226,12 +226,10 @@
 					onchange="showValueInvestor(this.value)" />
 
 				<span id="follower-value" class="slider-value">Moderately Important</span>
-				
-			</div>
+				<hr color=#DEDEDE size="3">
 
 			<hr class="space" />
 
-			<div class="side-block hidden-phone">
 				<div>
 					<strong>Importance of Companies Invested In</strong>
 				</div>
@@ -241,12 +239,9 @@
 					onchange="showValueCompany(this.value)" />
 
 				<span id="company-value" class="slider-value">Moderately Important</span>
-				
-			</div>
-			
+			<hr color=#DEDEDE size="3">
 			<hr class="space" />
 
-			<div class="side-block hidden-phone">
 				<div>
 					<strong>Importance of Star Rating</strong>
 				</div>
@@ -256,10 +251,7 @@
 					onchange="showValueROI(this.value)" />
 
 				<span id="roi-value" class="slider-value">Moderately Important</span>
-				
-			</div>
-			
-			
+
 			<hr class="space" />
 				<form action="investorRankingByFC_CC_ROI" method="post">
 					<input type='hidden' id='companyImpLevel' name='companyImpLevel' value='3'/>
@@ -267,7 +259,7 @@
 					<input type='hidden' id='roiImpLevel' name='roiImpLevel' value='3'/>
 					<input type="submit" value="Update">
 				</form>
-			
+</div>		
 			<!-- <div class="side-block">
 				<div>
 					<strong>Filter by Companies Invested In</strong>
