@@ -10,18 +10,23 @@
 	function showValueCompanyFollower(newValue) {
 		if (newValue == 1) {
 			document.getElementById("company-follower-value").innerHTML = "Not Important";
+			document.getElementById("company-follower-value").style.fontSize = "small"
 			document.getElementById('comfollowersImpLevel').value = 1;
 		} else if (newValue == 2) {
 			document.getElementById("company-follower-value").innerHTML = "A Little Important";
+			document.getElementById("company-follower-value").style.fontSize = "small"
 			document.getElementById('comfollowersImpLevel').value = 2;
 		} else if (newValue == 3) {
 			document.getElementById("company-follower-value").innerHTML = "Moderately Important";
+			document.getElementById("company-follower-value").style.fontSize = "small"
 			document.getElementById('comfollowersImpLevel').value = 3;
 		} else if (newValue == 4) {
 			document.getElementById("company-follower-value").innerHTML = "Important";
+			document.getElementById("company-follower-value").style.fontSize = "small"
 			document.getElementById('comfollowersImpLevel').value = 4;
 		} else if (newValue == 5) {
 			document.getElementById("company-follower-value").innerHTML = "Very Important";
+			document.getElementById("company-follower-value").style.fontSize = "small"
 			document.getElementById('comfollowersImpLevel').value = 5;
 		}
 	}
@@ -43,16 +48,8 @@
 		showLocationFilter();
 		showTimeRange(document.getElementById("timeRange").value);
 		showValueCompanyFollower(document.getElementById("companyFollowerRange").value);
-		setPublicPrivateCompanies(false);
 	}
 	
-	function setPublicPrivateCompanies(isPrivate) 
-	{
-		if(!isPrivate)
-		{
-			document.getElementById("privatePublic").setAttribute("myclass", "muted");
-		}
-	}
 	function showFundFilter() {
 		var checkedVal = [${total_funding}];
 		for (i in checkedVal) {
@@ -117,18 +114,23 @@
 	function showTimeRange(newValue) {
 		if (newValue == 1) {
 			document.getElementById("fund-period").innerHTML = "3 month";
+			document.getElementById("fund-period").style.fontSize = "small"
 			document.getElementById('periodPast').value = 1;
 		} else if (newValue == 2) {
 			document.getElementById("fund-period").innerHTML = "6 month";
+			document.getElementById("fund-period").style.fontSize = "small"
 			document.getElementById('periodPast').value = 2;
 		} else if (newValue == 3) {
 			document.getElementById("fund-period").innerHTML = "1 year";
+			document.getElementById("fund-period").style.fontSize = "small"
 			document.getElementById('periodPast').value = 3;
 		} else if (newValue == 4) {
 			document.getElementById("fund-period").innerHTML = "2 year";
+			document.getElementById("fund-period").style.fontSize = "small"
 			document.getElementById('periodPast').value = 4;
 		} else if (newValue == 5) {
 			document.getElementById("fund-period").innerHTML = "3 year";
+			document.getElementById("fund-period").style.fontSize = "small"
 			document.getElementById('periodPast').value = 5;
 		}
 	}
@@ -145,8 +147,20 @@
 	<%@include file="../../resources/include/header.jsp"%>
 	<hr class="space" />
 	<div class="row">
-
 		<div class="span3">
+			<div class="side-block">
+				<div>
+					<strong>Company Type</strong>
+				</div>
+				<ul class="clear-ul">
+					<li class="mts"> <small><input type="checkbox" checked="checked">&nbsp;Private Companies</small></li>
+					<li class="mts"> <small><input type="checkbox" checked="checked">&nbsp;Public Companies </small></li>
+				</ul>
+				<hr class="space" />
+				<a href="#" class="btn">Update</a>
+			</div> 
+			
+			<hr class="space" />
 			<div class="side-block hidden-phone">
 				<div>
 					<strong>Rank Company by Fund raised in last</strong>
@@ -243,37 +257,37 @@
 
 						<li class="mts" onMouseOver="InsertContent('l1')"
 							onMouseOut="RemoveContent('l1')"><input type="checkbox"
-							name="location" id="lct1" value="1">&nbsp;San Francisco<a
+							name="location" id="lct1" value="1">&nbsp;<small>San Francisco</small><a
 							id="l1" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(1,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l2')"
 							onMouseOut="RemoveContent('l2')"><input type="checkbox"
-							name="location" id="lct2" value="2">&nbsp;New York, NY<a
+							name="location" id="lct2" value="2">&nbsp;<small>New York, NY</small><a
 							id="l2" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(2,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l3')"
 							onMouseOut="RemoveContent('l3')"><input type="checkbox"
-							name="location" id="lct3" value="3">&nbsp;Los Angeles<a
+							name="location" id="lct3" value="3">&nbsp;<small>Los Angeles</small><a
 							id="l3" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(3,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l4')"
 							onMouseOut="RemoveContent('l4')"><input type="checkbox"
-							name="location" id="lct4" value="4">&nbsp;Toronto<a
+							name="location" id="lct4" value="4">&nbsp;<small>Toronto</small><a
 							id="l4" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(4,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l5')"
 							onMouseOut="RemoveContent('l5')"><input type="checkbox"
-							name="location" id="lct5" value="5">&nbsp;London<a
+							name="location" id="lct5" value="5">&nbsp;<small>London</small><a
 							id="l5" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(5,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l6')"
 							onMouseOut="RemoveContent('l6')"><input type="checkbox"
-							name="location" id="lct6" value="6">&nbsp;Tokyo<a
+							name="location" id="lct6" value="6">&nbsp;<small>Tokyo</small><a
 							id="l6" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(6,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l7')"
 							onMouseOut="RemoveContent('l7')"><input type="checkbox"
-							name="location" id="lct7" value="7">&nbsp;All Other Places<a
+							name="location" id="lct7" value="7">&nbsp;<small>All Other Places</small><a
 							id="l7" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(7,'tform2');">only</a></li>
 					</ul>
@@ -296,7 +310,6 @@
 
 					<div class="pull-left search-content">
 						<div>
-							<a class="myclass" id="privatePublic" href="javascript:setPublicPrivateCompanies(${company.isPrivate});"></a>
 							<h4 class="pull-left">
 								<a href=companyProfile?permalink=${company.permalink}>
 								<c:out value="${company.name}" /></a>
