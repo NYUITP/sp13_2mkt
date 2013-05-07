@@ -388,7 +388,26 @@
 				</div>
 				<hr>
 			</c:forEach>
+			<ul class="pager">
+			<c:if test="${currentPage == 1}">
+				<li class="previous disabled"><a
+					href=>&larr; Older</a></li>
+			</c:if>
+			<c:if test="${currentPage != 1}">
+				<li class="previous"><a href=financialOrg?page=${currentPage-1}>&larr;
+						Older</a></li>
+			</c:if>
+			<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
+			<c:if test="${currentPage == noOfPages}">
+				<li class="next disabled"><a
+					href=>&rarr; Newer</a></li>
+			</c:if>
+			<c:if test="${currentPage lt noOfPages}">
+				<li class="next"><a href=financialOrg?page=${currentPage+1}>&rarr;	Newer</a></li>
+			</c:if>
+		</ul>
 		</div>
+		
 	</div>
 </div>
 </body>

@@ -34,6 +34,8 @@ public class BaseController
 {
 	protected static Logger logger = Logger.getLogger("controller");
 	
+	int recordsPerPage = 50;
+	 
 	@Resource(name="investorService")
 	private InvestorService investorService;
 	
@@ -76,30 +78,43 @@ public class BaseController
 	{
 		logger.debug("Received request to show all companies");
 		int pageNumber = 1;
-        int recordsPerPage = 50;
         pageNumber = page;
 		List<Company> companies = companyService.getAllCompanies();
 		int noOfRecords = companies.size();
     	logger.debug("Total companies are - " + companies.size());
     	int startIndex= (pageNumber-1)*recordsPerPage;
-    	List<Company> list = companies.subList(startIndex, ((noOfRecords - startIndex)>recordsPerPage)? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex));
+    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+    	List<Company> list = companies.subList(startIndex, endIndex);
     	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-    	model.addAttribute("companies", list);
     	model.addAttribute("noOfPages", noOfPages);
+    	model.addAttribute("companies", list);
+    	model.addAttribute("startIndex", startIndex+1);
+    	model.addAttribute("endIndex", endIndex);
+    	model.addAttribute("size", noOfRecords);
     	model.addAttribute("currentPage", page);
       	model.addAttribute("periods", "3");
     	return "companyPage";
 	}
 	
 	@RequestMapping(value="/investors", method = RequestMethod.GET)
-	public String getInvestors(ModelMap model) 
+	public String getInvestors(@RequestParam("page") int page, ModelMap model) 
 	{
 		logger.debug("Received request to show all investors");	
-    	
+		int pageNumber = 1;
+        pageNumber = page;
 		List<Investor> investors = investorService.getAllInvestors();
+		int noOfRecords = investors.size();
     	logger.debug("Totat individual investors are - " + investors.size());
-    	
-    	model.addAttribute("investors", investors);
+    	int startIndex= (pageNumber-1)*recordsPerPage;
+    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+    	List<Investor> list = investors.subList(startIndex, endIndex);
+    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+    	model.addAttribute("noOfPages", noOfPages);
+    	model.addAttribute("investors", list);
+    	model.addAttribute("startIndex", startIndex+1);
+    	model.addAttribute("endIndex", endIndex);
+    	model.addAttribute("size", noOfRecords);
+    	model.addAttribute("currentPage", page);
     	model.addAttribute("followerLevel", "3");
     	model.addAttribute("companyLevel", "3");
     	model.addAttribute("roiLevel", "3");
@@ -107,14 +122,25 @@ public class BaseController
 	}
 	
 	@RequestMapping(value="/financialOrg", method = RequestMethod.GET)
-	public String getFinancialOrg(ModelMap model) 
+	public String getFinancialOrg(@RequestParam("page") int page, ModelMap model) 
 	{
+		int pageNumber = 1;
+        pageNumber = page;
 		logger.debug("Received request to show all financial org");
     	
 		List<Financial_Org> finOrgs = financialOrgService.getAllFinancialOrgs();
+		int noOfRecords = finOrgs.size();
     	logger.debug("Totat financial orgs are - " + finOrgs.size());
-    	
-    	model.addAttribute("finOrgs", finOrgs);
+    	int startIndex= (pageNumber-1)*recordsPerPage;
+    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+    	List<Financial_Org> list = finOrgs.subList(startIndex, endIndex);
+    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+    	model.addAttribute("noOfPages", noOfPages);
+    	model.addAttribute("finOrgs", list);
+    	model.addAttribute("startIndex", startIndex+1);
+    	model.addAttribute("endIndex", endIndex);
+    	model.addAttribute("size", noOfRecords);
+    	model.addAttribute("currentPage", page);
     	return "financialOrgPage";
 	}
 	

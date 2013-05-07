@@ -159,13 +159,15 @@
 					<strong>Company Type</strong>
 				</div>
 				<ul class="clear-ul">
-					<li class="mts"> <small><input type="checkbox" checked="checked">&nbsp;Private Companies</small></li>
-					<li class="mts"> <small><input type="checkbox" checked="checked">&nbsp;Public Companies </small></li>
+					<li class="mts"><small><input type="checkbox"
+							checked="checked">&nbsp;Private Companies</small></li>
+					<li class="mts"><small><input type="checkbox"
+							checked="checked">&nbsp;Public Companies </small></li>
 				</ul>
 				<hr class="space" />
 				<a href="#" class="btn">Update</a>
-			</div> 
-			
+			</div>
+
 			<hr class="space" />
 			<div class="side-block hidden-phone">
 				<div>
@@ -263,41 +265,41 @@
 
 						<li class="mts" onMouseOver="InsertContent('l1')"
 							onMouseOut="RemoveContent('l1')"><input type="checkbox"
-							name="location" id="lct1" value="1">&nbsp;<small>San Francisco</small><a
-							id="l1" style="visibility: hidden;"
+							name="location" id="lct1" value="1">&nbsp;<small>San
+								Francisco</small><a id="l1" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(1,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l2')"
 							onMouseOut="RemoveContent('l2')"><input type="checkbox"
-							name="location" id="lct2" value="2">&nbsp;<small>New York, NY</small><a
-							id="l2" style="visibility: hidden;"
+							name="location" id="lct2" value="2">&nbsp;<small>New
+								York, NY</small><a id="l2" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(2,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l3')"
 							onMouseOut="RemoveContent('l3')"><input type="checkbox"
-							name="location" id="lct3" value="3">&nbsp;<small>Los Angeles</small><a
-							id="l3" style="visibility: hidden;"
+							name="location" id="lct3" value="3">&nbsp;<small>Los
+								Angeles</small><a id="l3" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(3,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l4')"
 							onMouseOut="RemoveContent('l4')"><input type="checkbox"
 							name="location" id="lct4" value="4">&nbsp;<small>Toronto</small><a
-							id="l4" style="visibility: hidden;"
-							class="small-text pull-right" href="javascript:only(4,'tform2');">only</a></li>
+							id="l4" style="visibility: hidden;" class="small-text pull-right"
+							href="javascript:only(4,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l5')"
 							onMouseOut="RemoveContent('l5')"><input type="checkbox"
 							name="location" id="lct5" value="5">&nbsp;<small>London</small><a
-							id="l5" style="visibility: hidden;"
-							class="small-text pull-right" href="javascript:only(5,'tform2');">only</a></li>
+							id="l5" style="visibility: hidden;" class="small-text pull-right"
+							href="javascript:only(5,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l6')"
 							onMouseOut="RemoveContent('l6')"><input type="checkbox"
 							name="location" id="lct6" value="6">&nbsp;<small>Tokyo</small><a
-							id="l6" style="visibility: hidden;"
-							class="small-text pull-right" href="javascript:only(6,'tform2');">only</a></li>
+							id="l6" style="visibility: hidden;" class="small-text pull-right"
+							href="javascript:only(6,'tform2');">only</a></li>
 						<li class="mts" onMouseOver="InsertContent('l7')"
 							onMouseOut="RemoveContent('l7')"><input type="checkbox"
-							name="location" id="lct7" value="7">&nbsp;<small>All Other Places</small><a
-							id="l7" style="visibility: hidden;"
+							name="location" id="lct7" value="7">&nbsp;<small>All
+								Other Places</small><a id="l7" style="visibility: hidden;"
 							class="small-text pull-right" href="javascript:only(7,'tform2');">only</a></li>
 					</ul>
-	
+
 					<hr class="space" />
 					<input type="submit" value="Update" onClick="check('tform2','lct')">
 				</form>
@@ -308,6 +310,7 @@
 		<div class="span9">
 			<h2>Companies</h2>
 			<hr>
+	
 			<c:forEach items="${companies}" var="company">
 				<div class="search-result">
 					<div class="pull-left search-pic">
@@ -317,15 +320,14 @@
 					<div class="pull-left search-content">
 						<div>
 							<h4 class="pull-left">
-								<a href=companyProfile?permalink=${company.permalink}>
-								<c:out value="${company.name}" /></a>
+								<a href=companyProfile?permalink=${company.permalink}> <c:out
+										value="${company.name}" /></a>
 							</h4>
 						</div>
-						
+
 						<div class="pull-left">
 							<c:forEach items="${company.locations}" var="location">
-								<span class="muted"> <small>${location.name}
-								</small></span>
+								<span class="muted"> <small>${location.name} </small></span>
 								<br>
 							</c:forEach>
 						</div>
@@ -349,35 +351,25 @@
 				<hr class="space" />
 				<hr>
 			</c:forEach>
+			<ul class="pager">
+			<c:if test="${currentPage == 1}">
+				<li class="previous disabled"><a
+					href=>&larr; Older</a></li>
+			</c:if>
+			<c:if test="${currentPage != 1}">
+				<li class="previous"><a href=companies?page=${currentPage-1}>&larr; Older</a></li>
+			</c:if>
+			<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
+			<c:if test="${currentPage == noOfPages}">
+				<li class="next disabled"><a
+					href=>&rarr; Newer</a></li>
+			</c:if>
+			<c:if test="${currentPage lt noOfPages}">
+				<li class="next"><a href=companies?page=${currentPage+1}>&rarr;	Newer</a></li>
+			</c:if>
+		</ul>
 		</div>
-		<div class="pagination pagination-large pagination-centered">
-			<ul>
-				<c:if test="${currentPage != 1}">
-					<li><a href=companies?page=${currentPage-1}>&laquo;</a></li>
-				</c:if>
-				<c:if test="${currentPage == 1}">
-					<li class="disabled"><a href=#>&laquo;</a></li>
-				</c:if>
-
-				<c:forEach begin="1" end="${noOfPages}" var="i">
-					<c:choose>
-						<c:when test="${currentPage eq i}">
-							<li class="active"><a href=companies?page=${i}>${i}</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href=companies?page=${i}>${i}</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-
-				<c:if test="${currentPage lt noOfPages}">
-					<li><a href=companies?page=${currentPage+1}>&raquo;</a></li>
-				</c:if>
-				<c:if test="${currentPage == noOfPages}">
-					<li class="disabled"><a href=#>&raquo;</a></li>
-				</c:if>
-			</ul>
-		</div>
+		
 	</div>
 </div>
 </body>
