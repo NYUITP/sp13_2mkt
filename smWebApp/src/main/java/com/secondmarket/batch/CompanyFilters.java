@@ -118,4 +118,30 @@ public class CompanyFilters
 		}
 		return items; 
 	}
+	
+	public List<Company> filterByType(String[] type) 
+	{
+		logger.debug("Retrieving all companies type filter");
+		List<Company> items = new ArrayList<Company>(); 
+
+		List<Company> companies = companyService.getAllCompanies();
+		for(Company company : companies)
+		{
+			boolean companyType = company.getIsPrivate();
+			for (String each : type) 
+			{
+				if (each.equals("1")){
+					if (companyType){
+						items.add(company);
+					}
+				} 
+				else if (each.equals("2")){
+					if (!companyType){
+						items.add(company);
+					}
+				}
+			}
+		}
+		return items; 
+	}
 }
