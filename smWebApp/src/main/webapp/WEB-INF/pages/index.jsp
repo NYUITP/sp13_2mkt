@@ -1,22 +1,33 @@
-<%@include file="../../resources/include/head.jsp" %>
+<%@include file="../../resources/include/head.jsp"%>
 
 <div class="container">
-	<hr class="space"/>
-    
-    <%@include file="../../resources/include/header.jsp" %>
+	<hr class="space" />
 
-	<hr class="space"/>
+	<%@include file="../../resources/include/header.jsp"%>
 
-	<div class="text-center">
-		<h1>Second Market</h1>
+	<hr class="space" />
+	<hr class="space" />
 
-		<hr class="space"/>	
-		
-		<a href="companies?page=1" class="btn btn-large btn-primary btn-home">Find Companies</a>
-		<hr class="space"/>
-		<a href="investors?page=1" class="btn btn-large btn-primary btn-home">Find Individual Investors</a>
-		<hr class="space"/>
-		<a href="financialOrg?page=1" class="btn btn-large btn-primary btn-home">Find Institutional Investor</a>
+	<div>
+		<a href="companies?page=1" class="btn btn-block btn-info btn-large"> 
+		<span><h3>Find Companies ></h3></span> <br>
+		</a>
+	</div>
+
+	<hr class="space" />
+
+	<div>
+		<a href="investors?page=1" class="btn btn-block btn-info btn-large"> 
+		<span><h3>Find Individual Investors ></h3></span> <br>
+		</a>
+	</div>
+
+	<hr class="space" />
+
+	<div>
+		<a href="financialOrg?page=1" class="btn btn-block btn-info btn-large"> 
+		<span><h3>Find Institutional Investor ></h3></span> <br>
+		</a>
 	</div>
 </div>
 </body>
