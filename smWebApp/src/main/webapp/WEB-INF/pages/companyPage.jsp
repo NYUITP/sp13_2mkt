@@ -48,6 +48,22 @@
 		showLocationFilter();
 		showTimeRange(document.getElementById("timeRange").value);
 		showValueCompanyFollower(document.getElementById("companyFollowerRange").value);
+		showCompanyTypeFilter();
+	}
+	
+	function showCompanyTypeFilter() {
+		var checkedVal = [${companyType}];
+		if(checkedVal == ""){
+			selectToggle(true, 'tform3');
+		}
+		for (i in checkedVal) {
+			checkbox_id = "comType" + checkedVal[i];
+			try {
+				document.getElementById(checkbox_id).checked="checked";	
+			} catch (err) {
+				alert(checkbox_id);
+			}
+		}
 	}
 	
 	function showFundFilter() {
@@ -140,11 +156,6 @@
 			document.getElementById('periodPast').value = 5;
 		}
 	}
-
-	 var pager = new Pager('companies', 3); 
-     pager.init(); 
-     pager.showPageNav('pager', 'pageNavPosition'); 
-     pager.showPage(1);
 </script>
 
 <div class="container">
@@ -155,18 +166,20 @@
 	<div class="row">
 		<div class="span3">
 			<div class="side-block">
+				<form name="tform3" method="POST" action="companyTypeFilter?page=1">
 				<div>
 					<strong>Company Type</strong>
 				</div>
 				<ul class="clear-ul">
-					<li class="mts"><small><input type="checkbox"
-							checked="checked">&nbsp;Private Companies</small></li>
-					<li class="mts"><small><input type="checkbox"
-							checked="checked">&nbsp;Public Companies </small></li>
+					<li class="mts"> 
+					<input type="checkbox" name="companyType" id="comType1" value="1">&nbsp;<small>Private Companies</small></li>
+					<li class="mts"> 
+					<input type="checkbox" name="companyType" id="comType2" value="2">&nbsp;<small>Public Companies</small></li>
 				</ul>
 				<hr class="space" />
-				<a href="#" class="btn">Update</a>
-			</div>
+				<input type="submit" value="Update" onClick="check('tform3','comType1')">
+				</form>
+			</div> 
 
 			<hr class="space" />
 			<div class="side-block hidden-phone">
@@ -180,7 +193,7 @@
 					id="fund-period" class="slider-value">1 year</span>
 
 				<hr class="space" />
-				<form action="companyRankingByFundTime" method="post">
+				<form action="companyRankingByFundTime?page=1" method="post">
 					<input type='hidden' id='periodPast' name='periodPast' value='3' />
 					<input type="submit" value="Update">
 				</form>
@@ -201,7 +214,7 @@
 					Important</span>
 
 				<hr class="space" />
-				<form action="companyRankingByFollowers" method="post">
+				<form action="companyRankingByFollowers?page=1" method="post">
 					<input type='hidden' id='comfollowersImpLevel'
 						name='comfollowersImpLevel' value='3' /> <input type="submit"
 						value="Update">
@@ -211,7 +224,7 @@
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<form name="tform" method="POST" action="companyFundFilter">
+				<form name="tform" method="POST" action="companyFundFilter?page=1">
 					<div>
 						<strong>Total Fund Raised</strong> <small class="pull-right"><a
 							href="javascript:selectToggle(true, 'tform');">Select All</a> | <a
@@ -254,7 +267,7 @@
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<form name="tform2" method="POST" action="companyLocationFilter">
+				<form name="tform2" method="POST" action="companyLocationFilter?page=1">
 					<div>
 						<strong>Company Location</strong> <small class="pull-right"><a
 							href="javascript:selectToggle(true, 'tform2');">Select All</a> |
@@ -354,18 +367,18 @@
 			<ul class="pager">
 			<c:if test="${currentPage == 1}">
 				<li class="previous disabled"><a
-					href=>&larr; Older</a></li>
+					href=#">&larr; Older</a></li>
 			</c:if>
 			<c:if test="${currentPage != 1}">
-				<li class="previous"><a href=companies?page=${currentPage-1}>&larr; Older</a></li>
+				<li class="previous"><a href=paginateCompanies?page=${currentPage-1}>&larr; Older</a></li>
 			</c:if>
 			<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
 			<c:if test="${currentPage == noOfPages}">
 				<li class="next disabled"><a
-					href=>&rarr; Newer</a></li>
+					href=#>&rarr; Newer</a></li>
 			</c:if>
 			<c:if test="${currentPage lt noOfPages}">
-				<li class="next"><a href=companies?page=${currentPage+1}>&rarr;	Newer</a></li>
+				<li class="next"><a href=paginateCompanies?page=${currentPage+1}>&rarr;	Newer</a></li>
 			</c:if>
 		</ul>
 		</div>

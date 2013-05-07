@@ -255,7 +255,7 @@
 
 			<hr class="space" />
 			
-			<form action="finOrgRankingByFC_CC_ROI" method="post">
+			<form action="finOrgRankingByFC_CC_ROI?page=1" method="post">
 				<input type='hidden' id='companyImpLevel' name='companyImpLevel'
 					value='3' /> <input type='hidden' id='followersImpLevel'
 					name='followersImpLevel' value='3' /> <input type='hidden'
@@ -291,7 +291,7 @@
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<form name="tform2" method="POST" action="finOrgLocationFilter">
+				<form name="tform2" method="POST" action="finOrgLocationFilter?page=1">
 					<div>
 						<strong>Investor Location</strong> <small class="pull-right"><a
 							href="javascript:selectToggle(true, 'tform2');">Select All</a> |
@@ -391,19 +391,19 @@
 			<ul class="pager">
 			<c:if test="${currentPage == 1}">
 				<li class="previous disabled"><a
-					href=>&larr; Older</a></li>
+					href=#>&larr; Older</a></li>
 			</c:if>
 			<c:if test="${currentPage != 1}">
-				<li class="previous"><a href=financialOrg?page=${currentPage-1}>&larr;
+				<li class="previous"><a href=paginateFinOrgs?page=${currentPage-1}>&larr;
 						Older</a></li>
 			</c:if>
 			<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
 			<c:if test="${currentPage == noOfPages}">
 				<li class="next disabled"><a
-					href=>&rarr; Newer</a></li>
+					href=#>&rarr; Newer</a></li>
 			</c:if>
 			<c:if test="${currentPage lt noOfPages}">
-				<li class="next"><a href=financialOrg?page=${currentPage+1}>&rarr;	Newer</a></li>
+				<li class="next"><a href=paginateFinOrgs?page=${currentPage+1}>&rarr;	Newer</a></li>
 			</c:if>
 		</ul>
 		</div>

@@ -34,7 +34,10 @@ public class BaseController
 {
 	protected static Logger logger = Logger.getLogger("controller");
 	
-	int recordsPerPage = 50;
+	private int recordsPerPage = 50;
+	private static List<Company> companyResults = null;
+	private static List<Investor> investorResults = null;
+	private static List<Financial_Org> financialOrgResults = null;
 	 
 	@Resource(name="investorService")
 	private InvestorService investorService;
@@ -60,14 +63,28 @@ public class BaseController
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) 
 	{
-		model.addAttribute("message", "Welcome!");
+		try
+		{
+			model.addAttribute("message", "Welcome!");
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
 		return "index"; 
 	}
 	
 	@RequestMapping(value="/home", method = RequestMethod.GET)
 	public String welcomeHome(ModelMap model) {
  
-		model.addAttribute("message", "Welcome Home");
+		try
+		{
+			model.addAttribute("message", "Welcome Home");
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
 		return "index";
 	}
 	
@@ -76,254 +93,400 @@ public class BaseController
 	@RequestMapping(value="/companies", method = RequestMethod.GET)
 	public String getCompanies(@RequestParam("page") int page, ModelMap model) 
 	{
-		logger.debug("Received request to show all companies");
-		int pageNumber = 1;
-        pageNumber = page;
-		List<Company> companies = companyService.getAllCompanies();
-		int noOfRecords = companies.size();
-    	logger.debug("Total companies are - " + companies.size());
-    	int startIndex= (pageNumber-1)*recordsPerPage;
-    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
-    	List<Company> list = companies.subList(startIndex, endIndex);
-    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-    	model.addAttribute("noOfPages", noOfPages);
-    	model.addAttribute("companies", list);
-    	model.addAttribute("startIndex", startIndex+1);
-    	model.addAttribute("endIndex", endIndex);
-    	model.addAttribute("size", noOfRecords);
-    	model.addAttribute("currentPage", page);
-      	model.addAttribute("periods", "3");
+		try
+		{
+			List<Company> companies = companyService.getAllCompanies();
+			setCompanyPageParamenters(page, companies, model);
+			
+			model.addAttribute("periods", "3");
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
+    	return "companyPage";
+	}
+	
+	@RequestMapping(value="/paginateCompanies", method = RequestMethod.GET)
+	public String paginateCompanies(@RequestParam("page") int page, ModelMap model) 
+	{
+		try
+		{
+			int pageNumber = 1;
+	        pageNumber = page;
+			int noOfRecords = companyResults.size();
+	    	int startIndex= (pageNumber-1)*recordsPerPage;
+	    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+	    	List<Company> list = companyResults.subList(startIndex, endIndex);
+	    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+	    	
+	    	model.addAttribute("noOfPages", noOfPages);
+	    	model.addAttribute("companies", list);
+	    	model.addAttribute("startIndex", startIndex+1);
+	    	model.addAttribute("endIndex", endIndex);
+	    	model.addAttribute("size", noOfRecords);
+	    	model.addAttribute("currentPage", page);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "companyPage";
 	}
 	
 	@RequestMapping(value="/investors", method = RequestMethod.GET)
 	public String getInvestors(@RequestParam("page") int page, ModelMap model) 
 	{
-		logger.debug("Received request to show all investors");	
-		int pageNumber = 1;
-        pageNumber = page;
-		List<Investor> investors = investorService.getAllInvestors();
-		int noOfRecords = investors.size();
-    	logger.debug("Totat individual investors are - " + investors.size());
-    	int startIndex= (pageNumber-1)*recordsPerPage;
-    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
-    	List<Investor> list = investors.subList(startIndex, endIndex);
-    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-    	model.addAttribute("noOfPages", noOfPages);
-    	model.addAttribute("investors", list);
-    	model.addAttribute("startIndex", startIndex+1);
-    	model.addAttribute("endIndex", endIndex);
-    	model.addAttribute("size", noOfRecords);
-    	model.addAttribute("currentPage", page);
-    	model.addAttribute("followerLevel", "3");
-    	model.addAttribute("companyLevel", "3");
-    	model.addAttribute("roiLevel", "3");
+		try
+		{
+			List<Investor> investors = investorService.getAllInvestors();
+			setInvestorPageParamenters(page, investors, model);
+	    	
+			model.addAttribute("followerLevel", "3");
+	    	model.addAttribute("companyLevel", "3");
+	    	model.addAttribute("roiLevel", "3");
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "investorsPage";
 	}
 	
+	@RequestMapping(value="/paginateInvestors", method = RequestMethod.GET)
+	public String paginateInvestors(@RequestParam("page") int page, ModelMap model) 
+	{
+		try
+		{
+			int pageNumber = 1;
+	        pageNumber = page;
+	        int noOfRecords = investorResults.size();
+	    	int startIndex= (pageNumber-1)*recordsPerPage;
+	    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+	    	List<Investor> list = investorResults.subList(startIndex, endIndex);
+	    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+	    	
+	    	model.addAttribute("noOfPages", noOfPages);
+	    	model.addAttribute("investors", list);
+	    	model.addAttribute("startIndex", startIndex+1);
+	    	model.addAttribute("endIndex", endIndex);
+	    	model.addAttribute("size", noOfRecords);
+	    	model.addAttribute("currentPage", page);
+		}
+	    catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
+	    return "investorsPage";
+	}
+
 	@RequestMapping(value="/financialOrg", method = RequestMethod.GET)
 	public String getFinancialOrg(@RequestParam("page") int page, ModelMap model) 
 	{
-		int pageNumber = 1;
-        pageNumber = page;
-		logger.debug("Received request to show all financial org");
-    	
-		List<Financial_Org> finOrgs = financialOrgService.getAllFinancialOrgs();
-		int noOfRecords = finOrgs.size();
-    	logger.debug("Totat financial orgs are - " + finOrgs.size());
-    	int startIndex= (pageNumber-1)*recordsPerPage;
-    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
-    	List<Financial_Org> list = finOrgs.subList(startIndex, endIndex);
-    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-    	model.addAttribute("noOfPages", noOfPages);
-    	model.addAttribute("finOrgs", list);
-    	model.addAttribute("startIndex", startIndex+1);
-    	model.addAttribute("endIndex", endIndex);
-    	model.addAttribute("size", noOfRecords);
-    	model.addAttribute("currentPage", page);
+		try
+		{
+			List<Financial_Org> finOrgs = financialOrgService.getAllFinancialOrgs();
+			setFinancialOrgPageParamenters(page, finOrgs, model);
+			
+			model.addAttribute("followerLevel", "3");
+	    	model.addAttribute("companyLevel", "3");
+	    	model.addAttribute("roiLevel", "3");
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
+    	return "financialOrgPage";
+	}
+	
+	@RequestMapping(value="/paginateFinOrgs", method = RequestMethod.GET)
+	public String paginateFinOrgs(@RequestParam("page") int page, ModelMap model) 
+	{
+		try
+		{
+			int pageNumber = 1;
+	        pageNumber = page;
+	        int noOfRecords = financialOrgResults.size();
+	    	int startIndex= (pageNumber-1)*recordsPerPage;
+	    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+	    	List<Financial_Org> list = financialOrgResults.subList(startIndex, endIndex);
+	    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+	    	
+	    	model.addAttribute("noOfPages", noOfPages);
+	    	model.addAttribute("finOrgs", list);
+	    	model.addAttribute("startIndex", startIndex+1);
+	    	model.addAttribute("endIndex", endIndex);
+	    	model.addAttribute("size", noOfRecords);
+	    	model.addAttribute("currentPage", page);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "financialOrgPage";
 	}
 	
 	//*************************************************** Ranking Methods ********************************************************//
 	
 	@RequestMapping(value="/investorRankingByFC_CC_ROI", method = RequestMethod.POST)
-	public String getInvestorRanking(@RequestParam("followersImpLevel") String followersImpLevel, 
+	public String getInvestorRanking(@RequestParam("page") int page, @RequestParam("followersImpLevel") String followersImpLevel, 
 			@RequestParam("companyImpLevel") String companyImpLevel, @RequestParam("roiImpLevel") String roiImpLevel, ModelMap model) 
 	{
-		logger.debug("Received request to rank investors, weight on followers, value = " + followersImpLevel);
-		logger.debug("Received request to rank investors, weight on companies invested in, value = " + companyImpLevel);
-		logger.debug("Received request to rank investors, weight on roi, value = " + roiImpLevel);
-    	
-		List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC_ROI(followersImpLevel, companyImpLevel, roiImpLevel);
-    	logger.debug(investors.size());
-    	
-    	model.addAttribute("investors", investors);
-    	model.addAttribute("followerLevel", followersImpLevel);
-    	model.addAttribute("companyLevel", companyImpLevel);
-    	model.addAttribute("roiLevel", roiImpLevel);
+		try
+		{
+			List<Investor> investors = rankedInvestor.getSortedInvestorBasedOnFC_CC_ROI(followersImpLevel, companyImpLevel, roiImpLevel);
+			setInvestorPageParamenters(page, investors, model);
+	    	
+			model.addAttribute("followerLevel", followersImpLevel);
+	    	model.addAttribute("companyLevel", companyImpLevel);
+	    	model.addAttribute("roiLevel", roiImpLevel);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "investorsPage";
 	}
 	
 	@RequestMapping(value="/finOrgRankingByFC_CC_ROI", method = RequestMethod.POST)
-	public String getFinancialOrgRanking(@RequestParam("followersImpLevel") String followersImpLevel, 
+	public String getFinancialOrgRanking(@RequestParam("page") int page, @RequestParam("followersImpLevel") String followersImpLevel, 
 			@RequestParam("companyImpLevel") String companyImpLevel, @RequestParam("roiImpLevel") String roiImpLevel, ModelMap model) 
 	{
-		logger.debug("Received request to rank fin org, weight on followers, value = " + followersImpLevel);
-		logger.debug("Received request to rank fin org, weight on companies invested in, value = " + companyImpLevel);
-		logger.debug("Received request to rank fin org, weight on roi, value = " + roiImpLevel);
-    	
-		List<Financial_Org> financial_Orgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(followersImpLevel, companyImpLevel, roiImpLevel);
-    	logger.debug(financial_Orgs.size());
-    	
-    	model.addAttribute("finOrgs", financial_Orgs);
-    	model.addAttribute("followerLevel", followersImpLevel);
-    	model.addAttribute("companyLevel", companyImpLevel);
-    	model.addAttribute("roiLevel", roiImpLevel);
-    	return "financialOrgPage";
+		try
+		{
+			List<Financial_Org> financial_Orgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(followersImpLevel, companyImpLevel, roiImpLevel);
+	    	setFinancialOrgPageParamenters(page, financial_Orgs, model);
+	    	
+	    	model.addAttribute("followerLevel", followersImpLevel);
+	    	model.addAttribute("companyLevel", companyImpLevel);
+	    	model.addAttribute("roiLevel", roiImpLevel);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
+		return "financialOrgPage";
 	}
 	
 	@RequestMapping(value="/companyRankingByFundTime", method = RequestMethod.POST)
-	public String getCompanyRankingByFundTime(@RequestParam("periodPast") String periodPast, ModelMap model) 
+	public String getCompanyRankingByFundTime(@RequestParam("page") int page, @RequestParam("periodPast") String periodPast, ModelMap model) 
 	{
-		logger.debug("Received request to rank companies, by fund time, value = " + periodPast);
-    	
-		List<Company> companies = rankCompany.companyRankingByFundTime(periodPast);
-    	
-    	model.addAttribute("companies", companies);
-    	model.addAttribute("periods", periodPast);
+		try
+		{
+			List<Company> companies = rankCompany.companyRankingByFundTime(periodPast);
+			setCompanyPageParamenters(page, companies, model);
+	    	
+			model.addAttribute("periods", periodPast);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "companyPage";
 	}
 	
 	@RequestMapping(value="/companyRankingByFollowers", method = RequestMethod.POST)
-	public String getCompanyRankedByFollowers(@RequestParam("comfollowersImpLevel") String comfollowersImpLevel, ModelMap model) 
+	public String getCompanyRankedByFollowers(@RequestParam("page") int page, 
+			@RequestParam("comfollowersImpLevel") String comfollowersImpLevel, ModelMap model) 
 	{
-		logger.debug("Received request to rank company, weight on followers, value = " + comfollowersImpLevel);
-    	
-		List<Company> companies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevel);
-    	logger.debug(companies.size());
-    	
-    	model.addAttribute("companies", companies);
-    	model.addAttribute("comfollowersImpLevel", comfollowersImpLevel);
+		try
+		{
+			List<Company> companies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevel);
+			setCompanyPageParamenters(page, companies, model);
+	    	
+			model.addAttribute("comfollowersImpLevel", comfollowersImpLevel);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "companyPage";
 	}
 	
 	//*************************************************** Filter Methods ***********************************************************//
 	
-	@RequestMapping(value="/companyFundFilter",  method = RequestMethod.POST)
-	public String filterCompanyByFund(@RequestParam("total_funding") String checkBoxVal, ModelMap model) 
-	{
-		logger.debug("Received request to filter company, by total funds raised, value = " + checkBoxVal);
-		
-		String[] parts = checkBoxVal.split(",");
-    	List<Company> companies = companyFilterService.filterByFunds(parts);
-    	
-    	model.addAttribute("companies", companies);
-    	model.addAttribute("total_funding", checkBoxVal);
-    	return "companyPage";
-	}
-		
 	@RequestMapping(value="/starsFilter",  method = RequestMethod.POST)
-	public String getInvestorByStar(@RequestParam("starLevel") String starLevel, ModelMap model) 
+	public String getInvestorByStar(@RequestParam("page") int page, @RequestParam("starLevel") String starLevel, ModelMap model) 
 	{
-		logger.debug("Received request to filter investor, by star, value = " + starLevel);
-		List<Investor> investors = investorFilterService.filterByStar(starLevel);
-    	
-    	model.addAttribute("investors", investors);
-    	model.addAttribute("starl", starLevel);
+		try
+		{
+			List<Investor> investors = investorFilterService.filterByStar(starLevel);
+	    	setInvestorPageParamenters(page, investors, model);
+	    	
+	    	model.addAttribute("starl", starLevel);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "investorsPage";
 	}
 	
 	@RequestMapping(value="/starsFilterFin",  method = RequestMethod.POST)
-	public String getFinByStar(@RequestParam("starLevel") String starLevel, ModelMap model) 
+	public String getFinByStar(@RequestParam("page") int page, @RequestParam("starLevel") String starLevel, ModelMap model) 
 	{
-		logger.debug("Received request to filter institution investor, by star, value = " + starLevel);
-		List<Financial_Org> financialOrg = investorFilterService.filterByStarFin(starLevel);
-    	
-    	model.addAttribute("finOrgs", financialOrg);
-    	model.addAttribute("starl", starLevel);
+		try
+		{
+			List<Financial_Org> financialOrg = investorFilterService.filterByStarFin(starLevel);
+	    	setFinancialOrgPageParamenters(page, financialOrg, model);
+	    	
+	    	model.addAttribute("starl", starLevel);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "financialOrgPage";
 	}
 	
-	@RequestMapping(value="/companyLocationFilter",  method = RequestMethod.POST)
-	public String filterCompanyByLocation(@RequestParam("location") String checkBoxVal, ModelMap model) 
-	{
-		
-		logger.debug("Received request to filter company, by location, value = " + checkBoxVal);
-		String[] parts = checkBoxVal.split(",");
-    	List<Company> companies = companyFilterService.filterByLocation(parts);
-    	
-    	model.addAttribute("companies", companies);
-    	model.addAttribute("location", checkBoxVal);
-    	return "companyPage";
-	}
-	
 	@RequestMapping(value="/investorLocationFilter",  method = RequestMethod.POST)
-	public String filterInvestorByLocation(@RequestParam("location") String checkBoxVal, ModelMap model) 
+	public String filterInvestorByLocation(@RequestParam("page") int page, @RequestParam("location") String checkBoxVal, ModelMap model) 
 	{
-		logger.debug("Received request to filter investors, by location, value = " + checkBoxVal);
-		String[] parts = checkBoxVal.split(",");
-    	List<Investor> investors = investorFilterService.filterIndividualInvstorsByLocation(parts);
-    	
-    	model.addAttribute("investors", investors);
-    	model.addAttribute("location", checkBoxVal);
+		try
+		{
+			String[] parts = checkBoxVal.split(",");
+	    	List<Investor> investors = investorFilterService.filterIndividualInvstorsByLocation(parts);
+	    	setInvestorPageParamenters(page, investors, model);
+	    	
+	    	model.addAttribute("location", checkBoxVal);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "investorsPage";
 	}
 	
 	@RequestMapping(value="/finOrgLocationFilter",  method = RequestMethod.POST)
-	public String filterFinancialOrgByLocation(@RequestParam("location") String checkBoxVal, ModelMap model) 
+	public String filterFinancialOrgByLocation(@RequestParam("page") int page, 
+			@RequestParam("location") String checkBoxVal, ModelMap model) 
 	{
-		logger.debug("Received request to filter institutional investors, by location, value = " + checkBoxVal);
-		String[] parts = checkBoxVal.split(",");
-    	List<Financial_Org> finOrgs = investorFilterService.filterInstitutionalInvstorsByLocation(parts);
-    	
-    	model.addAttribute("finOrgs", finOrgs);
-    	model.addAttribute("location", checkBoxVal);
+		try
+		{
+			String[] parts = checkBoxVal.split(",");
+	    	List<Financial_Org> finOrgs = investorFilterService.filterInstitutionalInvstorsByLocation(parts);
+	    	setFinancialOrgPageParamenters(page, finOrgs, model);
+	    	
+	    	model.addAttribute("location", checkBoxVal);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "financialOrgPage";
 	}
 	
+	@RequestMapping(value="/companyFundFilter",  method = RequestMethod.POST)
+	public String filterCompanyByFund(@RequestParam("page") int page, @RequestParam("total_funding") String checkBoxVal, ModelMap model) 
+	{
+		try
+		{
+			String[] parts = checkBoxVal.split(",");
+	    	List<Company> companies = companyFilterService.filterByFunds(parts);
+	    	setCompanyPageParamenters(page, companies, model);
+	    	
+	    	model.addAttribute("total_funding", checkBoxVal);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
+    	return "companyPage";
+	}
+		
+	@RequestMapping(value="/companyLocationFilter",  method = RequestMethod.POST)
+	public String filterCompanyByLocation(@RequestParam("page") int page, @RequestParam("location") String checkBoxVal, ModelMap model) 
+	{
+		try
+		{
+			String[] parts = checkBoxVal.split(",");
+	    	List<Company> companies = companyFilterService.filterByLocation(parts);
+	    	setCompanyPageParamenters(page, companies, model);
+	    	
+	    	model.addAttribute("location", checkBoxVal);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
+    	return "companyPage";
+	}
+	
+	@RequestMapping(value="/companyTypeFilter",  method = RequestMethod.POST)
+	public String filterCompanyByType(@RequestParam("page") int page, @RequestParam("companyType") String checkBoxVal, ModelMap model) 
+	{
+		try
+		{
+			String[] parts = checkBoxVal.split(",");
+	    	List<Company> companies = companyFilterService.filterByType(parts);
+	    	setCompanyPageParamenters(page, companies, model);
+	    	
+	    	model.addAttribute("companyType", checkBoxVal);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
+    	return "companyPage";
+	}
 	//*************************************** Detailed pages for COmpany, Investor and Fin Org ************************************************//
 	
 	@RequestMapping(value="/investorProfile", method = RequestMethod.GET)
 	public String getInvestorProfile(@RequestParam("permalink") String permalink, ModelMap model) 
 	{
-		logger.debug("Received request to show investors detailed profile");
-		
-		Investor investor = investorService.getInvestor(permalink);
-		List<Company> companiesInvestedIn = companyService.getCompaniesGivenPermalinks(investor.getCompaniesInvestedIn());
-		
-		model.addAttribute("investor", investor);
-		model.addAttribute("companies", companiesInvestedIn);
+		try
+		{
+			Investor investor = investorService.getInvestor(permalink);
+			List<Company> companiesInvestedIn = companyService.getCompaniesGivenPermalinks(investor.getCompaniesInvestedIn());
+			model.addAttribute("investor", investor);
+			model.addAttribute("companies", companiesInvestedIn);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "investorProfile";
 	}
 	
 	@RequestMapping(value="/companyProfile", method = RequestMethod.GET)
 	public String getCompanyProfile(@RequestParam("permalink") String permalink, ModelMap model) 
 	{
-		logger.debug("Received request to show company detailed profile");
-		Company company = companyService.getCompany(permalink);
-		
-		Map<String, List<String>> categorizedPermlinks = separateTypeOfInvestor(company.getInvestorPermalinks());
-		List<Investor> personInvested = investorService.getInvestorsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.PERSON.getLabel().toString()));
-		List<Company> companyInvested = companyService.getCompaniesGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.COMPANY.getLabel().toString()));
-		List<Financial_Org> finOrgInvested = financialOrgService.getFinancialOrgsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()));
-		
-		model.addAttribute("company", company);
-		model.addAttribute("personInvested", personInvested);
-		model.addAttribute("companyInvested", companyInvested);
-		model.addAttribute("finOrgInvested", finOrgInvested);
+		try
+		{
+			Company company = companyService.getCompany(permalink);
+			
+			Map<String, List<String>> categorizedPermlinks = separateTypeOfInvestor(company.getInvestorPermalinks());
+			List<Investor> personInvested = investorService.getInvestorsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.PERSON.getLabel().toString()));
+			List<Company> companyInvested = companyService.getCompaniesGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.COMPANY.getLabel().toString()));
+			List<Financial_Org> finOrgInvested = financialOrgService.getFinancialOrgsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()));
+			
+			model.addAttribute("company", company);
+			model.addAttribute("personInvested", personInvested);
+			model.addAttribute("companyInvested", companyInvested);
+			model.addAttribute("finOrgInvested", finOrgInvested);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "companyProfile";
 	}
 	
 	@RequestMapping(value="/financialOrgProfile", method = RequestMethod.GET)
 	public String getFinancialOrgProfile(@RequestParam("permalink") String permalink, ModelMap model) 
 	{
-		logger.debug("Received request to show financial orgs detailed profile");
-		
-		Financial_Org finOrg = financialOrgService.getFinancialOrg(permalink);
-		List<Company> companiesInvestedIn = companyService.getCompaniesGivenPermalinks(finOrg.getCompaniesInvestedIn());
-		
-		model.addAttribute("finOrg", finOrg);
-		model.addAttribute("companies", companiesInvestedIn);
+		try
+		{
+			Financial_Org finOrg = financialOrgService.getFinancialOrg(permalink);
+			List<Company> companiesInvestedIn = companyService.getCompaniesGivenPermalinks(finOrg.getCompaniesInvestedIn());
+			
+			model.addAttribute("finOrg", finOrg);
+			model.addAttribute("companies", companiesInvestedIn);
+		}
+		catch(Exception ex)
+	    {
+	    	return "errorPage";
+	    }
     	return "financialOrgProfilePage";
 	}
 	
@@ -376,5 +539,63 @@ public class BaseController
 			}
 		}
 		return categorizedPermlinks;
+	}
+	
+	private void setCompanyPageParamenters(int page, List<Company> companies, ModelMap model)
+	{
+		companyResults = companies;
+		int pageNumber = 1;
+        pageNumber = page;
+		int noOfRecords = companies.size();
+    	int startIndex= (pageNumber-1)*recordsPerPage;
+    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+    	List<Company> list = companies.subList(startIndex, endIndex);
+    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+    	
+    	model.addAttribute("noOfPages", noOfPages);
+    	model.addAttribute("companies", list);
+    	model.addAttribute("startIndex", startIndex+1);
+    	model.addAttribute("endIndex", endIndex);
+    	model.addAttribute("size", noOfRecords);
+    	model.addAttribute("currentPage", page);
+	}
+	
+
+	private void setInvestorPageParamenters(int page, List<Investor> investors, ModelMap model) 
+	{
+		investorResults = investors;
+		int pageNumber = 1;
+        pageNumber = page;
+        int noOfRecords = investors.size();
+    	int startIndex= (pageNumber-1)*recordsPerPage;
+    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+    	List<Investor> list = investors.subList(startIndex, endIndex);
+    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+    	
+    	model.addAttribute("noOfPages", noOfPages);
+    	model.addAttribute("investors", list);
+    	model.addAttribute("startIndex", startIndex+1);
+    	model.addAttribute("endIndex", endIndex);
+    	model.addAttribute("size", noOfRecords);
+    	model.addAttribute("currentPage", page);
+	}
+	
+	private void setFinancialOrgPageParamenters(int page,List<Financial_Org> finOrgs, ModelMap model) 
+	{
+		financialOrgResults = finOrgs;
+		int pageNumber = 1;
+        pageNumber = page;
+        int noOfRecords = finOrgs.size();
+    	int startIndex= (pageNumber-1)*recordsPerPage;
+    	int endIndex = (noOfRecords - startIndex)>recordsPerPage ? (startIndex + recordsPerPage) : (startIndex + noOfRecords - startIndex);
+    	List<Financial_Org> list = finOrgs.subList(startIndex, endIndex);
+    	int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+    	
+    	model.addAttribute("noOfPages", noOfPages);
+    	model.addAttribute("finOrgs", list);
+    	model.addAttribute("startIndex", startIndex+1);
+    	model.addAttribute("endIndex", endIndex);
+    	model.addAttribute("size", noOfRecords);
+    	model.addAttribute("currentPage", page);
 	}
 }
