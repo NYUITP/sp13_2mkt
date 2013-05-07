@@ -26,7 +26,7 @@
 
 	<div>
 		<a href="financialOrg?page=1" class="btn btn-block btn-info btn-large"> 
-		<span><h3>Find Institutional Investor ></h3></span> <br>
+		<span><h3>Find Institutional Investors ></h3></span> <br>
 		</a>
 	</div>
 </div>
