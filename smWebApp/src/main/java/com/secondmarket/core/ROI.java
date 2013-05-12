@@ -80,7 +80,6 @@ public class ROI {
 	private static double percentage(double point, List<Double> list){
 		List<Double> sort = list;
 		Collections.sort(sort);
-		System.out.println(sort);
 		int n = list.size();
 		int count = 0;
 		for(double t : list){
