@@ -145,12 +145,19 @@ public class CompanyService
 			company.setCrunchbase_url(dbObject.get(CompanyEnum.CRUNCHBASE_URL.getLabel().toString()).toString());
 			
 			String overview = dbObject.get(CompanyEnum.OVERVIEW.getLabel().toString()).toString();
-			overview = overview.replaceAll("\\<.*?>","");
-	    	overview = overview.replace("&#8217;","'");
-	    	overview = overview.replaceAll("&#82..;","");
-	    	overview = overview.replaceAll("&nbsp;","");
-	    	overview = overview.replaceAll("&amp;","&");
-			company.setOverview(overview);
+			if(!overview.equalsIgnoreCase("null"))
+			{
+				overview = overview.replaceAll("\\<.*?>","");
+				overview = overview.replace("&#8217;","'");
+				overview = overview.replaceAll("&#82..;","");
+				overview = overview.replaceAll("&nbsp;","");
+				overview = overview.replaceAll("&amp;","&");
+				company.setOverview(overview);
+			}
+			else
+			{
+				company.setOverview(company.getProduct_desc());
+			}
 			
 			double total_funds = Double.valueOf(dbObject.get(CompanyEnum.TOTAL_MONEY_RAISED.getLabel().toString()).toString());
 			double total_funds_in_millions = (total_funds / 1000000.0);

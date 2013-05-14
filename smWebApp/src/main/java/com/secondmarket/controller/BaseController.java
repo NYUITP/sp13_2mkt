@@ -290,11 +290,11 @@ public class BaseController
 		try
 		{
 			periodPastVar = periodPast;
+			comfollowersImpLevelVar = "3";
 			List<Company> companies = getCompaniesToDisplay(true, false);
 			setCompanyPageParamenters(page, companies, model);
 			setCompanyVariable(model);
 			model.addAttribute("periods", periodPast);
-			comfollowersImpLevelVar = "1";
 			model.addAttribute("companyfollowerLevel", comfollowersImpLevelVar);
 		}
 		catch(Exception ex)
@@ -311,11 +311,11 @@ public class BaseController
 		try
 		{
 			comfollowersImpLevelVar = comfollowersImpLevel;
+			periodPastVar = "3";
 			List<Company> companies = getCompaniesToDisplay(false, true);
 			setCompanyPageParamenters(page, companies, model);
 			setCompanyVariable(model);
 			model.addAttribute("companyfollowerLevel", comfollowersImpLevel);
-			periodPastVar = "1";
 			model.addAttribute("periods", periodPastVar);
 		}
 		catch(Exception ex)

@@ -24,7 +24,7 @@ public class RankCompany
 	
 	public List<Company> getSortedCompanyBasedOnFC(String comfollowersImpLevel, List<Company> companies)
 	{
-		calculateWeights(comfollowersImpLevel);
+		//calculateWeights(comfollowersImpLevel);
 		
 		for(Company company : companies)
 		{
@@ -44,26 +44,27 @@ public class RankCompany
 	private void caculateCompanyScore(Company company) 
 	{
 		String permalink = company.getPermalink();
-		double followerCount = company.getFollower_count();
-		double score = (followerCount*weight_for_follower_count);
+		double score = company.getFollower_count();
+		//double score = (followerCount*weight_for_follower_count);
 		companyScores.put(permalink, score);
 		companyIdObjectMap.put(permalink, company);
 	}
 
+	@SuppressWarnings("unused")
 	private void calculateWeights(String comfollowersImpLevel) 
 	{
 		double weight_for_follower = 0.0;
 		if(comfollowersImpLevel.equals(ImportanceScale.Not_Important.getLabel().toString()))
 		{
-			weight_for_follower = 1.0;
+			weight_for_follower = 0.25;
 		}
 		else if(comfollowersImpLevel.equals(ImportanceScale.A_Little_Important.getLabel().toString()))
 		{
-			weight_for_follower = 1.0;
+			weight_for_follower = 0.50;
 		}
 		else if(comfollowersImpLevel.equals(ImportanceScale.Moderately_Important.getLabel().toString()))
 		{
-			weight_for_follower = 1.0;
+			weight_for_follower = 0.75;
 		}
 		else if(comfollowersImpLevel.equals(ImportanceScale.Important.getLabel().toString()))
 		{
