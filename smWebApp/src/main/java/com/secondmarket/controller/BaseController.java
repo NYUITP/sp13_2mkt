@@ -592,11 +592,11 @@ public class BaseController
 	private List<Company> getCompaniesToDisplay(boolean fundRanking, boolean followerRanking)
 	{
 		List<Company> allCompanies = companyService.getAllCompanies();
-		if(!followerRanking)
+		if(!followerRanking && !periodPastVar.equals("3"))
 		{
 			allCompanies = rankCompany.companyRankingByFundTime(periodPastVar, allCompanies);
 		}
-		if(!fundRanking)
+		if(!fundRanking && !comfollowersImpLevelVar.equals("3"))
 		{
 			allCompanies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevelVar, allCompanies);
 		}
