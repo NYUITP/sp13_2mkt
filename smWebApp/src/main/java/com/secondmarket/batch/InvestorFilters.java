@@ -14,14 +14,12 @@ import com.secondmarket.domain.Location;
 public class InvestorFilters {
 
 	protected static Logger logger = Logger.getLogger("batch");
-	private InvestorService investorService = new InvestorService();
 	private FinancialOrgService financialOrgService = new FinancialOrgService();
 	
-	public List<Investor> filterByStar(String starLevel) {
+	public List<Investor> filterByStar(String starLevel, List<Investor> investors) {
 		logger.debug("Retrieving all investors star filter");
 		List<Investor> items = new ArrayList<Investor>();
 		
-		List<Investor> investors = investorService.getAllInvestors();
 		int level = Integer.parseInt(starLevel);
 		double low = 0.0;
 		double high = 0.0;
@@ -97,12 +95,12 @@ public class InvestorFilters {
 		return items;
 	}
 	
-	public List<Investor> filterIndividualInvstorsByLocation(String[] loc) 
+	public List<Investor> filterIndividualInvstorsByLocation(String checkBoxVal, List<Investor> investors) 
 	{
 		logger.debug("Retrieving all investor location filter");
+		String[] loc = checkBoxVal.split(",");
 		List<Investor> items = new ArrayList<Investor>(); 
 
-		List<Investor> investors = investorService.getAllInvestors();
 		for(Investor investor : investors)
 		{
 			List<Location> all_locations = investor.getLocations();
