@@ -592,14 +592,6 @@ public class BaseController
 	private List<Company> getCompaniesToDisplay(boolean fundRanking, boolean followerRanking)
 	{
 		List<Company> allCompanies = companyService.getAllCompanies();
-		if(!followerRanking && !periodPastVar.equals("3"))
-		{
-			allCompanies = rankCompany.companyRankingByFundTime(periodPastVar, allCompanies);
-		}
-		if(!fundRanking && !comfollowersImpLevelVar.equals("3"))
-		{
-			allCompanies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevelVar, allCompanies);
-		}
 		if(!totalFundingVar.equalsIgnoreCase("1,2,3,4,5"))
 		{
 			allCompanies = companyFilterService.filterByFunds(totalFundingVar, allCompanies);
@@ -612,30 +604,39 @@ public class BaseController
 		{
 			allCompanies = companyFilterService.filterByType(companyTypeVar, allCompanies);
 		}
+		if(!followerRanking && !periodPastVar.equals("3"))
+		{
+			allCompanies = rankCompany.companyRankingByFundTime(periodPastVar, allCompanies);
+		}
+		if(!fundRanking && !comfollowersImpLevelVar.equals("3"))
+		{
+			allCompanies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevelVar, allCompanies);
+		}
 		return allCompanies;
 	}
 	
 	private List<Investor> getInvestorsToDisplay()
 	{
 		List<Investor> investors = investorService.getAllInvestors();
-		investors = rankedInvestor.getSortedInvestorBasedOnFC_CC_ROI(invFollowersImpLevelVar, invCompanyImpLevelVar, invRoiImpLevelVar, investors);
+		
 		if(!investorLocationVar.equalsIgnoreCase("1,2,3,4,5,6,7"))
 		{
 			investors = investorFilterService.filterIndividualInvstorsByLocation(investorLocationVar, investors);
 		}
+		investors = rankedInvestor.getSortedInvestorBasedOnFC_CC_ROI(invFollowersImpLevelVar, invCompanyImpLevelVar, invRoiImpLevelVar, investors);
 		return investors;
 	}
 	
 	private List<Financial_Org> getFinOrgsToDisplay()
 	{
 		List<Financial_Org> finOrgs = financialOrgService.getAllFinancialOrgs();
-		finOrgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(finOrgFollowersImpLevelVar, 
-				finOrgCompanyImpLevelVar, finOrgRoiImpLevelVar, finOrgs);
 		
 		if(!finOrgLocationVar.equalsIgnoreCase("1,2,3,4,5,6,7"))
 		{
 			finOrgs = investorFilterService.filterInstitutionalInvstorsByLocation(finOrgLocationVar, finOrgs);
 		}
+		finOrgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(finOrgFollowersImpLevelVar, 
+				finOrgCompanyImpLevelVar, finOrgRoiImpLevelVar, finOrgs);
 		return finOrgs;
 	}
 	
