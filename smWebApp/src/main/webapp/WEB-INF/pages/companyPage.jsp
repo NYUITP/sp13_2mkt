@@ -167,19 +167,22 @@
 		<div class="span3">
 			<div class="side-block">
 				<form name="tform3" method="POST" action="companyTypeFilter?page=1">
-				<div>
-					<strong>Company Type</strong>
-				</div>
-				<ul class="clear-ul">
-					<li class="mts"> 
-					<input type="checkbox" name="companyType" id="comType1" value="1">&nbsp;<small>Private Companies</small></li>
-					<li class="mts"> 
-					<input type="checkbox" name="companyType" id="comType2" value="2">&nbsp;<small>Public Companies</small></li>
-				</ul>
-				<hr class="space" />
-				<input type="submit" value="Update" onClick="check('tform3','comType1')">
+					<div>
+						<strong>Company Type</strong>
+					</div>
+					<ul class="clear-ul">
+						<li class="mts"><input type="checkbox" name="companyType"
+							id="comType1" value="1">&nbsp;<small>Private
+								Companies</small></li>
+						<li class="mts"><input type="checkbox" name="companyType"
+							id="comType2" value="2">&nbsp;<small>Public
+								Companies</small></li>
+					</ul>
+					<hr class="space" />
+					<input type="submit" value="Update"
+						onClick="check('tform3','comType')">
 				</form>
-			</div> 
+			</div>
 
 			<hr class="space" />
 			<div class="side-block hidden-phone">
@@ -267,7 +270,8 @@
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<form name="tform2" method="POST" action="companyLocationFilter?page=1">
+				<form name="tform2" method="POST"
+					action="companyLocationFilter?page=1">
 					<div>
 						<strong>Company Location</strong> <small class="pull-right"><a
 							href="javascript:selectToggle(true, 'tform2');">Select All</a> |
@@ -323,7 +327,31 @@
 		<div class="span9">
 			<h2>Companies</h2>
 			<hr>
-	
+			<c:if test="${size <= 0}">
+				<div class="alert alert-error"><b>No Results found!</b> Please modify
+					your search criteria and try again.</div>
+			</c:if>
+			<c:if test="${size > 0}">
+			<ul class="pager">
+				<c:if test="${currentPage == 1}">
+					<li class="previous disabled"><a href=#">&larr; Older</a></li>
+				</c:if>
+				<c:if test="${currentPage != 1}">
+					<li class="previous"><a
+						href=paginateCompanies?page=${currentPage-1}>&larr; Older</a></li>
+				</c:if>
+				<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out
+						value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
+				<c:if test="${currentPage == noOfPages}">
+					<li class="next disabled"><a href=#>&rarr; Newer</a></li>
+				</c:if>
+				<c:if test="${currentPage lt noOfPages}">
+					<li class="next"><a
+						href=paginateCompanies?page=${currentPage+1}>&rarr; Newer</a></li>
+				</c:if>
+			</ul>
+			</c:if>
+
 			<c:forEach items="${companies}" var="company">
 				<div class="search-result">
 					<div class="pull-left search-pic">
@@ -364,25 +392,29 @@
 				<hr class="space" />
 				<hr>
 			</c:forEach>
-			<ul class="pager">
-			<c:if test="${currentPage == 1}">
-				<li class="previous disabled"><a
-					href=#">&larr; Older</a></li>
+			
+			<c:if test="${size > 0}">
+				<ul class="pager">
+					<c:if test="${currentPage == 1}">
+						<li class="previous disabled"><a href=#>&larr; Older</a></li>
+					</c:if>
+					<c:if test="${currentPage != 1}">
+						<li class="previous"><a
+							href=paginateCompanies?page=${currentPage-1}>&larr; Older</a></li>
+					</c:if>
+					<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out
+							value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
+					<c:if test="${currentPage == noOfPages}">
+						<li class="next disabled"><a href=#>&rarr; Newer</a></li>
+					</c:if>
+					<c:if test="${currentPage lt noOfPages}">
+						<li class="next"><a
+							href=paginateCompanies?page=${currentPage+1}>&rarr; Newer</a></li>
+					</c:if>
+				</ul>
 			</c:if>
-			<c:if test="${currentPage != 1}">
-				<li class="previous"><a href=paginateCompanies?page=${currentPage-1}>&larr; Older</a></li>
-			</c:if>
-			<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
-			<c:if test="${currentPage == noOfPages}">
-				<li class="next disabled"><a
-					href=#>&rarr; Newer</a></li>
-			</c:if>
-			<c:if test="${currentPage lt noOfPages}">
-				<li class="next"><a href=paginateCompanies?page=${currentPage+1}>&rarr;	Newer</a></li>
-			</c:if>
-		</ul>
 		</div>
-		
+
 	</div>
 </div>
 </body>
