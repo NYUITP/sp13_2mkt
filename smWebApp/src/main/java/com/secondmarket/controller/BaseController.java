@@ -39,6 +39,12 @@ public class BaseController
 	private static List<Investor> investorResults = null;
 	private static List<Financial_Org> financialOrgResults = null;
 	 
+	private static String periodPastVar = "3";
+	private static String comfollowersImpLevelVar = "3";
+	private static String totalFundingVar = "1,2,3,4,5";
+	private static String comLocationVar = "1,2,3,4,5,6,7";
+	private static String companyTypeVar = "1,2";
+	
 	@Resource(name="investorService")
 	private InvestorService investorService;
 	
@@ -126,6 +132,12 @@ public class BaseController
 	    	model.addAttribute("endIndex", endIndex);
 	    	model.addAttribute("size", noOfRecords);
 	    	model.addAttribute("currentPage", page);
+	    	
+	    	model.addAttribute("periods", periodPastVar);
+	    	model.addAttribute("comfollowersImpLevel", comfollowersImpLevelVar);
+	    	model.addAttribute("total_funding", totalFundingVar);
+	    	model.addAttribute("location", comLocationVar);
+	    	model.addAttribute("companyType", companyTypeVar);
 		}
 		catch(Exception ex)
 	    {
@@ -273,6 +285,7 @@ public class BaseController
 	{
 		try
 		{
+			periodPastVar = periodPast;
 			List<Company> companies = rankCompany.companyRankingByFundTime(periodPast);
 			setCompanyPageParamenters(page, companies, model);
 	    	
@@ -291,6 +304,7 @@ public class BaseController
 	{
 		try
 		{
+			comfollowersImpLevelVar = comfollowersImpLevel;
 			List<Company> companies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevel);
 			setCompanyPageParamenters(page, companies, model);
 	    	
@@ -381,6 +395,7 @@ public class BaseController
 	{
 		try
 		{
+			totalFundingVar = checkBoxVal;
 			String[] parts = checkBoxVal.split(",");
 	    	List<Company> companies = companyFilterService.filterByFunds(parts);
 	    	setCompanyPageParamenters(page, companies, model);
@@ -399,6 +414,7 @@ public class BaseController
 	{
 		try
 		{
+			comLocationVar = checkBoxVal;
 			String[] parts = checkBoxVal.split(",");
 	    	List<Company> companies = companyFilterService.filterByLocation(parts);
 	    	setCompanyPageParamenters(page, companies, model);
@@ -417,6 +433,7 @@ public class BaseController
 	{
 		try
 		{
+			companyTypeVar = checkBoxVal;
 			String[] parts = checkBoxVal.split(",");
 	    	List<Company> companies = companyFilterService.filterByType(parts);
 	    	setCompanyPageParamenters(page, companies, model);
