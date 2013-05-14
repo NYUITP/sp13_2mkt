@@ -14,14 +14,12 @@ public class CompanyFilters
 {
 	protected static Logger logger = Logger.getLogger("batch");
 	
-	private CompanyService companyService = new CompanyService();
-	
-	public List<Company> filterByFunds(String[] fundRange) 
+	public List<Company> filterByFunds(String checkBoxVal, List<Company> companies) 
 	{
 		logger.debug("Retrieving all companies fund filter");
+		String[] fundRange = checkBoxVal.split(",");
 		List<Company> items = new ArrayList<Company>(); 
 
-		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			for (String each : fundRange) 
@@ -50,12 +48,12 @@ public class CompanyFilters
 		return items; 
 	}
 
-	public List<Company> filterByLocation(String[] loc) 
+	public List<Company> filterByLocation(String checkBoxVal, List<Company> companies) 
 	{
 		logger.debug("Retrieving all companies location filter");
+		String[] loc = checkBoxVal.split(",");
 		List<Company> items = new ArrayList<Company>(); 
 
-		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			List<Location> all_locations = company.getLocations();
@@ -119,12 +117,12 @@ public class CompanyFilters
 		return items; 
 	}
 	
-	public List<Company> filterByType(String[] type) 
+	public List<Company> filterByType(String checkBoxVal, List<Company> companies) 
 	{
 		logger.debug("Retrieving all companies type filter");
+		String[] type = checkBoxVal.split(",");
 		List<Company> items = new ArrayList<Company>(); 
 
-		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			boolean companyType = company.getIsPrivate();

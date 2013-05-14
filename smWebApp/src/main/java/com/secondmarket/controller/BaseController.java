@@ -103,8 +103,7 @@ public class BaseController
 		{
 			List<Company> companies = companyService.getAllCompanies();
 			setCompanyPageParamenters(page, companies, model);
-			
-			model.addAttribute("periods", "3");
+			setDefaultVariableValuesForCompany();
 		}
 		catch(Exception ex)
 	    {
@@ -112,7 +111,7 @@ public class BaseController
 	    }
     	return "companyPage";
 	}
-	
+
 	@RequestMapping(value="/paginateCompanies", method = RequestMethod.GET)
 	public String paginateCompanies(@RequestParam("page") int page, ModelMap model) 
 	{
@@ -132,12 +131,7 @@ public class BaseController
 	    	model.addAttribute("endIndex", endIndex);
 	    	model.addAttribute("size", noOfRecords);
 	    	model.addAttribute("currentPage", page);
-	    	
-	    	model.addAttribute("periods", periodPastVar);
-	    	model.addAttribute("comfollowersImpLevel", comfollowersImpLevelVar);
-	    	model.addAttribute("total_funding", totalFundingVar);
-	    	model.addAttribute("location", comLocationVar);
-	    	model.addAttribute("companyType", companyTypeVar);
+	    	setCompanyVariable(model);
 		}
 		catch(Exception ex)
 	    {
@@ -266,7 +260,8 @@ public class BaseController
 	{
 		try
 		{
-			List<Financial_Org> financial_Orgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(followersImpLevel, companyImpLevel, roiImpLevel);
+			List<Financial_Org> financial_Orgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(followersImpLevel, 
+					companyImpLevel, roiImpLevel);
 	    	setFinancialOrgPageParamenters(page, financial_Orgs, model);
 	    	
 	    	model.addAttribute("followerLevel", followersImpLevel);
@@ -281,15 +276,18 @@ public class BaseController
 	}
 	
 	@RequestMapping(value="/companyRankingByFundTime", method = RequestMethod.POST)
-	public String getCompanyRankingByFundTime(@RequestParam("page") int page, @RequestParam("periodPast") String periodPast, ModelMap model) 
+	public String getCompanyRankingByFundTime(@RequestParam("page") int page, 
+			@RequestParam("periodPast") String periodPast, ModelMap model) 
 	{
 		try
 		{
 			periodPastVar = periodPast;
-			List<Company> companies = rankCompany.companyRankingByFundTime(periodPast);
+			List<Company> companies = getCompaniesToDisplay(true, false);
 			setCompanyPageParamenters(page, companies, model);
-	    	
+			setCompanyVariable(model);
 			model.addAttribute("periods", periodPast);
+			comfollowersImpLevelVar = "1";
+			model.addAttribute("companyfollowerLevel", comfollowersImpLevelVar);
 		}
 		catch(Exception ex)
 	    {
@@ -297,7 +295,7 @@ public class BaseController
 	    }
     	return "companyPage";
 	}
-	
+
 	@RequestMapping(value="/companyRankingByFollowers", method = RequestMethod.POST)
 	public String getCompanyRankedByFollowers(@RequestParam("page") int page, 
 			@RequestParam("comfollowersImpLevel") String comfollowersImpLevel, ModelMap model) 
@@ -305,10 +303,12 @@ public class BaseController
 		try
 		{
 			comfollowersImpLevelVar = comfollowersImpLevel;
-			List<Company> companies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevel);
+			List<Company> companies = getCompaniesToDisplay(false, true);
 			setCompanyPageParamenters(page, companies, model);
-	    	
-			model.addAttribute("comfollowersImpLevel", comfollowersImpLevel);
+			setCompanyVariable(model);
+			model.addAttribute("companyfollowerLevel", comfollowersImpLevel);
+			periodPastVar = "1";
+			model.addAttribute("periods", periodPastVar);
 		}
 		catch(Exception ex)
 	    {
@@ -396,11 +396,11 @@ public class BaseController
 		try
 		{
 			totalFundingVar = checkBoxVal;
-			String[] parts = checkBoxVal.split(",");
-	    	List<Company> companies = companyFilterService.filterByFunds(parts);
+			List<Company> companies = getCompaniesToDisplay(false, false);
 	    	setCompanyPageParamenters(page, companies, model);
-	    	
+	    	setCompanyVariable(model);
 	    	model.addAttribute("total_funding", checkBoxVal);
+	    	model.addAttribute("companyfollowerLevel", comfollowersImpLevelVar);
 		}
 		catch(Exception ex)
 	    {
@@ -415,11 +415,11 @@ public class BaseController
 		try
 		{
 			comLocationVar = checkBoxVal;
-			String[] parts = checkBoxVal.split(",");
-	    	List<Company> companies = companyFilterService.filterByLocation(parts);
+			List<Company> companies = getCompaniesToDisplay(false, false);
 	    	setCompanyPageParamenters(page, companies, model);
-	    	
+	    	setCompanyVariable(model);
 	    	model.addAttribute("location", checkBoxVal);
+	    	model.addAttribute("companyfollowerLevel", comfollowersImpLevelVar);
 		}
 		catch(Exception ex)
 	    {
@@ -434,11 +434,11 @@ public class BaseController
 		try
 		{
 			companyTypeVar = checkBoxVal;
-			String[] parts = checkBoxVal.split(",");
-	    	List<Company> companies = companyFilterService.filterByType(parts);
+			List<Company> companies = getCompaniesToDisplay(false, false);
 	    	setCompanyPageParamenters(page, companies, model);
-	    	
+	    	setCompanyVariable(model);
 	    	model.addAttribute("companyType", checkBoxVal);
+	    	model.addAttribute("companyfollowerLevel", comfollowersImpLevelVar);
 		}
 		catch(Exception ex)
 	    {
@@ -473,9 +473,12 @@ public class BaseController
 			Company company = companyService.getCompany(permalink);
 			
 			Map<String, List<String>> categorizedPermlinks = separateTypeOfInvestor(company.getInvestorPermalinks());
-			List<Investor> personInvested = investorService.getInvestorsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.PERSON.getLabel().toString()));
-			List<Company> companyInvested = companyService.getCompaniesGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.COMPANY.getLabel().toString()));
-			List<Financial_Org> finOrgInvested = financialOrgService.getFinancialOrgsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()));
+			List<Investor> personInvested = investorService.
+					getInvestorsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.PERSON.getLabel().toString()));
+			List<Company> companyInvested = companyService.
+					getCompaniesGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.COMPANY.getLabel().toString()));
+			List<Financial_Org> finOrgInvested = financialOrgService.
+					getFinancialOrgsGivenPermalinks(categorizedPermlinks.get(CrunchbaseNamespace.FINANCIAL_ORG.getLabel().toString()));
 			
 			model.addAttribute("company", company);
 			model.addAttribute("personInvested", personInvested);
@@ -614,5 +617,49 @@ public class BaseController
     	model.addAttribute("endIndex", endIndex);
     	model.addAttribute("size", noOfRecords);
     	model.addAttribute("currentPage", page);
+	}
+	
+	private List<Company> getCompaniesToDisplay(boolean fundRanking, boolean followerRanking)
+	{
+		List<Company> allCompanies = companyService.getAllCompanies();
+		if(!followerRanking)
+		{
+			allCompanies = rankCompany.companyRankingByFundTime(periodPastVar, allCompanies);
+		}
+		if(!fundRanking)
+		{
+			allCompanies = rankCompany.getSortedCompanyBasedOnFC(comfollowersImpLevelVar, allCompanies);
+		}
+		if(!totalFundingVar.equalsIgnoreCase("1,2,3,4,5"))
+		{
+			allCompanies = companyFilterService.filterByFunds(totalFundingVar, allCompanies);
+		}
+		if(!comLocationVar.equalsIgnoreCase("1,2,3,4,5,6,7"))
+		{
+			allCompanies = companyFilterService.filterByLocation(comLocationVar, allCompanies);
+		}
+		if(!companyTypeVar.equalsIgnoreCase("1,2"))
+		{
+			allCompanies = companyFilterService.filterByType(companyTypeVar, allCompanies);
+		}
+		return allCompanies;
+	}
+	
+	private void setCompanyVariable(ModelMap model)
+	{
+    	model.addAttribute("periods", periodPastVar);
+    	model.addAttribute("comfollowersImpLevel", comfollowersImpLevelVar);
+    	model.addAttribute("total_funding", totalFundingVar);
+    	model.addAttribute("location", comLocationVar);
+    	model.addAttribute("companyType", companyTypeVar);
+	}
+	
+	private void setDefaultVariableValuesForCompany() 
+	{
+		periodPastVar = "3";
+		comfollowersImpLevelVar = "3";
+		totalFundingVar = "1,2,3,4,5";
+		comLocationVar = "1,2,3,4,5,6,7";
+		companyTypeVar = "1,2";
 	}
 }

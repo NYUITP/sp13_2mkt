@@ -17,16 +17,15 @@ import com.secondmarket.domain.Fund;
 public class RankCompany 
 {
 	protected static Logger logger = Logger.getLogger("batch");
-	private CompanyService companyService = new CompanyService();
+	
 	private HashMap<String, Double> companyScores = new HashMap<String, Double>();
 	private HashMap<String, Company> companyIdObjectMap = new HashMap<String, Company>();
 	private double weight_for_follower_count = 0.0;
 	
-	public List<Company> getSortedCompanyBasedOnFC(String comfollowersImpLevel)
+	public List<Company> getSortedCompanyBasedOnFC(String comfollowersImpLevel, List<Company> companies)
 	{
 		calculateWeights(comfollowersImpLevel);
 		
-		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			caculateCompanyScore(company);
@@ -77,7 +76,7 @@ public class RankCompany
 		weight_for_follower_count = weight_for_follower;
 	}
 	
-	public List<Company> companyRankingByFundTime(String periodPast)
+	public List<Company> companyRankingByFundTime(String periodPast, List<Company> companies)
 	{
 		logger.debug("Retrieving companies ranking by fund time");
 		
@@ -106,7 +105,6 @@ public class RankCompany
 		HashMap<String, Company> companyPermalink = new HashMap<String, Company>();
 		List<Company> sortedCompanySet= new LinkedList<Company>();
 		
-		List<Company> companies = companyService.getAllCompanies();
 		for(Company company : companies)
 		{
 			double fund_p = 0.0;
