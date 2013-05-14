@@ -15,7 +15,7 @@ import com.secondmarket.domain.Investor;
 public class RankInvestor 
 {
 	protected static Logger logger = Logger.getLogger("batch");
-	private FinancialOrgService financialOrgService = new FinancialOrgService();
+
 	private HashMap<String, Double> investorsScores = new HashMap<String, Double>();
 	private HashMap<String, Investor> investorObjectMap = new HashMap<String, Investor>();
 	private HashMap<String, Double> finOrgScores = new HashMap<String, Double>();
@@ -50,11 +50,11 @@ public class RankInvestor
 		return sortedInvestorSet;
 	}
 	
-	public List<Financial_Org> getSortedFinanciaOrgBasedOnFC_CC_ROI(String followersImpLevel, String companyImpLevel, String roiImpLevel)
+	public List<Financial_Org> getSortedFinanciaOrgBasedOnFC_CC_ROI(String followersImpLevel, String companyImpLevel, 
+			String roiImpLevel, List<Financial_Org> financial_Orgs)
 	{
 		calculateWeights(followersImpLevel, companyImpLevel, roiImpLevel);
 		
-		List<Financial_Org> financial_Orgs = financialOrgService.getAllFinancialOrgs();
 		for(Financial_Org financial_Org : financial_Orgs)
 		{
 			String permalink = financial_Org.getPermalink();

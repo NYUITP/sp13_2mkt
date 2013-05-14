@@ -46,11 +46,17 @@ public class BaseController
 	private static String comLocationVar = "1,2,3,4,5,6,7";
 	private static String companyTypeVar = "1,2";
 	
-	//investor variable
-	private static String followersImpLevelVar = "3";
-	private static String companyImpLevelVar = "3";
-	private static String roiImpLevelVar = "3";
+	//investor variables
+	private static String invFollowersImpLevelVar = "3";
+	private static String invCompanyImpLevelVar = "3";
+	private static String invRoiImpLevelVar = "3";
 	private static String investorLocationVar = "1,2,3,4,5,6,7";
+	
+	//fin org variables
+	private static String finOrgFollowersImpLevelVar = "3";
+	private static String finOrgCompanyImpLevelVar = "3";
+	private static String finOrgRoiImpLevelVar = "3";
+	private static String finOrgLocationVar = "1,2,3,4,5,6,7";
 	
 	@Resource(name="investorService")
 	private InvestorService investorService;
@@ -198,10 +204,7 @@ public class BaseController
 		{
 			List<Financial_Org> finOrgs = financialOrgService.getAllFinancialOrgs();
 			setFinancialOrgPageParamenters(page, finOrgs, model);
-			
-			model.addAttribute("followerLevel", "3");
-	    	model.addAttribute("companyLevel", "3");
-	    	model.addAttribute("roiLevel", "3");
+			setDefaultVariableValuesForFinOrg();
 		}
 		catch(Exception ex)
 	    {
@@ -229,6 +232,7 @@ public class BaseController
 	    	model.addAttribute("endIndex", endIndex);
 	    	model.addAttribute("size", noOfRecords);
 	    	model.addAttribute("currentPage", page);
+	    	setFinOrgVariable(model);
 		}
 		catch(Exception ex)
 	    {
@@ -245,9 +249,9 @@ public class BaseController
 	{
 		try
 		{
-			followersImpLevelVar = followersImpLevel;
-			companyImpLevelVar = companyImpLevel;
-			roiImpLevelVar = roiImpLevel;
+			invFollowersImpLevelVar = followersImpLevel;
+			invCompanyImpLevelVar = companyImpLevel;
+			invRoiImpLevelVar = roiImpLevel;
 			List<Investor> investors = getInvestorsToDisplay();
 			setInvestorPageParamenters(page, investors, model);
 	    	setInvestorVariable(model);
@@ -265,13 +269,12 @@ public class BaseController
 	{
 		try
 		{
-			List<Financial_Org> financial_Orgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(followersImpLevel, 
-					companyImpLevel, roiImpLevel);
+			finOrgFollowersImpLevelVar = followersImpLevel;
+			finOrgCompanyImpLevelVar = companyImpLevel;
+			finOrgRoiImpLevelVar = roiImpLevel;
+			List<Financial_Org> financial_Orgs = getFinOrgsToDisplay();
 	    	setFinancialOrgPageParamenters(page, financial_Orgs, model);
-	    	
-	    	model.addAttribute("followerLevel", followersImpLevel);
-	    	model.addAttribute("companyLevel", companyImpLevel);
-	    	model.addAttribute("roiLevel", roiImpLevel);
+	    	setFinOrgVariable(model);
 		}
 		catch(Exception ex)
 	    {
@@ -322,42 +325,6 @@ public class BaseController
     	return "companyPage";
 	}
 	
-	//*************************************************** Filter Methods ***********************************************************//
-	
-	/*@RequestMapping(value="/starsFilter",  method = RequestMethod.POST)
-	public String getInvestorByStar(@RequestParam("page") int page, @RequestParam("starLevel") String starLevel, ModelMap model) 
-	{
-		try
-		{
-			List<Investor> investors = investorFilterService.filterByStar(starLevel);
-	    	setInvestorPageParamenters(page, investors, model);
-	    	
-	    	model.addAttribute("starl", starLevel);
-		}
-		catch(Exception ex)
-	    {
-	    	return "errorPage";
-	    }
-    	return "investorsPage";
-	}*/
-	
-	/*@RequestMapping(value="/starsFilterFin",  method = RequestMethod.POST)
-	public String getFinByStar(@RequestParam("page") int page, @RequestParam("starLevel") String starLevel, ModelMap model) 
-	{
-		try
-		{
-			List<Financial_Org> financialOrg = investorFilterService.filterByStarFin(starLevel);
-	    	setFinancialOrgPageParamenters(page, financialOrg, model);
-	    	
-	    	model.addAttribute("starl", starLevel);
-		}
-		catch(Exception ex)
-	    {
-	    	return "errorPage";
-	    }
-    	return "financialOrgPage";
-	}*/
-	
 	@RequestMapping(value="/investorLocationFilter",  method = RequestMethod.POST)
 	public String filterInvestorByLocation(@RequestParam("page") int page, @RequestParam("location") String checkBoxVal, ModelMap model) 
 	{
@@ -381,11 +348,10 @@ public class BaseController
 	{
 		try
 		{
-			String[] parts = checkBoxVal.split(",");
-	    	List<Financial_Org> finOrgs = investorFilterService.filterInstitutionalInvstorsByLocation(parts);
+	    	finOrgLocationVar = checkBoxVal;
+			List<Financial_Org> finOrgs = getFinOrgsToDisplay();
 	    	setFinancialOrgPageParamenters(page, finOrgs, model);
-	    	
-	    	model.addAttribute("location", checkBoxVal);
+	    	setFinOrgVariable(model);
 		}
 		catch(Exception ex)
 	    {
@@ -652,12 +618,25 @@ public class BaseController
 	private List<Investor> getInvestorsToDisplay()
 	{
 		List<Investor> investors = investorService.getAllInvestors();
-		investors = rankedInvestor.getSortedInvestorBasedOnFC_CC_ROI(followersImpLevelVar, companyImpLevelVar, roiImpLevelVar, investors);
+		investors = rankedInvestor.getSortedInvestorBasedOnFC_CC_ROI(invFollowersImpLevelVar, invCompanyImpLevelVar, invRoiImpLevelVar, investors);
 		if(!investorLocationVar.equalsIgnoreCase("1,2,3,4,5,6,7"))
 		{
 			investors = investorFilterService.filterIndividualInvstorsByLocation(investorLocationVar, investors);
 		}
 		return investors;
+	}
+	
+	private List<Financial_Org> getFinOrgsToDisplay()
+	{
+		List<Financial_Org> finOrgs = financialOrgService.getAllFinancialOrgs();
+		finOrgs = rankedInvestor.getSortedFinanciaOrgBasedOnFC_CC_ROI(finOrgFollowersImpLevelVar, 
+				finOrgCompanyImpLevelVar, finOrgRoiImpLevelVar, finOrgs);
+		
+		if(!finOrgLocationVar.equalsIgnoreCase("1,2,3,4,5,6,7"))
+		{
+			finOrgs = investorFilterService.filterInstitutionalInvstorsByLocation(finOrgLocationVar, finOrgs);
+		}
+		return finOrgs;
 	}
 	
 	private void setCompanyVariable(ModelMap model)
@@ -671,10 +650,18 @@ public class BaseController
 	
 	private void setInvestorVariable(ModelMap model)
 	{
-		model.addAttribute("followerLevel", followersImpLevelVar);
-    	model.addAttribute("companyLevel", companyImpLevelVar);
-    	model.addAttribute("roiLevel", roiImpLevelVar);
+		model.addAttribute("followerLevel", invFollowersImpLevelVar);
+    	model.addAttribute("companyLevel", invCompanyImpLevelVar);
+    	model.addAttribute("roiLevel", invRoiImpLevelVar);
     	model.addAttribute("location", investorLocationVar);
+	}
+	
+	private void setFinOrgVariable(ModelMap model)
+	{
+		model.addAttribute("followerLevel", finOrgFollowersImpLevelVar);
+    	model.addAttribute("companyLevel", finOrgCompanyImpLevelVar);
+    	model.addAttribute("roiLevel", finOrgRoiImpLevelVar);
+    	model.addAttribute("location", finOrgLocationVar);
 	}
 	
 	private void setDefaultVariableValuesForCompany() 
@@ -688,9 +675,17 @@ public class BaseController
 	
 	private void setDefaultVariableValuesForInvestor() 
 	{
-		followersImpLevelVar = "3";
-		companyImpLevelVar = "3";
-		roiImpLevelVar = "3";
+		invFollowersImpLevelVar = "3";
+		invCompanyImpLevelVar = "3";
+		invRoiImpLevelVar = "3";
 		investorLocationVar = "1,2,3,4,5,6,7";
+	}
+	
+	private void setDefaultVariableValuesForFinOrg() 
+	{
+		finOrgFollowersImpLevelVar = "3";
+		finOrgCompanyImpLevelVar = "3";
+		finOrgRoiImpLevelVar = "3";
+		finOrgLocationVar = "1,2,3,4,5,6,7";
 	}
 }

@@ -346,6 +346,30 @@
 		<div class="span9">
 			<h2>Institutional Investors</h2>
 			<hr>
+			<c:if test="${size <= 0}">
+				<div class="alert alert-error"><b>No Results found!</b> Please modify
+					your search criteria and try again.</div>
+			</c:if>
+			<c:if test="${size > 0}">
+				<ul class="pager">
+					<c:if test="${currentPage == 1}">
+						<li class="previous disabled"><a href=#>&larr; Older</a></li>
+					</c:if>
+					<c:if test="${currentPage != 1}">
+						<li class="previous"><a
+							href=paginateFinOrgs?page=${currentPage-1}>&larr; Older</a></li>
+					</c:if>
+					<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out
+							value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
+					<c:if test="${currentPage == noOfPages}">
+						<li class="next disabled"><a href=#>&rarr; Newer</a></li>
+					</c:if>
+					<c:if test="${currentPage lt noOfPages}">
+						<li class="next"><a
+							href=paginateFinOrgs?page=${currentPage+1}>&rarr; Newer</a></li>
+					</c:if>
+				</ul>
+			</c:if>
 			<c:forEach items="${finOrgs}" var="finOrg">
 				<div class="search-result">
 					<div class="pull-left search-pic">
@@ -388,24 +412,27 @@
 				</div>
 				<hr>
 			</c:forEach>
-			<ul class="pager">
-			<c:if test="${currentPage == 1}">
-				<li class="previous disabled"><a
-					href=#>&larr; Older</a></li>
+
+			<c:if test="${size > 0}">
+				<ul class="pager">
+					<c:if test="${currentPage == 1}">
+						<li class="previous disabled"><a href=#>&larr; Older</a></li>
+					</c:if>
+					<c:if test="${currentPage != 1}">
+						<li class="previous"><a
+							href=paginateFinOrgs?page=${currentPage-1}>&larr; Older</a></li>
+					</c:if>
+					<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out
+							value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
+					<c:if test="${currentPage == noOfPages}">
+						<li class="next disabled"><a href=#>&rarr; Newer</a></li>
+					</c:if>
+					<c:if test="${currentPage lt noOfPages}">
+						<li class="next"><a
+							href=paginateFinOrgs?page=${currentPage+1}>&rarr; Newer</a></li>
+					</c:if>
+				</ul>
 			</c:if>
-			<c:if test="${currentPage != 1}">
-				<li class="previous"><a href=paginateFinOrgs?page=${currentPage-1}>&larr;
-						Older</a></li>
-			</c:if>
-			<li>Showing results <c:out value="${startIndex}"></c:out>-<c:out value="${endIndex}"></c:out> of <c:out value="${size}"></c:out></li>
-			<c:if test="${currentPage == noOfPages}">
-				<li class="next disabled"><a
-					href=#>&rarr; Newer</a></li>
-			</c:if>
-			<c:if test="${currentPage lt noOfPages}">
-				<li class="next"><a href=paginateFinOrgs?page=${currentPage+1}>&rarr;	Newer</a></li>
-			</c:if>
-		</ul>
 		</div>
 		
 	</div>
