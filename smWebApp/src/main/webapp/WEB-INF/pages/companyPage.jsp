@@ -165,18 +165,35 @@
 	<hr class="space" />
 	<div class="row">
 		<div class="span3">
-			<div class="side-block">
+			<div class="side-block hidden-phone">
 				<form name="tform3" method="POST" action="companyTypeFilter?page=1">
 					<div>
-						<strong>Company Type</strong>
+						<strong>Company Type</strong> <small class="pull-right"><a
+							href="javascript:selectToggle(true, 'tform3');">Select All</a> |
+							<a href="javascript:selectToggle(false, 'tform3');">None</a></small>
 					</div>
 					<ul class="clear-ul">
+					
+						<li class="mts" onMouseOver="InsertContent('p1')"
+							onMouseOut="RemoveContent('p1')"><input type="checkbox"
+							name="companyType" id="comType1" value="1">&nbsp;<small>Private
+								Companies</small><a
+							id="p1" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(1,'tform3');">only</a></li>
+						<li class="mts" onMouseOver="InsertContent('p2')"
+							onMouseOut="RemoveContent('p2')"><input type="checkbox"
+							name="companyType" id="comType2" value="2">&nbsp;<small>Public
+								Companies</small><a
+							id="p2" style="visibility: hidden;"
+							class="small-text pull-right" href="javascript:only(2,'tform3');">only</a></li>
+<!--  					
 						<li class="mts"><input type="checkbox" name="companyType"
 							id="comType1" value="1">&nbsp;<small>Private
 								Companies</small></li>
 						<li class="mts"><input type="checkbox" name="companyType"
 							id="comType2" value="2">&nbsp;<small>Public
 								Companies</small></li>
+-->	
 					</ul>
 					<hr class="space" />
 					<input type="submit" value="Update"
