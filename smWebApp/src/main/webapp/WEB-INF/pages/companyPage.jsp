@@ -222,28 +222,6 @@
 			<hr class="space" />
 
 			<div class="side-block hidden-phone">
-				<div>
-					<strong>Importance of Followers</strong>
-				</div>
-				<hr class="space" />
-
-				<input id="companyFollowerRange" type="range" min="1" max="5"
-					step="1" value="${companyfollowerLevel}"
-					onchange="showValueCompanyFollower(this.value)" /> <span
-					id="company-follower-value" class="slider-value">Moderately
-					Important</span>
-
-				<hr class="space" />
-				<form action="companyRankingByFollowers?page=1" method="post">
-					<input type='hidden' id='comfollowersImpLevel'
-						name='comfollowersImpLevel' value='3' /> <input type="submit"
-						value="Update">
-				</form>
-			</div>
-
-			<hr class="space" />
-
-			<div class="side-block hidden-phone">
 				<form name="tform" method="POST" action="companyFundFilter?page=1">
 					<div>
 						<strong>Total Fund Raised</strong> <small class="pull-right"><a
@@ -338,6 +316,29 @@
 					<input type="submit" value="Update" onClick="check('tform2','lct')">
 				</form>
 			</div>
+			
+			<hr class="space" />
+
+			<div class="side-block hidden-phone">
+				<div>
+					<strong>Importance of Followers</strong>
+				</div>
+				<hr class="space" />
+
+				<input id="companyFollowerRange" type="range" min="1" max="5"
+					step="1" value="${companyfollowerLevel}"
+					onchange="showValueCompanyFollower(this.value)" /> <span
+					id="company-follower-value" class="slider-value">Moderately
+					Important</span>
+
+				<hr class="space" />
+				<form action="companyRankingByFollowers?page=1" method="post">
+					<input type='hidden' id='comfollowersImpLevel'
+						name='comfollowersImpLevel' value='3' /> <input type="submit"
+						value="Update">
+				</form>
+			</div>
+			
 		</div>
 		<hr class="space" />
 
